@@ -8,9 +8,10 @@ import utils.Driver;
 
 public class BaseTest {
     HomePage homePage = new HomePage();
+    ProductDetailsPage productDetailsPage = new ProductDetailsPage();
+    CartModal cartModal = new CartModal();
 
-
-    SoftAssert sa = new SoftAssert();
+    SoftAssert softAssert = new SoftAssert();
 
     @BeforeMethod
     public void setUp() {

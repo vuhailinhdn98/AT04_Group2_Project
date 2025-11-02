@@ -44,8 +44,6 @@ public class BasePage {
         ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView({block:'center'});", el);
     }
 
-
-
     private long parsePrice(String text) {
         String digits = text.replaceAll("\\D+", "");
         return digits.isEmpty() ? 0L : Long.parseLong(digits);
