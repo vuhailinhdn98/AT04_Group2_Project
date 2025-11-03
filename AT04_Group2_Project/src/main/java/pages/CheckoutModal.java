@@ -84,10 +84,4 @@ public class CheckoutModal extends BasePage {
         }
         return "";
     }
-
-    // Get total price as number (remove formatting)
-    public long getTotalPriceAsNumber() {
-        String priceText = getTotalPrice();
-        return parsePrice(priceText);
-    }
 }
