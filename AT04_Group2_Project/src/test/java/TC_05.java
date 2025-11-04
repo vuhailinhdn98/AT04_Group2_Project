@@ -10,9 +10,7 @@ public class TC_05 extends BaseTest {
         productDetailsPage.clickAddToCart();
 
         softAssert.assertTrue(cartModal.isOpen(),"Cart modal is not shown");
-
         softAssert.assertEquals(cartModal.getProductRowCount(),1,"Should be 1 product row.");
-
         softAssert.assertEquals(cartModal.getItemQty(0),1,"Default product qty should be 1.");
 
         softAssert.assertAll();

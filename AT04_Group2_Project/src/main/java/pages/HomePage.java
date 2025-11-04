@@ -26,7 +26,6 @@ public class HomePage extends BasePage{
                 .collect(Collectors.toList());
     }
 
-    //homepage
     private boolean isAddToCartBtnEnabled(WebElement productCard) {
         WebElement addToCartBtn = productCard.findElement(addToCartBtnLocator);
         String btnClass = String.valueOf(addToCartBtn.getAttribute("class")).toLowerCase();
@@ -37,7 +36,7 @@ public class HomePage extends BasePage{
         int size = getElements(productCardLocator).size();
         for (int i = 0; i < size; i++) {
             try {
-                WebElement productCard = getElements(productCardLocator).get(i); // re-find mỗi vòng
+                WebElement productCard = getElements(productCardLocator).get(i);
                 if (!isAddToCartBtnEnabled(productCard)) continue;
 
                 WebElement productName = productCard.findElement(productNameLocator);
@@ -49,7 +48,7 @@ public class HomePage extends BasePage{
                 }
                 return;
             } catch (StaleElementReferenceException stale) {
-                i--; // retry lại cùng index với phần tử mới
+                i--;
             }
         }
         throw new IllegalStateException("No in-stock product on Homepage");
@@ -62,15 +61,12 @@ public class HomePage extends BasePage{
         for (WebElement card : cards) {
             if (addedProducts.size() >= numOfProducts) break;
 
-            // lấy nút add-to-cart trong card
             WebElement addToCartBtn = card.findElement(addToCartBtnLocator);
-            if (!isAddToCartBtnEnabled(card)) continue; // skip hết hàng
+            if (!isAddToCartBtnEnabled(card)) continue;
 
-            // lấy name + price từ card
             String name = card.findElement(productNameLocator).getText().trim();
-            long price = Long.parseLong(card.findElement(productPriceLocator).getText().substring(1).replaceAll("\\D+", ""));
-
-            // click add-to-cart
+            String priceStr = card.findElement(productPriceLocator).getText().substring(0);
+            long price = parsePrice(priceStr);
             scrollIntoView(addToCartBtn);
             try {
                 addToCartBtn.click();
@@ -78,7 +74,6 @@ public class HomePage extends BasePage{
                 ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", addToCartBtn);
             }
 
-            // add vào list
             addedProducts.add(new Product(name, price));
         }
 
@@ -87,6 +82,4 @@ public class HomePage extends BasePage{
         }
         return addedProducts;
     }
-
-
 }
