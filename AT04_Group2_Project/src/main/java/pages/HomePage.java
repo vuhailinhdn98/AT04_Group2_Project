@@ -2,6 +2,7 @@ package pages;
 
 import models.Product;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ import java.util.stream.Collectors;
 public class HomePage extends BasePage{
     //Locators
     private final By productCardLocator = By.cssSelector(".container .thumbnail");
-    private final By productNameLocator = By.cssSelector(".products-content-label a");
-    private final By productPriceLocator = By.cssSelector(".products-content-label .text-danger span");
+    private final By productNameLocator = By.cssSelector(".products-content-label a p");
+    private final By productPriceLocator = By.cssSelector(".products-content-label .text-danger");
     private final By addToCartBtnLocator = By.cssSelector(".cart_class");
+    private final By sectionLocator = By.xpath("//div[contains(@class,'container')]//div[contains(@class,'row')][.//div[@class='thumbnail']]");
 
     //Methods
     public List<Product> getAllProducts() {
@@ -53,7 +55,46 @@ public class HomePage extends BasePage{
         }
         throw new IllegalStateException("No in-stock product on Homepage");
     }
+    public Product getFirstFeaturedProduct() {
+        try {
+            // Đợi page load
+            Driver.getWebDriverWait().until(
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".thumbnail"))
+            );
 
+            // Lấy tất cả sections
+            List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
+
+            if (sections.size() < 2) {
+                throw new NoSuchElementException("Featured section not found");
+            }
+            WebElement featuredSection = sections.get(1);
+            List<WebElement> products = featuredSection.findElements(By.cssSelector(".thumbnail"));
+
+            WebElement firstProduct = products.get(0);
+            scrollIntoView(firstProduct);
+
+            // Lấy tên
+            String name = firstProduct.findElement(productNameLocator).getText().trim();
+
+            String priceText = firstProduct.findElement(productPriceLocator).getText();
+
+            // Parse giá
+            long price = parsePrice(priceText);
+
+            System.out.println("=== FEATURED PRODUCT ===");
+            System.out.println("Name: [" + name + "]");
+            System.out.println("Price text: [" + priceText + "]");
+            System.out.println("Price value: " + price);
+            System.out.println("=======================");
+
+            return new Product(name, price);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NoSuchElementException("Cannot get first featured product", e);
+        }
+    }
     public List<Product> addInStockProductsToCart(int numOfProducts) {
         List<Product> addedProducts = new ArrayList<>();
         List<WebElement> cards = getElements(productCardLocator);
