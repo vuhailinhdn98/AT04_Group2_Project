@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BasePage{
+public class HomePage extends HeaderSection{
     //Locators
     private final By productCardLocator = By.cssSelector(".container .thumbnail");
     private final By productNameLocator = By.cssSelector(".products-content-label a p");

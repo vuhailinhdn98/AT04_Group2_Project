@@ -2,15 +2,16 @@ import org.testng.annotations.Test;
 
 public class TC_06 extends BaseTest {
 
-    @Test(description = "Verify checkout auto-fills saved contact/address for a logged-in user")
+    @Test(
+            description = "Verify checkout auto-fills saved contact/address for a logged-in user"
+    )
     public void tc_06() {
-        headerSection.openLoginModal();
+        homePage.openLoginModal();
 
         loginModal.login("tranthang212@gmail.com","123123");
-        headerSection.waitUntilLoggedIn();
 
-        softAssert.assertTrue(headerSection.isLoggedIn(), "Login should succeed");
-        softAssert.assertNotEquals(headerSection.getAccountName(),"", "Account name should be shown on header");
+        softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
+        softAssert.assertNotEquals(homePage.getAccountName(),"", "Account name should be shown on header");
 
         homePage.addInStockProductsToCart(1);
 

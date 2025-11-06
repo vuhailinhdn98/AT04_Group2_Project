@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
-public class LoginModal extends BasePage {
+public class LoginModal extends HomePage {
 
     private final By loginModalContainerLocator = By.cssSelector("#login .modal-content");
     private final By emailOrPhoneInputLocator = By.id("e_p_lg");
@@ -28,7 +28,6 @@ public class LoginModal extends BasePage {
     }
 
     public void login(String emailOrPhone, String password) {
-
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);
         WebElement loginBtn = find(loginButtonLocator);
@@ -40,6 +39,7 @@ public class LoginModal extends BasePage {
             ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", loginBtn);
         }
         Driver.getWebDriverWait().until(ExpectedConditions.or(ExpectedConditions.invisibilityOf(find(loginModalContainerLocator)), ExpectedConditions.stalenessOf(find(loginModalContainerLocator))));
+        waitUntilLoggedIn();
     }
 
 }

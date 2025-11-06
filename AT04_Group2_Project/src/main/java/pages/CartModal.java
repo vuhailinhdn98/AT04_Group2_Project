@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartModal extends BasePage {
+public class CartModal extends HomePage {
     private final By cartModalContainerLocator = By.id("cart_modal");
     private final By productRowsLocator = By.cssSelector("#view_cart tbody tr:has(.delete_cart)");
     private final By qtyDropdownLocator = By.className("cart_option_class");
