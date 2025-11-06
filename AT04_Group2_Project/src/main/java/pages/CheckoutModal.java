@@ -7,68 +7,68 @@ import java.util.List;
 
 public class CheckoutModal extends BasePage {
     // Product list section (left side)
-    private final By productLabels = By.cssSelector("#list_order label");
-    private final By productPrices = By.cssSelector("#list_order .text-danger");
+    private final By productLabelsLocator = By.cssSelector("#list_order label");
+    private final By productPricesLocator = By.cssSelector("#list_order .text-danger");
     //Total Price
-    private final By totalPriceElement = By.xpath("//span[contains(@class, 'text-danger') and contains(text(), 'đ')]");
+    private final By totalPriceElementLocator = By.xpath("//span[contains(@class, 'text-danger') and contains(text(), 'đ')]");
 
     // Customer information section (right side)
-    private final By fullNameInput = By.id("name_od");
-    private final By emailInput = By.id("email_od");
-    private final By phoneInput = By.id("phone_od");
-    private final By addressInput = By.id("address_od");
-    private final By passwordInput = By.id("password_od");
+    private final By fullNameInputLocator = By.id("name_od");
+    private final By emailInputLocator = By.id("email_od");
+    private final By phoneInputLocator = By.id("phone_od");
+    private final By addressInputLocator = By.id("address_od");
+    private final By passwordInputLocator = By.id("password_od");
 
     // Buttons
-    private final By backButton = By.id("cancel_order");
-    private final By checkoutButton = By.id("order_success");
+    private final By backButtonLocator = By.id("cancel_order");
+    private final By checkoutButtonLocator = By.id("order_success");
 
 
     public void enterPassword(String password) {
-        type(passwordInput, password);
+        type(passwordInputLocator, password);
     }
 
     // Actions - Navigation
     public void clickBackButton() {
-        click(backButton);
+        click(backButtonLocator);
     }
 
     public void clickCheckoutButton() {
-        click(checkoutButton);
+        click(checkoutButtonLocator);
     }
 
     // Getters - Form values
     public String getFullNameValue() {
-        return find(fullNameInput).getAttribute("value");
+        return find(fullNameInputLocator).getAttribute("value");
     }
 
     public String getEmailValue() {
-        return find(emailInput).getAttribute("value");
+        return find(emailInputLocator).getAttribute("value");
     }
 
     public String getPhoneValue() {
-        return find(phoneInput).getAttribute("value");
+        return find(phoneInputLocator).getAttribute("value");
     }
 
     public String getAddressValue() {
-        return find(addressInput).getAttribute("value");
+        return find(addressInputLocator).getAttribute("value");
     }
 
     // Getters - Products
     public int getProductCount() {
-        return getElements(productLabels).size();
+        return getElements(productLabelsLocator).size();
     }
 
     public List<String> getProductNames() {
         List<String> names = new java.util.ArrayList<>();
-        for (WebElement label : getElements(productLabels)) {
+        for (WebElement label : getElements(productLabelsLocator)) {
             names.add(label.getText().trim());
         }
         return names;
     }
 
     public String getProductName(int index) {
-        List<WebElement> labels = getElements(productLabels);
+        List<WebElement> labels = getElements(productLabelsLocator);
         if (index < labels.size()) {
             return labels.get(index).getText().trim();
         }
@@ -78,7 +78,7 @@ public class CheckoutModal extends BasePage {
     // Get total price
     public String getTotalPrice() {
         // Find the last text-danger span which usually contains total
-        List<WebElement> priceElements = getElements(totalPriceElement);
+        List<WebElement> priceElements = getElements(totalPriceElementLocator);
         if (!priceElements.isEmpty()) {
             return priceElements.get(priceElements.size() - 1).getText().trim();
         }

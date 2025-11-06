@@ -74,19 +74,12 @@ public class HomePage extends HeaderSection{
             WebElement firstProduct = products.get(0);
             scrollIntoView(firstProduct);
 
-            // Lấy tên
+            // Lấy tên, giá
             String name = firstProduct.findElement(productNameLocator).getText().trim();
 
             String priceText = firstProduct.findElement(productPriceLocator).getText();
 
-            // Parse giá
             long price = parsePrice(priceText);
-
-            System.out.println("=== FEATURED PRODUCT ===");
-            System.out.println("Name: [" + name + "]");
-            System.out.println("Price text: [" + priceText + "]");
-            System.out.println("Price value: " + price);
-            System.out.println("=======================");
 
             return new Product(name, price);
 
@@ -95,6 +88,7 @@ public class HomePage extends HeaderSection{
             throw new NoSuchElementException("Cannot get first featured product", e);
         }
     }
+
     public List<Product> addInStockProductsToCart(int numOfProducts) {
         List<Product> addedProducts = new ArrayList<>();
         List<WebElement> cards = getElements(productCardLocator);
