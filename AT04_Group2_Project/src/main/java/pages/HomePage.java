@@ -56,25 +56,12 @@ public class HomePage extends HeaderSection{
         throw new IllegalStateException("No in-stock product on Homepage");
     }
     public Product getFirstFeaturedProduct() {
-        try {
-            // Đợi page load
-            Driver.getWebDriverWait().until(
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".thumbnail"))
-            );
-
-            // Lấy tất cả sections
             List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
-
-            if (sections.size() < 2) {
-                throw new NoSuchElementException("Featured section not found");
-            }
             WebElement featuredSection = sections.get(1);
             List<WebElement> products = featuredSection.findElements(By.cssSelector(".thumbnail"));
-
             WebElement firstProduct = products.get(0);
             scrollIntoView(firstProduct);
 
-            // Lấy tên, giá
             String name = firstProduct.findElement(productNameLocator).getText().trim();
 
             String priceText = firstProduct.findElement(productPriceLocator).getText();
@@ -83,11 +70,7 @@ public class HomePage extends HeaderSection{
 
             return new Product(name, price);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new NoSuchElementException("Cannot get first featured product", e);
         }
-    }
 
     public List<Product> addInStockProductsToCart(int numOfProducts) {
         List<Product> addedProducts = new ArrayList<>();

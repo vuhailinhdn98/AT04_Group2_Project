@@ -1,7 +1,9 @@
 package pages;
 
+import models.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import utils.Driver;
 
@@ -13,20 +15,23 @@ public class AdminAddProductPage extends BasePage {
     private final By saleInputLocator = By.name("sale");
     private final By manufacturersDropdownLocator = By.name("manufactures");
     private final By imageInputLocator = By.name("image");
+    private final By specificationLocator = By.cssSelector("iframe.cke_wysiwyg_frame[title*='specification']");
+
     private final By saveButtonLocator = By.xpath("//button[@type='submit' and contains(@class, 'btn-success')]");
+
 
     public AdminAddProductPage enterProductName(String name) {
         type(nameInputLocator, name);
         return this;
     }
 
-    public AdminAddProductPage enterPrice(String price) {
-        type(priceInputLocator, price);
+    public AdminAddProductPage enterPrice(int price) {
+        type(priceInputLocator, String.valueOf(price));
         return this;
     }
 
-    public AdminAddProductPage enterQuality(String quality) {
-        type(qualityInputLocator, quality);
+    public AdminAddProductPage enterQuality(int quality) {
+        type(qualityInputLocator, String.valueOf(quality));
         return this;
     }
 
@@ -46,21 +51,23 @@ public class AdminAddProductPage extends BasePage {
     }
 
     public AdminAddProductPage enterSpecification(String specification) {
+        Driver.getWebDriverWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(specificationLocator));
         ((JavascriptExecutor) Driver.getDriver())
-                .executeScript("CKEDITOR.instances['specification'].setData(arguments[0]);", specification);
+                .executeScript("document.body.innerHTML = arguments[0];", specification);
+        Driver.getDriver().switchTo().defaultContent();
         return this;
     }
 
-    public void addProduct(String name, String price, String quality,
-                           String sale, String manufacturer,
-                           String imagePath, String specification) {
-        if (name != null) enterProductName(name);
-        if (price != null) enterPrice(price);
-        if (quality != null) enterQuality(quality);
-        if (sale != null) enterSale(sale);
-        if (manufacturer != null) selectManufacturerByValue(manufacturer);
-        if (imagePath != null) uploadImage(imagePath);
-        if (specification != null) enterSpecification(specification);
+
+    public void addProduct(String name, int price, int quality, String sale, String manufacturer, String filePath, String specification) {
+            enterProductName(name);
+            enterPrice(price);
+            enterQuality(quality);
+            enterSale(sale);
+            selectManufacturerByValue(manufacturer);
+            uploadImage(filePath);
+            enterSpecification(specification);
         click(saveButtonLocator);
     }
 }
+
