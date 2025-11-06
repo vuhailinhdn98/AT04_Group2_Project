@@ -9,10 +9,10 @@ public class TC_01 extends BaseTest {
     )
     public void tc_01() {
 
-        headerSection.openLoginModal();
-        loginModal.login("tranthang212@gmail.com","123123");
+        homePage.openLoginModal();
+        loginModal.login("tranthang212@gmail.com","123123",false);
 
-        headerSection.goToAdminControlPanel();
+        homePage.goToAdminControlPanel();
 
         adminMenu.clickProductsMenu();
         adminProductList.clickAddProductButton();
@@ -37,7 +37,7 @@ public class TC_01 extends BaseTest {
         );
 
         // Step 7: Mở tab mới và về trang chủ user
-        headerSection.openHomePage();
+        homePage.openHomePage();
 
         // Step 8: Verify sản phẩm nổi bật
         Product featuredProduct = homePage.getFirstFeaturedProduct();

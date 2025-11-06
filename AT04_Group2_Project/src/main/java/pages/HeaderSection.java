@@ -40,8 +40,10 @@ public class HeaderSection extends BasePage {
         return !getElements(accountDropdownLoggedInLocator).isEmpty() || !getElements(logoutBtnLocator).isEmpty();
     }
 
-    public String getAccountName() {
-        return isLoggedIn() ? getText(accountNameLocator) : "";
+    public String getAccountNameIfPresent() {
+        List<WebElement> accountName = getElements(accountNameLocator);
+        if (accountName.isEmpty()) return "";
+        return accountName.get(0).getDomProperty("textContent").trim();
     }
 
     public void openAccountDropdown() {
