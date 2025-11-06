@@ -30,6 +30,7 @@ public class LoginModal extends HomePage {
         enterPassword(password);
         setCheckbox(rememberAccountCheckboxLocator, rememberAccount);
         clickLoginButton();
+        waitUntilLoggedIn();
     }
 
 }
