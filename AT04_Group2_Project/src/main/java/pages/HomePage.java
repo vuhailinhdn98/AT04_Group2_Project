@@ -98,6 +98,11 @@ public class HomePage extends HeaderSection{
         if (addedProducts.size() < numOfProducts) {
             System.out.println("Warning: only added " + addedProducts.size() + " products due to stock/availability.");
         }
+        try {
+            Thread.sleep(3_000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return addedProducts;
     }
 }

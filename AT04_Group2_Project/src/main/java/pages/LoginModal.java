@@ -22,10 +22,11 @@ public class LoginModal extends HomePage {
 
     public void clickLoginButton() {
         click(loginButtonLocator);
-        find(loginModalContainerLocator);
+//        find(loginModalContainerLocator);
     }
 
     public void login(String emailOrPhone, String password , boolean rememberAccount) {
+        Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(loginModalContainerLocator));
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);
         setCheckbox(rememberAccountCheckboxLocator, rememberAccount);

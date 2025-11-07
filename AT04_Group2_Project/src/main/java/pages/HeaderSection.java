@@ -28,8 +28,9 @@ public class HeaderSection extends BasePage {
     private final By rowNameLinkLocator = By.cssSelector(".search_col label a");
     private final By rowPriceSpanLocator = By.cssSelector(".search_col .text-danger");
     public void openLoginModal() {
-        find(loginButtonLocator);
-        click(loginButtonLocator);
+        find(loginButtonLocator).click();
+
+//        click(loginButtonLocator);
     }
 
     public void waitUntilLoggedIn() {
@@ -42,8 +43,8 @@ public class HeaderSection extends BasePage {
 
     public String getAccountNameIfPresent() {
         List<WebElement> accountName = getElements(accountNameLocator);
-        if (accountName.isEmpty()) return "";
-        return accountName.get(0).getDomProperty("textContent").trim();
+//        if (accountName.isEmpty()) return "";
+        return accountName.get(0).getAttribute("textContent").trim();
     }
 
     public void openAccountDropdown() {

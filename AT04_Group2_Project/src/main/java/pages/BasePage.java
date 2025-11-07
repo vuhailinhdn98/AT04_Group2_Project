@@ -13,7 +13,7 @@ public class BasePage {
 
     protected WebElement find(By locator) {
 //        log.debug("FIND {}", locator);
-        return Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return Driver.getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     protected List<WebElement> getElements(By locator) {
