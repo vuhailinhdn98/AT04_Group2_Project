@@ -8,19 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartModal extends HomePage {
-    private final By cartModalContainerLocator = By.id("cart_modal");
     private final By productRowsLocator = By.cssSelector("#view_cart tbody tr:has(.delete_cart)");
     private final By qtyDropdownLocator = By.className("cart_option_class");
-
-    public boolean isOpen() {
-        try {
-            find(cartModalContainerLocator);
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
-    }
 
     public int getProductRowCount() {
         return getElements(productRowsLocator).size();

@@ -27,10 +27,12 @@ public class HeaderSection extends BasePage {
 
     private final By rowNameLinkLocator = By.cssSelector(".search_col label a");
     private final By rowPriceSpanLocator = By.cssSelector(".search_col .text-danger");
+
+    //modal
+    private final By cartModalContainerLocator = By.cssSelector(".modal-content #view_cart");
+
     public void openLoginModal() {
         find(loginButtonLocator).click();
-
-//        click(loginButtonLocator);
     }
 
     public void waitUntilLoggedIn() {
@@ -43,8 +45,17 @@ public class HeaderSection extends BasePage {
 
     public String getAccountNameIfPresent() {
         List<WebElement> accountName = getElements(accountNameLocator);
-//        if (accountName.isEmpty()) return "";
         return accountName.get(0).getAttribute("textContent").trim();
+    }
+
+    public boolean isCartOpen() {
+        try {
+            waitToBeVisible(cartModalContainerLocator);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     public void openAccountDropdown() {

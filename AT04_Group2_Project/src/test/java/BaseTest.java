@@ -32,7 +32,7 @@ public class BaseTest {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--guest");
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         Driver.setDriver(new ChromeDriver(options));
         Driver.getDriver().manage().window().maximize();
 

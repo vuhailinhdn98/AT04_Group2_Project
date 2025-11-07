@@ -26,7 +26,7 @@ public class LoginModal extends HomePage {
     }
 
     public void login(String emailOrPhone, String password , boolean rememberAccount) {
-        Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(loginModalContainerLocator));
+        waitToBeVisible(loginModalContainerLocator);
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);
         setCheckbox(rememberAccountCheckboxLocator, rememberAccount);

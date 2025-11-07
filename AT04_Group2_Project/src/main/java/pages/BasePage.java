@@ -16,6 +16,10 @@ public class BasePage {
         return Driver.getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
+    protected WebElement waitToBeVisible(By locator) {
+        return Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
     protected List<WebElement> getElements(By locator) {
         return Driver.getDriver().findElements(locator);
     }
