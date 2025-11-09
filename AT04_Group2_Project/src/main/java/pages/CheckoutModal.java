@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckoutModal extends BasePage {
@@ -20,8 +21,8 @@ public class CheckoutModal extends BasePage {
     private final By passwordInputLocator = By.id("password_od");
 
     // Buttons
-    private final By backButtonLocator = By.id("cancel_order");
-    private final By checkoutButtonLocator = By.id("order_success");
+    private final By backBtnLocator = By.id("cancel_order");
+    private final By checkoutBtnLocator = By.id("order_success");
 
 
     public void enterPassword(String password) {
@@ -30,28 +31,28 @@ public class CheckoutModal extends BasePage {
 
     // Actions - Navigation
     public void clickBackButton() {
-        click(backButtonLocator);
+        click(backBtnLocator);
     }
 
     public void clickCheckoutButton() {
-        click(checkoutButtonLocator);
+        click(checkoutBtnLocator);
     }
 
     // Getters - Form values
     public String getFullNameValue() {
-        return find(fullNameInputLocator).getAttribute("value");
+        return getText(fullNameInputLocator);
     }
 
     public String getEmailValue() {
-        return find(emailInputLocator).getAttribute("value");
+        return getText(emailInputLocator);
     }
 
     public String getPhoneValue() {
-        return find(phoneInputLocator).getAttribute("value");
+        return getText(phoneInputLocator);
     }
 
     public String getAddressValue() {
-        return find(addressInputLocator).getAttribute("value");
+        return getText(addressInputLocator);
     }
 
     // Getters - Products
@@ -60,7 +61,7 @@ public class CheckoutModal extends BasePage {
     }
 
     public List<String> getProductNames() {
-        List<String> names = new java.util.ArrayList<>();
+        List<String> names = new ArrayList<>();
         for (WebElement label : getElements(productLabelsLocator)) {
             names.add(label.getText().trim());
         }

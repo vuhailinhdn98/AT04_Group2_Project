@@ -20,6 +20,10 @@ public class BasePage {
         return Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    protected boolean isEnabled(WebElement el) {
+        return el.isEnabled() && el.getAttribute("disabled") == null;
+    }
+
     protected List<WebElement> getElements(By locator) {
         return Driver.getDriver().findElements(locator);
     }
@@ -65,5 +69,4 @@ public class BasePage {
             checkBox.sendKeys(Keys.TAB);
         }
     }
-
 }

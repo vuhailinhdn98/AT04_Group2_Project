@@ -2,7 +2,6 @@ package pages;
 
 import models.Product;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.util.ArrayList;
@@ -29,32 +28,22 @@ public class HomePage extends HeaderSection{
     }
 
     private boolean isAddToCartBtnEnabled(WebElement productCard) {
-        WebElement addToCartBtn = productCard.findElement(addToCartBtnLocator);
-        String btnClass = String.valueOf(addToCartBtn.getAttribute("class")).toLowerCase();
-        return addToCartBtn.isDisplayed() && addToCartBtn.isEnabled() && addToCartBtn.getAttribute("disabled") == null && !btnClass.contains("disabled");
+        return isEnabled(productCard.findElement(addToCartBtnLocator));
     }
 
     public void openFirstInStockProductDetails() {
-        int size = getElements(productCardLocator).size();
-        for (int i = 0; i < size; i++) {
-            try {
-                WebElement productCard = getElements(productCardLocator).get(i);
-                if (!isAddToCartBtnEnabled(productCard)) continue;
-
-                WebElement productName = productCard.findElement(productNameLocator);
-                scrollIntoView(productName);
-                try {
-                    productName.click();
-                } catch (ElementClickInterceptedException e) {
-                    ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", productName);
-                }
-                return;
-            } catch (StaleElementReferenceException stale) {
-                i--;
+        for (WebElement card : getElements(productCardLocator)) {
+            if (!isAddToCartBtnEnabled(card)) {
+                continue;
             }
+            WebElement nameLink = card.findElement(productNameLocator);
+            scrollIntoView(nameLink);
+            nameLink.click();
+            return;
         }
         throw new IllegalStateException("No in-stock product on Homepage");
     }
+
     public Product getFirstFeaturedProduct() {
             List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
             WebElement featuredSection = sections.get(1);
@@ -73,32 +62,52 @@ public class HomePage extends HeaderSection{
         }
 
     public List<Product> addInStockProductsToCart(int numOfProducts) {
-        List<Product> addedProducts = new ArrayList<>();
-        List<WebElement> cards = getElements(productCardLocator);
-
-        for (WebElement card : cards) {
-            if (addedProducts.size() >= numOfProducts) break;
-
-            WebElement addToCartBtn = card.findElement(addToCartBtnLocator);
-            if (!isAddToCartBtnEnabled(card)) continue;
-
-            String name = card.findElement(productNameLocator).getText().trim();
-            String priceStr = card.findElement(productPriceLocator).getText().substring(0);
-            long price = parsePrice(priceStr);
-            scrollIntoView(addToCartBtn);
-            try {
-                addToCartBtn.click();
-            } catch (ElementClickInterceptedException e) {
-                ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", addToCartBtn);
+        List<Product> added = new ArrayList<>();
+        for (WebElement card : getElements(productCardLocator)) {
+            if (added.size() >= numOfProducts) {
+                break;
+            }
+            if (!isAddToCartBtnEnabled(card)) {
+                continue;
             }
 
-            addedProducts.add(new Product(name, price));
-        }
+            String name = getText(productNameLocator);
+            String priceStr = getText(productPriceLocator).substring(0);
+            long price = parsePrice(priceStr);
 
-        if (addedProducts.size() < numOfProducts) {
-            System.out.println("Warning: only added " + addedProducts.size() + " products due to stock/availability.");
+            WebElement addBtn = find(addToCartBtnLocator);
+            scrollIntoView(addBtn);
+            addBtn.click();
+
+            added.add(new Product(name, price));
         }
-        isCartOpen();
-        return addedProducts;
+        return added; // caller tự assert cartModal.isOpen() nếu cần
+//        List<Product> addedProducts = new ArrayList<>();
+//        List<WebElement> cards = getElements(productCardLocator);
+//
+//        for (WebElement card : cards) {
+//            if (addedProducts.size() >= numOfProducts) break;
+//
+//            WebElement addToCartBtn = card.findElement(addToCartBtnLocator);
+//            if (!isAddToCartBtnEnabled(card)) continue;
+//
+//            String name = card.findElement(productNameLocator).getText().trim();
+//            String priceStr = card.findElement(productPriceLocator).getText().substring(0);
+//            long price = parsePrice(priceStr);
+//            scrollIntoView(addToCartBtn);
+//            try {
+//                addToCartBtn.click();
+//            } catch (ElementClickInterceptedException e) {
+//                ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", addToCartBtn);
+//            }
+//
+//            addedProducts.add(new Product(name, price));
+//        }
+//
+//        if (addedProducts.size() < numOfProducts) {
+//            System.out.println("Warning: only added " + addedProducts.size() + " products due to stock/availability.");
+//        }
+//        isCartOpen();
+//        return addedProducts;
     }
 }

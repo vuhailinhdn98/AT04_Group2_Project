@@ -10,6 +10,7 @@ import java.util.List;
 public class CartModal extends HomePage {
     private final By productRowsLocator = By.cssSelector("#view_cart tbody tr:has(.delete_cart)");
     private final By qtyDropdownLocator = By.className("cart_option_class");
+    private final By orderNowBtnLocator = By.id("order_product");
 
     public int getProductRowCount() {
         return getElements(productRowsLocator).size();
@@ -27,5 +28,9 @@ public class CartModal extends HomePage {
     public int getItemQty(int index) {
         WebElement qty = getProductRows().get(index).findElement(qtyDropdownLocator);
         return Integer.parseInt(new Select(qty).getFirstSelectedOption().getText().trim());
+    }
+
+    public void clickOrderNowBtn() {
+        click(orderNowBtnLocator);
     }
 }

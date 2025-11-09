@@ -22,6 +22,7 @@ public class TC_06 extends BaseTest {
         softAssert.assertEquals(cartModal.getItemQty(0),1,"Default product qty should be 1.");
 
         log.info("4. Click 'Đặt hàng ngay'");
+        cartModal.clickOrderNowBtn();
 
         log.info("5. Compare all contact/address fields to the saved profile");
         softAssert.assertAll();
