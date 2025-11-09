@@ -36,10 +36,8 @@ public class TC_01 extends BaseTest {
                 specification
         );
 
-        // Step 7: Mở tab mới và về trang chủ user
         homePage.openHomePage();
 
-        // Step 8: Verify sản phẩm nổi bật
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
 

@@ -6,7 +6,7 @@ public class AdminProductListPage extends BasePage {
 
     // Locators
     private final By searchTextboxLocator = By.cssSelector("input[type='search'][aria-controls='view']");
-    private final By addProductButtonLocator = By.cssSelector("a[href='add_product_admin.php']");
+    private final By addProductButtonLocator = By.className("btn-primary");
 
     private By getEditButtonByProductId(String productId) {
         return By.xpath("//tr[td[1][normalize-space(text())='" + productId + "']]//a[contains(@href,'edit_product_admin.php')]");

@@ -5,8 +5,8 @@ import org.openqa.selenium.By;
 public class AdminNavigationMenu extends BasePage {
 
     // Locators
-    private final By productsMenuLinkLocator = By.cssSelector("a[href='product_admin.php']");
-    private final By ordersMenuLinkLocator = By.cssSelector("a[href='order_admin.php']");
+    private final By productsMenuLinkLocator = By.linkText("Products");
+    private final By ordersMenuLinkLocator = By.linkText("Orders");
 
     // Actions
     public void clickProductsMenu() {

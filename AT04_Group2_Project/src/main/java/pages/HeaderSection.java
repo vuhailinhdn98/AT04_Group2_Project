@@ -1,10 +1,7 @@
 package pages;
 
 import models.Product;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
@@ -22,7 +19,6 @@ public class HeaderSection extends BasePage {
     private final By adminControlPanelLinkLocator = By.xpath("//a[@href='admin/admin.php' and contains(text(),'Admin Control Panel')]");
     private final By headerSearchBoxLocator = By.cssSelector("input[data-target='#search_modal'][type='search']");
     private final By popupSearchInputLocator = By.cssSelector("input#search[name='search']");
-    private final By searchShowContainerLocator = By.id("search_show");
     private final By searchRowLocator = By.cssSelector("#search_show .row.search_main");
 
     private final By rowNameLinkLocator = By.cssSelector(".search_col label a");
@@ -52,8 +48,7 @@ public class HeaderSection extends BasePage {
         try {
             waitToBeVisible(cartModalContainerLocator);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -71,43 +66,36 @@ public class HeaderSection extends BasePage {
 
     public void openHomePage() {
         String homeUrl = "http://14.176.232.213/mobilevn/index.php";
-
-        // remember existing windows
-        Set<String> before = new HashSet<>(Driver.getDriver().getWindowHandles());
-
-        // open new tab via JS
-        ((JavascriptExecutor) Driver.getDriver()).executeScript("window.open(arguments[0], '_blank');", homeUrl);
-
-        // wait for new window handle
-        try {
-            Driver.getWebDriverWait().until(driver -> Driver.getDriver().getWindowHandles().size() > before.size());
-            ArrayList<String> tabs = new ArrayList<>(Driver.getDriver().getWindowHandles());
-            String newest = tabs.get(tabs.size() - 1);
-            Driver.getDriver().switchTo().window(newest);
-
-            Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".container")));
-        } catch (TimeoutException e) {
-            Driver.getDriver().get(homeUrl);
-            Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".container")));
-        }
+        Driver.getDriver().get(homeUrl);
     }
+
     public void openSearchModal() {
-        WebElement searchBox = find(headerSearchBoxLocator);
-        click(headerSearchBoxLocator);
+        WebElement searchBox = Driver.getWebDriverWait().until(
+                ExpectedConditions.elementToBeClickable(headerSearchBoxLocator)
+        );
+        searchBox.click();
     }
+
     public void searchProduct(String keyword) {
-        WebElement input = find(popupSearchInputLocator);
+        WebElement input = Driver.getWebDriverWait().until(
+                ExpectedConditions.elementToBeClickable(popupSearchInputLocator)
+        );
         input.sendKeys(keyword);
-        Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(searchShowContainerLocator));
     }
-    public List<Product> getSearchResultsAsProducts() {
-        return Driver.getDriver().findElements(searchRowLocator).stream()
-                .map(r -> {
-                    String name = r.findElement(rowNameLinkLocator).getText().trim();
-                    String priceText = r.findElement(rowPriceSpanLocator).getText();
-                    long price = parsePrice(priceText);
-                    return new Product(name, price);
-                })
+
+    public List<String> getSearchResultByProductNames() {
+        Driver.getWebDriverWait().until(
+                ExpectedConditions.presenceOfElementLocated(rowNameLinkLocator)
+        );
+
+        return Driver.getDriver().findElements(rowNameLinkLocator).stream()
+                .map(el -> el.getText().trim())
                 .collect(Collectors.toList());
+    }
+
+    public boolean hasProductWithKeyword(String keyword) {
+        List<String> names = getSearchResultByProductNames();
+        return names.stream()
+                .anyMatch(name -> name.toLowerCase().contains(keyword.toLowerCase()));
     }
 }

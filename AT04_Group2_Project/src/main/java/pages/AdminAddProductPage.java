@@ -51,10 +51,8 @@ public class AdminAddProductPage extends BasePage {
     }
 
     public AdminAddProductPage enterSpecification(String specification) {
-        Driver.getWebDriverWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(specificationLocator));
         ((JavascriptExecutor) Driver.getDriver())
-                .executeScript("document.body.innerHTML = arguments[0];", specification);
-        Driver.getDriver().switchTo().defaultContent();
+                .executeScript("CKEDITOR.instances['specification'].setData(arguments[0]);", specification);
         return this;
     }
 
