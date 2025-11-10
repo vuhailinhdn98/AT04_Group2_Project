@@ -1,14 +1,11 @@
 package pages;
 
-import models.Product;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class HeaderSection extends BasePage {
@@ -26,6 +23,7 @@ public class HeaderSection extends BasePage {
 
     //modal
     private final By cartModalContainerLocator = By.cssSelector(".modal-content #view_cart");
+    private final By checkoutModalContainerLocator = By.cssSelector(".modal-content #order_modal");
 
     public void openLoginModal() {
         find(loginButtonLocator).click();
@@ -44,13 +42,22 @@ public class HeaderSection extends BasePage {
         return accountName.get(0).getAttribute("textContent").trim();
     }
 
-    public boolean isCartOpen() {
+    public boolean isCartModalVisible() {
         try {
             waitToBeVisible(cartModalContainerLocator);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    //checkout modal
+    public void waitCheckoutModalVisible() {
+            waitToBeVisible(checkoutModalContainerLocator);
+    }
+
+    public List<WebElement> getCheckoutModalElements() {
+        return getElements(checkoutModalContainerLocator);
     }
 
     public void openAccountDropdown() {

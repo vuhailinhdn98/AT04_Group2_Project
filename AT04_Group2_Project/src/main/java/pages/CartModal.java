@@ -32,5 +32,6 @@ public class CartModal extends HomePage {
 
     public void clickOrderNowBtn() {
         click(orderNowBtnLocator);
+        waitCheckoutModalVisible();
     }
 }

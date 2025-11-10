@@ -11,7 +11,7 @@ public class TC_05 extends BaseTest {
         log.info("3. Click 'Thêm vào giỏ hàng' button");
         productDetailsPage.clickAddToCart();
 
-        softAssert.assertTrue(cartModal.isCartOpen(),"Cart modal is not shown");
+        softAssert.assertTrue(cartModal.isCartModalVisible(),"Cart modal is not shown");
         softAssert.assertEquals(cartModal.getProductRowCount(),1,"Should be 1 product row.");
         softAssert.assertEquals(cartModal.getItemQty(0),1,"Default product qty should be 1.");
 

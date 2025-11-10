@@ -1,12 +1,14 @@
 package pages;
 
+import models.UserInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class CheckoutModal extends BasePage {
+public class CheckoutModal extends HeaderSection {
     // Product list section (left side)
     private final By productLabelsLocator = By.cssSelector("#list_order label");
     private final By productPricesLocator = By.cssSelector("#list_order .text-danger");
@@ -84,5 +86,18 @@ public class CheckoutModal extends BasePage {
             return priceElements.get(priceElements.size() - 1).getText().trim();
         }
         return "";
+    }
+
+    public List<UserInfo> getUserInfo() {
+        return getCheckoutModalElements()
+                .stream()
+                .map(el -> new UserInfo(
+                        el.findElement(fullNameInputLocator).getText().trim(),
+                        el.findElement(emailInputLocator).getText().trim(),
+                        el.findElement(phoneInputLocator).getText().trim(),
+                        el.findElement(addressInputLocator).getText().trim(),
+                        el.findElement(passwordInputLocator).getText().trim()
+                ))
+                .collect(Collectors.toList());
     }
 }
