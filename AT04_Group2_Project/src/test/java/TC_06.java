@@ -27,9 +27,15 @@ public class TC_06 extends BaseTest {
         log.info("4. Click 'Đặt hàng ngay'");
         cartModal.clickOrderNowBtn();
 
-        List<String> actualUserInfo = checkoutModal.getUserInfo();
-        System.out.println(actualUserInfo);
+        softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(),"Checkout modal is not shown");
+
         log.info("5. Compare all contact/address fields to the saved profile");
+        List<String> actualUserInfo = checkoutModal.getUserInfo();
+
+        checkoutModal.closeModal();
+        homePage.openUserInfo();
+        List<String> expectedUserInfo = checkoutModal.getUserInfo();
+
         softAssert.assertAll();
     }
 }

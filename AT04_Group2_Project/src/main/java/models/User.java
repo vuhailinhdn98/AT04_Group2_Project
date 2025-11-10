@@ -2,7 +2,7 @@ package models;
 
 import java.util.Objects;
 
-public class UserInfo {
+public class User {
     private String fullName, email, phoneNumber, address, password;
 
     public String getFullName() {
@@ -25,7 +25,7 @@ public class UserInfo {
         return password;
     }
 
-    public UserInfo(String fullName, String email, String phoneNumber, String address, String password) {
+    public User(String fullName, String email, String phoneNumber, String address, String password) {
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -35,7 +35,7 @@ public class UserInfo {
 
     @Override
     public String toString() {
-        return "UserInfo{" +
+        return "User{" +
                 "fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
@@ -46,8 +46,8 @@ public class UserInfo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserInfo userInfo = (UserInfo) o;
-        return Objects.equals(fullName, userInfo.fullName) && Objects.equals(email, userInfo.email) && Objects.equals(phoneNumber, userInfo.phoneNumber) && Objects.equals(address, userInfo.address);
+        User user = (User) o;
+        return Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(address, user.address);
     }
 
     @Override

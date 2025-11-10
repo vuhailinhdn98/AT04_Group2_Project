@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class HeaderSection extends BasePage {
     private final By loginButtonLocator = By.cssSelector(".top-header [data-target='#login']");
     private final By accountDropdownLoggedInLocator = By.xpath("//div[contains(@class,'top-header')]//button[contains(@class,'dropdown-toggle')][not(contains(normalize-space(.),'Đăng nhập'))]");
+    private final By userInfoBtnLocator = By.xpath("//*[@class='top-header']//a[contains(@href,'profile')]");
     private final By accountNameLocator = By.xpath("//div[contains(@class,'top-header')]//button[contains(@class,'dropdown-toggle')]//span[contains(@class,'header-login') and not(contains(@class,'caret'))][normalize-space()]");
     private final By logoutBtnLocator = By.xpath("//div[contains(@class,'login-top')]//a[contains(@class,'logout')]");
     private final By adminControlPanelLinkLocator = By.xpath("//a[@href='admin/admin.php' and contains(text(),'Admin Control Panel')]");
@@ -23,7 +24,8 @@ public class HeaderSection extends BasePage {
 
     //modal
     private final By cartModalContainerLocator = By.cssSelector(".modal-content #view_cart");
-    private final By checkoutModalContainerLocator = By.cssSelector(".modal-content #order_modal");
+    private final By checkoutModalContainerLocator = By.cssSelector("#order_modal .modal-content ");
+    private final By modalBackdropLocator = By.className("modal-backdrop");
 
     public void openLoginModal() {
         find(loginButtonLocator).click();
@@ -56,12 +58,26 @@ public class HeaderSection extends BasePage {
             waitToBeVisible(checkoutModalContainerLocator);
     }
 
+    public boolean isCheckoutModalVisible() {
+        try {
+            waitCheckoutModalVisible();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     protected WebElement getCheckoutModalElements() {
         return find(checkoutModalContainerLocator);
     }
 
     public void openAccountDropdown() {
         click(accountNameLocator);
+    }
+
+    public void openUserInfo() {
+        openAccountDropdown();
+        click(userInfoBtnLocator);
     }
 
     public void goToAdminControlPanel() {
@@ -104,5 +120,10 @@ public class HeaderSection extends BasePage {
         List<String> names = getSearchResultByProductNames();
         return names.stream()
                 .anyMatch(name -> name.toLowerCase().contains(keyword.toLowerCase()));
+    }
+
+    protected void closeModal(By modalLocator) {
+        find(modalBackdropLocator).sendKeys(Keys.ESCAPE);
+        waitToBeInvisible(modalLocator);
     }
 }

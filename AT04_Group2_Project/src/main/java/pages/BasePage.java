@@ -20,6 +20,10 @@ public class BasePage {
         return Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    protected WebElement waitToBeInvisible(By locator) {
+//        return Driver.getWebDriverWait().until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
     protected boolean isEnabled(WebElement el) {
         return el.isEnabled() && el.getAttribute("disabled") == null;
     }

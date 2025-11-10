@@ -87,6 +87,7 @@ public class CheckoutModal extends HeaderSection {
     }
 
     public ArrayList<String> getUserInfo() {
+        waitCheckoutModalVisible();
         WebElement checkoutModalContainerLocator = getCheckoutModalElements();
         ArrayList<String> info = new ArrayList<>();
         info.add(checkoutModalContainerLocator.findElement(fullNameInputLocator).getAttribute("value").trim());
