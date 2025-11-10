@@ -18,6 +18,7 @@ public class BaseTest {
 
     protected HomePage homePage = new HomePage();
     protected LoginModal loginModal = new LoginModal();
+    protected CheckoutModal checkoutModal = new CheckoutModal();
     protected HeaderSection header = new HeaderSection();
 
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
@@ -35,6 +36,7 @@ public class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--guest");
 //        options.addArguments("--headless");
+        options.addArguments("--window-size=1920,1080");
         Driver.setDriver(new ChromeDriver(options));
         Driver.getDriver().manage().window().maximize();
 

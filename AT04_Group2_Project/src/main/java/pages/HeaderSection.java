@@ -56,8 +56,8 @@ public class HeaderSection extends BasePage {
             waitToBeVisible(checkoutModalContainerLocator);
     }
 
-    public List<WebElement> getCheckoutModalElements() {
-        return getElements(checkoutModalContainerLocator);
+    protected WebElement getCheckoutModalElements() {
+        return find(checkoutModalContainerLocator);
     }
 
     public void openAccountDropdown() {

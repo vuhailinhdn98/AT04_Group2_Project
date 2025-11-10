@@ -14,8 +14,8 @@ public class TC_01 extends BaseTest {
 
         homePage.goToAdminControlPanel();
 
-        adminMenu.clickProductsMenu();
-        adminProductList.clickAddProductButton();
+        adminMenu.clickProductsMenu();//rename
+        adminProductList.clickAddProductButton();//rename
 
         // Step 6: Nhập thông tin sản phẩm
         String productName = "Test Product";

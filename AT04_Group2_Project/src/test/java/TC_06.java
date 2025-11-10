@@ -1,5 +1,8 @@
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TC_06 extends BaseTest {
 
     @Test(
@@ -24,6 +27,8 @@ public class TC_06 extends BaseTest {
         log.info("4. Click 'Đặt hàng ngay'");
         cartModal.clickOrderNowBtn();
 
+        List<String> actualUserInfo = checkoutModal.getUserInfo();
+        System.out.println(actualUserInfo);
         log.info("5. Compare all contact/address fields to the saved profile");
         softAssert.assertAll();
     }

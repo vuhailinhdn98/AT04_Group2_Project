@@ -9,10 +9,10 @@ public class TC_02 extends BaseTest {
             description = "Verify the newly added product is searchable by partial name"
     )
     public void tc_02() {
-        String Keyword = "Test Product";
+        String Keyword = "Test Product";//lấy 1 sản phẩm từ trang chủ để search
 
-        header.openSearchModal();
-        header.searchProduct(Keyword);
+        homePage.openSearchModal();
+        homePage.searchProduct(Keyword);
 
         Assert.assertTrue(header.hasProductWithKeyword(Keyword),
                 "No products contain keyword: " + Keyword);

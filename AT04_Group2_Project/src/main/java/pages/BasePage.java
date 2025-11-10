@@ -65,8 +65,9 @@ public class BasePage {
         WebElement checkBox = find(locator);
         if (checkBox.isSelected() != shouldBeChecked) {
             checkBox.click();
-        } else {
-            checkBox.sendKeys(Keys.TAB);
         }
+//        else {
+//            checkBox.sendKeys(Keys.TAB);
+//        }
     }
 }

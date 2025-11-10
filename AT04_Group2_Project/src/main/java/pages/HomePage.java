@@ -58,7 +58,6 @@ public class HomePage extends HeaderSection{
             long price = parsePrice(priceText);
 
             return new Product(name, price);
-
         }
 
     public List<Product> addInStockProductsToCart(int numOfProducts) {
@@ -81,33 +80,6 @@ public class HomePage extends HeaderSection{
 
             added.add(new Product(name, price));
         }
-        return added; // caller tự assert cartModal.isOpen() nếu cần
-//        List<Product> addedProducts = new ArrayList<>();
-//        List<WebElement> cards = getElements(productCardLocator);
-//
-//        for (WebElement card : cards) {
-//            if (addedProducts.size() >= numOfProducts) break;
-//
-//            WebElement addToCartBtn = card.findElement(addToCartBtnLocator);
-//            if (!isAddToCartBtnEnabled(card)) continue;
-//
-//            String name = card.findElement(productNameLocator).getText().trim();
-//            String priceStr = card.findElement(productPriceLocator).getText().substring(0);
-//            long price = parsePrice(priceStr);
-//            scrollIntoView(addToCartBtn);
-//            try {
-//                addToCartBtn.click();
-//            } catch (ElementClickInterceptedException e) {
-//                ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", addToCartBtn);
-//            }
-//
-//            addedProducts.add(new Product(name, price));
-//        }
-//
-//        if (addedProducts.size() < numOfProducts) {
-//            System.out.println("Warning: only added " + addedProducts.size() + " products due to stock/availability.");
-//        }
-//        isCartOpen();
-//        return addedProducts;
+        return added;
     }
 }

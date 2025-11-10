@@ -1,12 +1,10 @@
 package pages;
 
-import models.UserInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CheckoutModal extends HeaderSection {
     // Product list section (left side)
@@ -88,16 +86,14 @@ public class CheckoutModal extends HeaderSection {
         return "";
     }
 
-    public List<UserInfo> getUserInfo() {
-        return getCheckoutModalElements()
-                .stream()
-                .map(el -> new UserInfo(
-                        el.findElement(fullNameInputLocator).getText().trim(),
-                        el.findElement(emailInputLocator).getText().trim(),
-                        el.findElement(phoneInputLocator).getText().trim(),
-                        el.findElement(addressInputLocator).getText().trim(),
-                        el.findElement(passwordInputLocator).getText().trim()
-                ))
-                .collect(Collectors.toList());
+    public ArrayList<String> getUserInfo() {
+        WebElement checkoutModalContainerLocator = getCheckoutModalElements();
+        ArrayList<String> info = new ArrayList<>();
+        info.add(checkoutModalContainerLocator.findElement(fullNameInputLocator).getAttribute("value").trim());
+        info.add(checkoutModalContainerLocator.findElement(emailInputLocator).getAttribute("value").trim());
+        info.add(checkoutModalContainerLocator.findElement(phoneInputLocator).getAttribute("value").trim());
+        info.add(checkoutModalContainerLocator.findElement(addressInputLocator).getAttribute("value").trim());
+        info.add(checkoutModalContainerLocator.findElement(passwordInputLocator).getAttribute("value").trim());
+        return info;
     }
 }
