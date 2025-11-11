@@ -34,7 +34,7 @@ public class TC_07 extends BaseTest {
 
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(), "Checkout modal should be visible after clicking order now");
 
-        log.info("6. Fill contact/address if not available, enter password and place order");
+        log.info("7. Fill contact/address if not available, enter password and place order");
 
         checkoutModal.enterPassword("123123");
         checkoutModal.clickCheckoutButton();
