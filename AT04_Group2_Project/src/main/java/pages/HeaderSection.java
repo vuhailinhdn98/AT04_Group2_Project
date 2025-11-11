@@ -124,8 +124,11 @@ public class HeaderSection extends BasePage {
 
     //close modal
     private void closeModal(By modalLocator) {
-        find(modalBackdropLocator).sendKeys(Keys.ESCAPE);
-        waitToBeInvisible(modalLocator);
+        find(checkoutModalContainerLocator);
+        find(modalBackdropLocator);                    // đảm bảo backdrop đã xuất hiện
+        clickAt(modalBackdropLocator, 5, 5);           // click vào góc backdrop, tránh tâm bị modal che
+        waitToBeInvisible(checkoutModalContainerLocator);  // chờ modal ẩn
+//        waitNoElements(backdrop);
     }
 
     public void closeCheckoutModal() {

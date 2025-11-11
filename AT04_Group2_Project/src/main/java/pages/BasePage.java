@@ -1,6 +1,10 @@
 package pages;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,8 +74,13 @@ public class BasePage {
         if (checkBox.isSelected() != shouldBeChecked) {
             checkBox.click();
         }
-//        else {
-//            checkBox.sendKeys(Keys.TAB);
-//        }
+    }
+
+    protected void clickAt(By locator, int offsetX, int offsetY) {
+        WebElement el = find(locator);
+        new Actions(Driver.getDriver())
+                .moveToElement(el, offsetX, offsetY)
+                .click()
+                .perform();
     }
 }
