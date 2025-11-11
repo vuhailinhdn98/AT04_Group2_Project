@@ -20,10 +20,7 @@ public class HomePage extends HeaderSection{
     public List<Product> getAllProducts() {
         return getElements(productCardLocator)
                 .stream()
-                .map(el -> new Product(
-                        el.findElement(productNameLocator).getText().trim(),
-                        Long.parseLong(el.findElement(productPriceLocator).getText().substring(1).replaceAll("\\D+", ""))
-                ))
+                .map(this::getProduct)
                 .collect(Collectors.toList());
     }
 
@@ -45,19 +42,11 @@ public class HomePage extends HeaderSection{
     }
 
     public Product getFirstFeaturedProduct() {
-            List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
-            WebElement featuredSection = sections.get(1);
-            List<WebElement> products = featuredSection.findElements(By.cssSelector(".thumbnail"));
-            WebElement firstProduct = products.get(0);
-            scrollIntoView(firstProduct);
-
-            String name = firstProduct.findElement(productNameLocator).getText().trim();
-
-            String priceText = firstProduct.findElement(productPriceLocator).getText();
-
-            long price = parsePrice(priceText);
-
-            return new Product(name, price);
+        List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
+        WebElement featuredSection = sections.get(1);
+        WebElement firstProduct = featuredSection.findElements(By.cssSelector(".thumbnail")).get(0);
+        scrollIntoView(firstProduct);
+        return getProduct(firstProduct);
     }
 
     private Product getProduct(WebElement card) {
