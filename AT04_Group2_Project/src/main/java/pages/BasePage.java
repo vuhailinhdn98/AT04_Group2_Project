@@ -16,12 +16,12 @@ public class BasePage {
         return Driver.getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    protected WebElement waitToBeVisible(By locator) {
-        return Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+    protected void waitToBeVisible(By locator) {
+        Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    protected WebElement waitToBeInvisible(By locator) {
-//        return Driver.getWebDriverWait().until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    protected void waitToBeInvisible(By locator) {
+        Driver.getWebDriverWait().until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     protected boolean isEnabled(WebElement el) {

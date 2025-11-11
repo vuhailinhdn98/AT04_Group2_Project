@@ -32,7 +32,7 @@ public class TC_06 extends BaseTest {
         log.info("5. Compare all contact/address fields to the saved profile");
         List<String> actualUserInfo = checkoutModal.getUserInfo();
 
-        checkoutModal.closeModal();
+        checkoutModal.closeCheckoutModal();
         homePage.openUserInfo();
         List<String> expectedUserInfo = checkoutModal.getUserInfo();
 

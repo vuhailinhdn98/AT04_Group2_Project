@@ -58,27 +58,30 @@ public class HomePage extends HeaderSection{
             long price = parsePrice(priceText);
 
             return new Product(name, price);
-        }
+    }
+
+    private Product getProduct(WebElement card) {
+        String name = card.findElement(productNameLocator).getText().trim();
+        String priceText = card.findElement(productPriceLocator).getText();
+        long price = parsePrice(priceText);
+        return new Product(name, price);
+    }
 
     public List<Product> addInStockProductsToCart(int numOfProducts) {
         List<Product> added = new ArrayList<>();
+        if (numOfProducts <= 0) return added;
+
         for (WebElement card : getElements(productCardLocator)) {
-            if (added.size() >= numOfProducts) {
-                break;
-            }
-            if (!isAddToCartBtnEnabled(card)) {
-                continue;
-            }
+            if (added.size() >= numOfProducts) break;
+            if (!isAddToCartBtnEnabled(card)) continue;
 
-            String name = getText(productNameLocator);
-            String priceStr = getText(productPriceLocator).substring(0);
-            long price = parsePrice(priceStr);
+            Product product = getProduct(card);
 
-            WebElement addBtn = find(addToCartBtnLocator);
+            WebElement addBtn = card.findElement(addToCartBtnLocator);
             scrollIntoView(addBtn);
             addBtn.click();
 
-            added.add(new Product(name, price));
+            added.add(product);
         }
         return added;
     }

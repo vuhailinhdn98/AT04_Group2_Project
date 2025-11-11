@@ -122,8 +122,17 @@ public class HeaderSection extends BasePage {
                 .anyMatch(name -> name.toLowerCase().contains(keyword.toLowerCase()));
     }
 
-    protected void closeModal(By modalLocator) {
+    //close modal
+    private void closeModal(By modalLocator) {
         find(modalBackdropLocator).sendKeys(Keys.ESCAPE);
         waitToBeInvisible(modalLocator);
+    }
+
+    public void closeCheckoutModal() {
+        closeModal(checkoutModalContainerLocator);
+    }
+
+    public void closeCartModal() {
+        closeModal(cartModalContainerLocator);
     }
 }
