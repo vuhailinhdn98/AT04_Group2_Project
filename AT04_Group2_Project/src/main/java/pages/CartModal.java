@@ -12,6 +12,9 @@ public class CartModal extends HomePage {
     private final By qtyDropdownLocator = By.className("cart_option_class");
     private final By orderNowBtnLocator = By.id("order_product");
 
+    private final By notLoginWarningMsgLocator = By.className("alert-dismissable");
+    private final By loginTextLinkLocator = By.cssSelector("#error_cart [data-target='#login']");
+
     public int getProductRowCount() {
         return getElements(productRowsLocator).size();
     }
@@ -32,6 +35,13 @@ public class CartModal extends HomePage {
 
     public void clickOrderNowBtn() {
         click(orderNowBtnLocator);
-//        waitCheckoutModalVisible();
+    }
+
+    public String getNotLoginWarningMsg() {
+        return getText(notLoginWarningMsgLocator).substring(1).trim();
+    }
+
+    public void clickLoginTextLink() {
+        click(loginTextLinkLocator);
     }
 }

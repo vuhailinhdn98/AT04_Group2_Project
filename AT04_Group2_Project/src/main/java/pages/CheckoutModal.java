@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class CheckoutModal extends HeaderSection {
 
     public void enterPassword(String password) {
         type(passwordInputLocator, password);
+        find(passwordInputLocator).sendKeys(Keys.TAB);
     }
 
     // Actions - Navigation
@@ -36,6 +38,7 @@ public class CheckoutModal extends HeaderSection {
 
     public void clickCheckoutButton() {
         click(checkoutBtnLocator);
+        waitOrderConfirmationModalVisible();
     }
 
     // Getters - Form values

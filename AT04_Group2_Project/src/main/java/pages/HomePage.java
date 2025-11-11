@@ -1,7 +1,8 @@
 package pages;
 
 import models.Product;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import utils.Driver;
 
 import java.util.ArrayList;
@@ -65,12 +66,15 @@ public class HomePage extends HeaderSection{
             if (!isAddToCartBtnEnabled(card)) continue;
 
             Product product = getProduct(card);
-
             WebElement addBtn = card.findElement(addToCartBtnLocator);
             scrollIntoView(addBtn);
             addBtn.click();
+            waitCartModalVisible();
 
             added.add(product);
+            if (added.size() < numOfProducts) {
+                closeCartModal();
+            }
         }
         return added;
     }

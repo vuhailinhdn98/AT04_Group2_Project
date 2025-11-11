@@ -20,7 +20,7 @@ public class BaseTest {
     protected LoginModal loginModal = new LoginModal();
     protected CheckoutModal checkoutModal = new CheckoutModal();
     protected UserPage userPage = new UserPage();
-
+    protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected AdminNavigationMenu adminMenu = new AdminNavigationMenu();

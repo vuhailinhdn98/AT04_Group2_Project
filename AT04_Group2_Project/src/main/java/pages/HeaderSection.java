@@ -19,16 +19,28 @@ public class HeaderSection extends BasePage {
     private final By popupSearchInputLocator = By.cssSelector("input#search[name='search']");
     private final By searchRowLocator = By.cssSelector("#search_show .row.search_main");
 
+    private final By cartBtnLocator = By.cssSelector(".top-header .cart_modal");
+
     private final By rowNameLinkLocator = By.cssSelector(".search_col label a");
     private final By rowPriceSpanLocator = By.cssSelector(".search_col .text-danger");
 
     //modal
     private final By cartModalContainerLocator = By.xpath("//div[contains(@class,'modal-content')][.//div[@id='view_cart']]");
     private final By checkoutModalContainerLocator = By.cssSelector("#order_modal .modal-content");
-//    private final By modalContentLocator = By.className("modal-content");
+    private final By loginModalContentLocator = By.cssSelector("#login .modal-content");
+    private final By orderConfirmationModalContentLocator = By.cssSelector("#success_modal .modal-content");
 
     public void openLoginModal() {
         find(loginButtonLocator).click();
+    }
+
+    public boolean isLoginModalVisible() {
+        try {
+            waitToBeVisible(loginModalContentLocator);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void waitUntilLoggedIn() {
@@ -65,6 +77,10 @@ public class HeaderSection extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void waitCartModalVisible() {
+        waitToBeVisible(cartModalContainerLocator);
     }
 
     protected WebElement getCheckoutModalElements() {
@@ -127,17 +143,15 @@ public class HeaderSection extends BasePage {
         int w = find(modalLocator).getSize().getWidth();
         int h = find(modalLocator).getSize().getHeight();
 
-        // Thử 4 hướng: ngoài-trên-trái, ngoài-trên-phải, ngoài-dưới-trái, ngoài-dưới-phải
         int[][] offsets = new int[][] {
-                {-10, -10},           // trên-trái
-                { w + 10, -10},       // trên-phải
-                {-10, h + 10},        // dưới-trái
-                { w + 10, h + 10}     // dưới-phải
+                {-10, -10},
+                { w + 10, -10},
+                {-10, h + 10},
+                { w + 10, h + 10}
         };
 
         for (int[] off : offsets) {
             clickAt(modalLocator, off[0], off[1]);
-            // nếu modal đã tắt thì thoát luôn
             if (isInvisible(modalLocator)) return;
         }
     }
@@ -148,5 +162,13 @@ public class HeaderSection extends BasePage {
 
     public void closeCartModal() {
         closeModal(cartModalContainerLocator);
+    }
+
+    public void openCartModal() {
+        click(cartBtnLocator);
+    }
+
+    public void waitOrderConfirmationModalVisible() {
+        waitToBeVisible(orderConfirmationModalContentLocator);
     }
 }
