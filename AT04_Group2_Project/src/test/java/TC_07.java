@@ -18,7 +18,7 @@ public class TC_07 extends BaseTest {
 
         softAssert.assertEquals(cartModal.getNotLoginWarningMsg(),"Vui lòng đăng nhập mới có thể đặt hàng Click vào đây để đăng nhập", "Warning message should appear in cart modal for not logged-in user");
 
-        log.info("4. Click the login link inside checkout warning");
+        log.info("4. Click the login link inside cart modal");
         cartModal.clickLoginTextLink();
         softAssert.assertTrue(loginModal.isLoginModalVisible(), "Login modal should be visible after clicking login link in cart modal");
 
@@ -35,7 +35,6 @@ public class TC_07 extends BaseTest {
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(), "Checkout modal should be visible after clicking order now");
 
         log.info("7. Fill contact/address if not available, enter password and place order");
-
         checkoutModal.enterPassword("123123");
         checkoutModal.clickCheckoutButton();
 
