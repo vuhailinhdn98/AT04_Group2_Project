@@ -23,9 +23,9 @@ public class HeaderSection extends BasePage {
     private final By rowPriceSpanLocator = By.cssSelector(".search_col .text-danger");
 
     //modal
-    private final By cartModalContainerLocator = By.cssSelector(".modal-content #view_cart");
-    private final By checkoutModalContainerLocator = By.cssSelector("#order_modal .modal-content ");
-    private final By modalBackdropLocator = By.className("modal-backdrop");
+    private final By cartModalContainerLocator = By.xpath("//div[contains(@class,'modal-content')][.//div[@id='view_cart']]");
+    private final By checkoutModalContainerLocator = By.cssSelector("#order_modal .modal-content");
+//    private final By modalContentLocator = By.className("modal-content");
 
     public void openLoginModal() {
         find(loginButtonLocator).click();
@@ -122,13 +122,24 @@ public class HeaderSection extends BasePage {
                 .anyMatch(name -> name.toLowerCase().contains(keyword.toLowerCase()));
     }
 
-    //close modal
     private void closeModal(By modalLocator) {
-        find(checkoutModalContainerLocator);
-        find(modalBackdropLocator);                    // đảm bảo backdrop đã xuất hiện
-        clickAt(modalBackdropLocator, 5, 5);           // click vào góc backdrop, tránh tâm bị modal che
-        waitToBeInvisible(checkoutModalContainerLocator);  // chờ modal ẩn
-//        waitNoElements(backdrop);
+        find(modalLocator);
+        int w = find(modalLocator).getSize().getWidth();
+        int h = find(modalLocator).getSize().getHeight();
+
+        // Thử 4 hướng: ngoài-trên-trái, ngoài-trên-phải, ngoài-dưới-trái, ngoài-dưới-phải
+        int[][] offsets = new int[][] {
+                {-10, -10},           // trên-trái
+                { w + 10, -10},       // trên-phải
+                {-10, h + 10},        // dưới-trái
+                { w + 10, h + 10}     // dưới-phải
+        };
+
+        for (int[] off : offsets) {
+            clickAt(modalLocator, off[0], off[1]);
+            // nếu modal đã tắt thì thoát luôn
+            if (isInvisible(modalLocator)) return;
+        }
     }
 
     public void closeCheckoutModal() {

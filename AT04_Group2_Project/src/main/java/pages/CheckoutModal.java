@@ -94,7 +94,6 @@ public class CheckoutModal extends HeaderSection {
         info.add(checkoutModalContainerLocator.findElement(emailInputLocator).getAttribute("value").trim());
         info.add(checkoutModalContainerLocator.findElement(phoneInputLocator).getAttribute("value").trim());
         info.add(checkoutModalContainerLocator.findElement(addressInputLocator).getAttribute("value").trim());
-        info.add(checkoutModalContainerLocator.findElement(passwordInputLocator).getAttribute("value").trim());
         return info;
     }
 }

@@ -19,7 +19,7 @@ public class BaseTest {
     protected HomePage homePage = new HomePage();
     protected LoginModal loginModal = new LoginModal();
     protected CheckoutModal checkoutModal = new CheckoutModal();
-    protected HeaderSection header = new HeaderSection();
+    protected UserPage userPage = new UserPage();
 
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();

@@ -1,7 +1,5 @@
-import models.Product;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HeaderSection;
 
 
 public class TC_02 extends BaseTest {
@@ -14,7 +12,7 @@ public class TC_02 extends BaseTest {
         homePage.openSearchModal();
         homePage.searchProduct(Keyword);
 
-        Assert.assertTrue(header.hasProductWithKeyword(Keyword),
+        Assert.assertTrue(homePage.hasProductWithKeyword(Keyword),
                 "No products contain keyword: " + Keyword);
     }
 }

@@ -1,6 +1,5 @@
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TC_06 extends BaseTest {
@@ -34,8 +33,9 @@ public class TC_06 extends BaseTest {
 
         checkoutModal.closeCheckoutModal();
         homePage.openUserInfo();
-        List<String> expectedUserInfo = checkoutModal.getUserInfo();
+        List<String> expectedUserInfo = userPage.getUserInfo();
 
+        softAssert.assertEquals(actualUserInfo, expectedUserInfo, "Contact/Address info in checkout modal does not match the saved profile.");
         softAssert.assertAll();
     }
 }
