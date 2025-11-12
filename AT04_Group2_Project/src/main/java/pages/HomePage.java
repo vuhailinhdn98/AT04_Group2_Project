@@ -49,7 +49,14 @@ public class HomePage extends HeaderSection{
         scrollIntoView(firstProduct);
         return getProduct(firstProduct);
     }
-
+    public void openFirstFeaturedProductDetails() {
+        List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
+        WebElement featuredSection = sections.get(1);
+        WebElement firstProduct = featuredSection.findElements(By.cssSelector(".thumbnail")).get(0);
+        WebElement nameLink = firstProduct.findElement(productNameLocator);
+        scrollIntoView(nameLink);
+        nameLink.click();
+    }
     private Product getProduct(WebElement card) {
         String name = card.findElement(productNameLocator).getText().trim();
         String priceText = card.findElement(productPriceLocator).getText();
@@ -79,10 +86,11 @@ public class HomePage extends HeaderSection{
         return added;
     }
 
-    public void createOrderFromHomePage(int numOfProducts) {
-        addInStockProductsToCart(numOfProducts);
-        clickOrderNowButton();
-        clickProceedToCheckoutButton();
-        waitCheckoutModalVisible();
-    }
+
+//    public void createOrderFromHomePage(int numOfProducts) {
+//        addInStockProductsToCart(numOfProducts);
+//        clickOrderNowButton();
+//        clickProceedToCheckoutButton();
+//        waitCheckoutModalVisible();
+  //  }
 }
