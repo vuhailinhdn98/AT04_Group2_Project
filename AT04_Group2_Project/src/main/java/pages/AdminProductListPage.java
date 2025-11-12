@@ -2,7 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 
-public class AdminProductListPage extends BasePage {
+public class AdminProductListPage extends AdminNavigationMenu {
 
     // Locators
     private final By searchTextboxLocator = By.cssSelector("input[type='search'][aria-controls='view']");

@@ -1,14 +1,12 @@
 package pages;
 
-import models.Product;
 import models.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import utils.Driver;
 
-public class AdminAddProductPage extends BasePage {
+public class AdminAddProductPage extends AdminNavigationMenu {
 
     private final By nameInputLocator = By.name("name");
     private final By priceInputLocator = By.name("price");

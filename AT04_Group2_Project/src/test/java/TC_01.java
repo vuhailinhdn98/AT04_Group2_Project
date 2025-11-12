@@ -1,6 +1,5 @@
 import models.Product;
 import org.testng.annotations.Test;
-import pages.*;
 
 public class TC_01 extends BaseTest {
 
@@ -14,7 +13,7 @@ public class TC_01 extends BaseTest {
 
         homePage.goToAdminControlPanel();
 
-        adminMenu.clickProductsMenu();//rename
+        adminDashboardPage.clickProductsMenu();//rename
         adminProductList.clickAddProductButton();//rename
 
         addProductPage.addProduct(addedproduct);

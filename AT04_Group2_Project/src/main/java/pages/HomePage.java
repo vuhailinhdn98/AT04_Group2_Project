@@ -86,11 +86,11 @@ public class HomePage extends HeaderSection{
         return added;
     }
 
-
+//
 //    public void createOrderFromHomePage(int numOfProducts) {
 //        addInStockProductsToCart(numOfProducts);
 //        clickOrderNowButton();
 //        clickProceedToCheckoutButton();
 //        waitCheckoutModalVisible();
-  //  }
+//    }
 }

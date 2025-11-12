@@ -1,5 +1,5 @@
 package pages;
 
-public class AdminOrderDetailsPage extends BasePage {
+public class AdminOrderDetailsPage extends AdminNavigationMenu {
 
 }

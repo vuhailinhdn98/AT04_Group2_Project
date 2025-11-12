@@ -25,8 +25,9 @@ public class BaseTest {
     protected ProductDataTest addedproduct = new ProductDataTest();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
-    protected AdminNavigationMenu adminMenu = new AdminNavigationMenu();
+    protected AdminDashboardPage adminDashboardPage = new AdminDashboardPage();
     protected AdminProductListPage adminProductList = new AdminProductListPage();
+    protected AdminProductsDetailsPage adminProductsDetailsPage = new AdminProductsDetailsPage();
     protected AdminAddProductPage addProductPage = new AdminAddProductPage();
     AdminOrderListPage adminOrderList = new AdminOrderListPage();
     protected SoftAssert softAssert = new SoftAssert();
