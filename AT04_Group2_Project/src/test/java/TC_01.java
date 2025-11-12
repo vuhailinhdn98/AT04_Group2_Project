@@ -1,5 +1,5 @@
-import org.testng.annotations.Test;
 import models.Product;
+import org.testng.annotations.Test;
 import pages.*;
 
 public class TC_01 extends BaseTest {
@@ -17,35 +17,16 @@ public class TC_01 extends BaseTest {
         adminMenu.clickProductsMenu();//rename
         adminProductList.clickAddProductButton();//rename
 
-        // Step 6: Nhập thông tin sản phẩm
-        String productName = "Test Product";
-        int productPrice = 12_900_000;
-        int productQuality = 5;
-        String productSale = "10";
-        String manufacturer = "1";
-        String imagePath = "C:\\Users\\ASUS\\Downloads\\chipktest.jpg";
-        String specification = "Sản phẩm test tự động - chipk";
-
-        addProductPage.addProduct(
-                productName,
-                productPrice,
-                productQuality,
-                productSale,
-                manufacturer,
-                imagePath,
-                specification
-        );
+        addProductPage.addProduct(addedproduct);
 
         homePage.openHomePage();
-
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
-
         softAssert.assertEquals(
-                featuredProduct.getName().trim().toLowerCase(), productName.trim().toLowerCase(),
+                featuredProduct.getName().trim().toLowerCase(), addedproduct.getName().trim().toLowerCase(),
                 "Name product does not match created product."
         );
-        softAssert.assertEquals(featuredProduct.getPrice(),productPrice, "Price product does not match created product.");
+        softAssert.assertEquals(featuredProduct.getPrice(),addedproduct.getPrice(), "Price product does not match created product.");
         softAssert.assertAll();
     }
 }

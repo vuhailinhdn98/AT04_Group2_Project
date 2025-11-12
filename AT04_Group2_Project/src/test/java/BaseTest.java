@@ -1,3 +1,4 @@
+import models.ProductDataTest;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ public class BaseTest {
     protected CheckoutModal checkoutModal = new CheckoutModal();
     protected UserPage userPage = new UserPage();
     protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
+    protected ProductDataTest addedproduct = new ProductDataTest();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected AdminNavigationMenu adminMenu = new AdminNavigationMenu();

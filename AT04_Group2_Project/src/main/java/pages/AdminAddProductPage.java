@@ -1,6 +1,7 @@
 package pages;
 
 import models.Product;
+import models.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,7 +26,7 @@ public class AdminAddProductPage extends BasePage {
         return this;
     }
 
-    public AdminAddProductPage enterPrice(int price) {
+    public AdminAddProductPage enterPrice(long price) {
         type(priceInputLocator, String.valueOf(price));
         return this;
     }
@@ -57,14 +58,14 @@ public class AdminAddProductPage extends BasePage {
     }
 
 
-    public void addProduct(String name, int price, int quality, String sale, String manufacturer, String filePath, String specification) {
-            enterProductName(name);
-            enterPrice(price);
-            enterQuality(quality);
-            enterSale(sale);
-            selectManufacturerByValue(manufacturer);
-            uploadImage(filePath);
-            enterSpecification(specification);
+    public void addProduct(ProductDataTest product) {
+        enterProductName(product.getName());
+        enterPrice(product.getPrice());
+        enterQuality(product.getQuality());
+        enterSale(product.getSale());
+        selectManufacturerByValue(product.getManufacturerValue());
+        uploadImage(product.getImagePath());
+        enterSpecification(product.getSpecification());
         click(saveButtonLocator);
     }
 }
