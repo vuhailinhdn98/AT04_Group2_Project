@@ -144,10 +144,10 @@ public class HeaderSection extends BasePage {
         int h = find(modalLocator).getSize().getHeight();
 
         int[][] offsets = new int[][] {
-                {-10, -10},
-                { w + 10, -10},
-                {-10, h + 10},
-                { w + 10, h + 10}
+                {-15, -15},
+                { w + 15, -15},
+                {-15, h + 15},
+                { w + 15, h + 15}
         };
 
         for (int[] off : offsets) {

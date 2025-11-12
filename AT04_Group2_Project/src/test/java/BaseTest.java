@@ -26,6 +26,7 @@ public class BaseTest {
     protected AdminNavigationMenu adminMenu = new AdminNavigationMenu();
     protected AdminProductListPage adminProductList = new AdminProductListPage();
     protected AdminAddProductPage addProductPage = new AdminAddProductPage();
+    AdminOrderListPage adminOrderList = new AdminOrderListPage();
     protected SoftAssert softAssert = new SoftAssert();
 
     @BeforeMethod

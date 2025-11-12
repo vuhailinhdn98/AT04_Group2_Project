@@ -28,7 +28,7 @@ public class TC_07 extends BaseTest {
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(), "", "Account name should be shown on header");
 
-        log.info("6. Reopen cart and proceed to checkout");
+        log.info("6. Reopen cart and click 'Đặt hàng ngay'");
         homePage.openCartModal();
         cartModal.clickOrderNowBtn();
 

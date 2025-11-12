@@ -99,4 +99,9 @@ public class CheckoutModal extends HeaderSection {
         info.add(checkoutModalContainerLocator.findElement(addressInputLocator).getAttribute("value").trim());
         return info;
     }
+
+    public void proceedToCheckoutForLoggedInUser(String password) {
+        enterPassword(password);
+        clickCheckoutButton();
+    }
 }
