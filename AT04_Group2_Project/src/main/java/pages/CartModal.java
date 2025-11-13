@@ -10,6 +10,7 @@ import java.util.List;
 public class CartModal extends HomePage {
     private final By productRowsLocator = By.cssSelector("#view_cart tbody tr:has(.delete_cart)");
     private final By qtyDropdownLocator = By.className("cart_option_class");
+    private final By cartTotalLocator = By.className("toal_money");
     private final By orderNowBtnLocator = By.id("order_product");
 
     private final By notLoginWarningMsgLocator = By.className("alert-dismissable");
@@ -43,5 +44,10 @@ public class CartModal extends HomePage {
 
     public void clickLoginTextLink() {
         click(loginTextLinkLocator);
+    }
+
+    public long getCartTotalAmount() {
+        String totalText = getText(cartTotalLocator).substring(1).trim();
+        return parsePrice(totalText);
     }
 }

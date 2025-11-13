@@ -171,4 +171,8 @@ public class HeaderSection extends BasePage {
     public void waitOrderConfirmationModalVisible() {
         waitToBeVisible(orderConfirmationModalContentLocator);
     }
+
+    public void closeOrderConfirmationModal() {
+        closeModal(orderConfirmationModalContentLocator);
+    }
 }

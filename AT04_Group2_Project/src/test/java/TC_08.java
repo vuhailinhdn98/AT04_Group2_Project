@@ -27,13 +27,12 @@ public class TC_08 extends BaseTest {
         orderConfirmationModal.closeOrderConfirmationModal();
         homePage.goToAdminControlPanel();
         adminDashboardPage.clickOrdersMenu();
-        adminOrderList.getMostRecentOrderRow(); //sort order by most recent
 
         String customerEmailOfOrderBeforeComplete = adminOrderList.getMostRecentOrderCustomerEmail();
         long totalAmountOfOrderBeforeComplete = adminOrderList.getMostRecentOrderTotalAmount();
 
         softAssert.assertEquals(customerEmailOfOrderBeforeComplete, "tranthang212@gmail.com", "Most recent order customer email should match");
-        softAssert.assertEquals(totalAmountOfOrderBeforeComplete, expectedTotal, "Most recent order total in admin should match the order total");
+        softAssert.assertEquals(totalAmountOfOrderBeforeComplete, expectedTotal, "Most recent order total in admin should match the order total" + expectedTotal);
 
         log.info("4. Go to Admin Panel > Orders, capture stock BEFORE complete and complete the newly created order");
 
@@ -43,8 +42,8 @@ public class TC_08 extends BaseTest {
         int stockBefore = adminProductsDetailsPage.getStock();
 
         adminProductsDetailsPage.clickOrdersMenu();
-        adminOrderList.getMostRecentOrderRow();
-        adminOrderList.completeMostRecentOrderRow();
+        adminOrderList.getMostRecentOrder();
+        adminOrderList.completeMostRecentOrder();
 
 
 
