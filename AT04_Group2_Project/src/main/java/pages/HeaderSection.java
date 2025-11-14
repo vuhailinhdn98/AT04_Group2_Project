@@ -18,7 +18,7 @@ public class HeaderSection extends BasePage {
     private final By headerSearchBoxLocator = By.cssSelector("input[data-target='#search_modal'][type='search']");
     private final By popupSearchInputLocator = By.cssSelector("input#search[name='search']");
     private final By searchRowLocator = By.cssSelector("#search_show .row.search_main");
-
+    private final By phoneLink = By.linkText("Điện thoại");
     private final By cartBtnLocator = By.cssSelector(".top-header .cart_modal");
 
     private final By rowNameLinkLocator = By.cssSelector(".search_col label a");
@@ -90,7 +90,9 @@ public class HeaderSection extends BasePage {
     public void openAccountDropdown() {
         click(accountNameLocator);
     }
-
+    public void assetMobileProductPage() {
+        click(phoneLink);
+    }
     public void openUserInfo() {
         openAccountDropdown();
         click(userInfoBtnLocator);
