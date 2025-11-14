@@ -15,7 +15,7 @@ public class TC_04 extends BaseTest {
         homePage.assetMobileProductPage();
         mobileproductPage.sortByPriceLowToHigh();
 
-        Assert.assertTrue(mobileproductPage.isPriceSortedDescending(),
+        Assert.assertTrue(mobileproductPage.isPriceSortedAscending(),
                 "Products should be sorted by price ascending");
 
     }

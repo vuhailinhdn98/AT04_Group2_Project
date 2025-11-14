@@ -51,16 +51,17 @@ public class MobileProductListPage extends BasePage {
         return names;
     }
 
-    public boolean isPriceSortedDescending() {
+    public boolean isPriceSortedAscending() {
         List<Long> prices = getAllPrices();
         List<Long> sortedPrices = prices.stream()
-                .sorted(Comparator.reverseOrder())
+                .sorted()
                 .collect(Collectors.toList());
 
         boolean isSorted = prices.equals(sortedPrices);
 
-        log.info("Prices sorted descending: {}", isSorted);
+        log.info("Prices sorted ascending: {}", isSorted);
         return isSorted;
+    }
     }
 }
 
