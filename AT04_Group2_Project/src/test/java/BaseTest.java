@@ -30,7 +30,9 @@ public class BaseTest {
     protected AdminProductsDetailsPage adminProductsDetailsPage = new AdminProductsDetailsPage();
     protected AdminAddProductPage addProductPage = new AdminAddProductPage();
     AdminOrderListPage adminOrderList = new AdminOrderListPage();
+    protected MobileProductListPage mobileproductPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
+
 
     @BeforeMethod
     public void setUp(Method method) {
