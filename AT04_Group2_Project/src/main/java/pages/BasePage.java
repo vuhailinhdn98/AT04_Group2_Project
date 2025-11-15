@@ -92,4 +92,9 @@ public class BasePage {
                 .click()
                 .perform();
     }
+
+    protected int parseInt(String text) {
+        String digits = text.replaceAll("\\D+", "");
+        return digits.isEmpty() ? 0 : Integer.parseInt(digits);
+    }
 }

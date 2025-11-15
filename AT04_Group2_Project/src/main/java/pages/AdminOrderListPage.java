@@ -16,7 +16,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         }
     }
 
-    private WebElement getMostRecentOrderRow() {
+    protected WebElement getMostRecentOrderRow() {
         sortOrdersByMostRecent();
         return getElements(orderRowsLocator).get(0);
     }

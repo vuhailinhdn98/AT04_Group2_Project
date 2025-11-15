@@ -1,11 +1,5 @@
-import models.Product;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HeaderSection;
-import pages.HomePage;
-import pages.MobileProductListPage;
-
-import java.util.List;
 
 public class TC_04 extends BaseTest {
 
@@ -13,9 +7,9 @@ public class TC_04 extends BaseTest {
     public void tc_01_sortByPriceLowToHigh() {
 
         homePage.assetMobileProductPage();
-        mobileproductPage.sortByPriceLowToHigh();
+        mobileProductListPage.sortByPriceLowToHigh();
 
-        Assert.assertTrue(mobileproductPage.isPriceSortedAscending(),
+        Assert.assertTrue(mobileProductListPage.isPriceSortedAscending(),
                 "Products should be sorted by price ascending");
 
     }
