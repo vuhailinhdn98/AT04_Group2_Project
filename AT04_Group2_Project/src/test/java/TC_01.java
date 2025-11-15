@@ -13,7 +13,7 @@ public class TC_01 extends BaseTest {
 
         homePage.goToAdminControlPanel();
 
-        adminDashboardPage.assetAdminProductListPage();
+        adminDashboardPage.accessAdminProductListPage();
         adminProductList.assetAdminAddProductPage();
 
         addProductPage.addProduct(addedproduct);

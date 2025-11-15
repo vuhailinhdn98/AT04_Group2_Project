@@ -35,7 +35,7 @@ public class TC_07 extends BaseTest {
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(), "Checkout modal should be visible after clicking order now");
 
         long expectedTotal = checkoutModal.getOrderTotalAmount();
-        
+
         log.info("7. Fill contact/address if not available, enter password and place order");
         checkoutModal.enterPassword("123123");
         checkoutModal.clickCheckoutButton();
@@ -45,11 +45,10 @@ public class TC_07 extends BaseTest {
         log.info("8. Go to Admin Panel > Orders, verify the newly created order appears");
         orderConfirmationModal.closeOrderConfirmationModal();
         homePage.goToAdminControlPanel();
-        adminDashboardPage.clickOrdersMenu();
-        adminOrderList.getMostRecentOrderRow();
+        adminDashboardPage.accessAdminOrderListPage();
+
         softAssert.assertEquals(adminOrderList.getMostRecentOrderCustomerEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
         softAssert.assertEquals(adminOrderList.getMostRecentOrderTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
-
 
         softAssert.assertAll();
     }

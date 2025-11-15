@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 public class AdminOrderListPage extends AdminNavigationMenu {
     private final By orderRowsLocator = By.xpath("//*[@id='view_order']//tbody//tr");
     private final By viewOrderDetailsBtnLocator = By.xpath(".//td/a");
-    private final By sortByCreatedDateBtnLocator = By.id("//*[@id='view_order']//thead//tr/th[5]");
+    private final By sortByCreatedDateBtnLocator = By.xpath("//*[@id='view_order']//thead//tr/th[5]");
     private final By customerEmailLocator = By.xpath(".//td[2]");
     private final By totalAmountLocator = By.xpath(".//td[3]");
 

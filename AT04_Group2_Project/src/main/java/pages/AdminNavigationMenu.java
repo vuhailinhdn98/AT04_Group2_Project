@@ -9,11 +9,11 @@ public class AdminNavigationMenu extends BasePage {
     private final By ordersMenuLinkLocator = By.linkText("Orders");
 
     // Actions
-    public void assetAdminProductListPage() {
+    public void accessAdminProductListPage() {
         click(productsMenuLinkLocator);
     }
 
-    public void assetAdminOrderListPage() {
+    public void accessAdminOrderListPage() {
         click(ordersMenuLinkLocator);
     }
 }

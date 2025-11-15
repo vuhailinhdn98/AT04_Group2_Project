@@ -1,11 +1,9 @@
 package pages;
 
-import models.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +59,6 @@ public class MobileProductListPage extends BasePage {
 
         log.info("Prices sorted ascending: {}", isSorted);
         return isSorted;
-    }
     }
 }
 

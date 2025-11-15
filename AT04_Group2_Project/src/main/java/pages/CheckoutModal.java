@@ -80,13 +80,13 @@ public class CheckoutModal extends HeaderSection {
     }
 
     // Get total price
-    public String getTotalPrice() {
+    public long getOrderTotalAmount() {
         // Find the last text-danger span which usually contains total
         List<WebElement> priceElements = getElements(totalPriceElementLocator);
         if (!priceElements.isEmpty()) {
-            return priceElements.get(priceElements.size() - 1).getText().trim();
+            return parsePrice(priceElements.get(priceElements.size() - 1).getText());
         }
-        return "";
+        return 0;
     }
 
     public ArrayList<String> getUserInfo() {
