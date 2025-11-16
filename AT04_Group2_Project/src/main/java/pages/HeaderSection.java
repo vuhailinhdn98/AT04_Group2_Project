@@ -90,7 +90,7 @@ public class HeaderSection extends BasePage {
     public void openAccountDropdown() {
         click(accountNameLocator);
     }
-    public void assetMobileProductPage() {
+    public void accessMobileProductPage() {
         click(phoneLink);
     }
     public void openUserInfo() {

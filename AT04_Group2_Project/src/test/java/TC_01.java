@@ -16,16 +16,16 @@ public class TC_01 extends BaseTest {
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.assetAdminAddProductPage();
 
-        addProductPage.addProduct(addedproduct);
+        addProductPage.addProduct(addedProduct);
 
         homePage.openHomePage();
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
         softAssert.assertEquals(
-                featuredProduct.getName().trim().toLowerCase(), addedproduct.getName().trim().toLowerCase(),
+                featuredProduct.getName().trim().toLowerCase(), addedProduct.getName().trim().toLowerCase(),
                 "Name product does not match created product."
         );
-        softAssert.assertEquals(featuredProduct.getPrice(),addedproduct.getPrice(), "Price product does not match created product.");
+        softAssert.assertEquals(featuredProduct.getPrice(),addedProduct.getPrice(), "Price product does not match created product.");
         softAssert.assertAll();
     }
 }

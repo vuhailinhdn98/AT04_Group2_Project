@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import utils.Driver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,32 @@ public class CartModal extends HomePage {
         }
         return products;
     }
+    public void waitForProductsInCart() {
+        Driver.getWebDriverWait().until(driver -> {
+            int count = getProductRowCount();
+            log.debug("Waiting for products in cart... Current count: {}", count);
+            return count > 0;
+        });
+        log.info("Cart has {} product(s)", getProductRowCount());
+    }
 
     public int getItemQty(int index) {
         WebElement qty = getProductRows().get(index).findElement(qtyDropdownLocator);
         return Integer.parseInt(new Select(qty).getFirstSelectedOption().getText().trim());
+    }
+    public void selectQuantityByRowIndex(int rowIndex, int quantity) {
+        List<WebElement> rows = getProductRows();
+        WebElement productRow = rows.get(rowIndex);
+        WebElement qtyDropdown = productRow.findElement(qtyDropdownLocator);
+        Select select = new Select(qtyDropdown);
+        select.selectByValue(String.valueOf(quantity));
+
+        log.info("Selected quantity {} for product at row {}", quantity, rowIndex);
+    }
+    public void selectQuantityForFirstProduct(int quantity) {
+        log.info("Selecting quantity {} for first product", quantity);
+        waitForProductsInCart();
+        selectQuantityByRowIndex(0, quantity);
     }
 
     public void clickOrderNowBtn() {

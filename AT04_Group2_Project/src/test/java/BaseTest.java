@@ -22,7 +22,7 @@ public class BaseTest {
     protected CheckoutModal checkoutModal = new CheckoutModal();
     protected UserPage userPage = new UserPage();
     protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
-    protected ProductDataTest addedproduct = new ProductDataTest();
+    protected ProductDataTest addedProduct = new ProductDataTest();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected AdminDashboardPage adminDashboardPage = new AdminDashboardPage();
@@ -32,7 +32,6 @@ public class BaseTest {
     protected AdminOrderListPage adminOrderList = new AdminOrderListPage();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
-
 
     @BeforeMethod
     public void setUp(Method method) {

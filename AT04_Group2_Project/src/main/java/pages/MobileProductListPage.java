@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MobileProductListPage extends BasePage {
-    private final By viewByDropdownLocator = By.cssSelector("button.dropdown-toggle");
+    private final By viewByDropdownLocator = By.xpath("//button[@data-toggle='dropdown'][contains(.,'Xem theo')]");
     private final By priceLowToHighLocator = By.linkText("Giá từ thấp đến cao");
     private final By productItemsLocator = By.cssSelector(".thumbnail");
     private final By productNameLocator = By.cssSelector(".products-content-label p:first-of-type a");
@@ -32,8 +32,6 @@ public class MobileProductListPage extends BasePage {
             long price = parsePrice(priceText);
             prices.add(price);
         }
-
-        log.info("Extracted {} prices", prices.size());
         return prices;
     }
 
@@ -44,8 +42,6 @@ public class MobileProductListPage extends BasePage {
         for (WebElement nameElement : nameElements) {
             names.add(nameElement.getText().trim());
         }
-
-        log.info("Extracted {} product names", names.size());
         return names;
     }
 
@@ -56,8 +52,6 @@ public class MobileProductListPage extends BasePage {
                 .collect(Collectors.toList());
 
         boolean isSorted = prices.equals(sortedPrices);
-
-        log.info("Prices sorted ascending: {}", isSorted);
         return isSorted;
     }
 }
