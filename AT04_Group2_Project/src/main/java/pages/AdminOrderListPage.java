@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.Driver;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +18,11 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private final By customerEmailLocator = By.xpath(".//td[2]");
     private final By totalAmountLocator = By.xpath(".//td[3]");
     private final By orderStatusLocator = By.xpath(".//td[4]");
-    private final By createdDateLocator = By.xpath(".//td[5]");
+    private final By createdDateTimeLocator = By.xpath(".//td[5]");
     private final By completeOrderBtnLocator = By.className("active_order");
 
     public void sortOrdersByPendingStatus(String ascOrDesc) {
-        while (!find(sortByOrderStatusLocator).getAttribute("class").contains("ascOrDesc")) {
+        while (!find(sortByOrderStatusLocator).getAttribute("class").contains(ascOrDesc)) {
             find(sortByOrderStatusLocator).click();
         }
     }
@@ -45,8 +45,8 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         String customerEmail = row.findElement(customerEmailLocator).getText().trim();
         long totalAmount = parsePrice(row.findElement(totalAmountLocator).getText().trim());
         String orderStatus = row.findElement(orderStatusLocator).getText().trim();
-        LocalDate createdDate = LocalDate.parse(row.findElement(createdDateLocator).getText().trim());
-        return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDate);
+        LocalDateTime createdDateTime = parseOrderDateTime(row.findElement(createdDateTimeLocator).getText().trim());
+        return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDateTime);
     }
 
     public void openMostRecentOrderDetails() {
@@ -54,9 +54,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     }
 
     public void completeMostRecentOrder() {
-        sortOrdersByMostRecent();
-        sortOrdersByPendingStatus("asc");
-        getElements(completeOrderBtnLocator).get(0).click();
+        getMostRecentOrderRow().findElement(completeOrderBtnLocator).click();
         Driver.getDriver().switchTo().alert().accept();
         Driver.getDriver().switchTo().alert().accept();
     }
@@ -71,8 +69,8 @@ public class AdminOrderListPage extends AdminNavigationMenu {
                     String customerEmail = el.findElement(customerEmailLocator).getText().trim();
                     long totalAmount = parsePrice(el.findElement(totalAmountLocator).getText().trim());
                     String orderStatus = el.findElement(orderStatusLocator).getText().trim();
-                    LocalDate createdDate = LocalDate.parse(el.findElement(createdDateLocator).getText().trim());
-                    return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDate);
+                    LocalDateTime createdDateTime = parseOrderDateTime(el.findElement(createdDateTimeLocator).getText().trim());
+                    return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDateTime);
                 }).collect(Collectors.toList());
     }
 

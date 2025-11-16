@@ -22,7 +22,6 @@ public class TC_08 extends BaseTest {
 
         String firstAddedProduct = addedProducts.get(0).getName();
         long expectedTotal = cartModal.getCartTotalAmount();
-//        List<String> addedProductName = cartModal.getAllProductsNameInCart();
 
         log.info("3. Create an order");
         cartModal.clickOrderNowBtn();
