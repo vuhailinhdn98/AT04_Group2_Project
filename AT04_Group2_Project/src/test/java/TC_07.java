@@ -47,8 +47,8 @@ public class TC_07 extends BaseTest {
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminOrderListPage();
 
-        softAssert.assertEquals(adminOrderList.getMostRecentOrderCustomerEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
-        softAssert.assertEquals(adminOrderList.getMostRecentOrderTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
+        softAssert.assertEquals(adminOrderListPage.getMostRecentOrderCustomerEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
+        softAssert.assertEquals(adminOrderListPage.getMostRecentOrderTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
 
         softAssert.assertAll();
     }

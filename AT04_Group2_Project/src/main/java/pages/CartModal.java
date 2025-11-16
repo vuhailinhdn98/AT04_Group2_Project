@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CartModal extends HomePage {
     private final By productRowsLocator = By.cssSelector("#view_cart tbody tr:has(.delete_cart)");
+    private final By productNameLocator = By.xpath(".//td[2]");
     private final By qtyDropdownLocator = By.className("cart_option_class");
     private final By cartTotalLocator = By.className("toal_money");
     private final By orderNowBtnLocator = By.id("order_product");
@@ -36,6 +37,15 @@ public class CartModal extends HomePage {
             return count > 0;
         });
         log.info("Cart has {} product(s)", getProductRowCount());
+    }
+
+    public List<String> getAllProductsNameInCart() {
+        List<String> productNames = new ArrayList<>();
+        for (WebElement row : getProductRows()) {
+            String name = row.findElement(productNameLocator).getText().trim();
+            productNames.add(name);
+        }
+        return productNames;
     }
 
     public int getItemQty(int index) {

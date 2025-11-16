@@ -3,8 +3,8 @@ package models;
 import java.util.Objects;
 
 public class Product {
-    String name;
-    long price;
+    private String name;
+    private long price;
 
     public Product(String productName, long productPrice) {
         this.name = productName;

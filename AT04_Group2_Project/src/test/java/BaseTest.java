@@ -29,7 +29,7 @@ public class BaseTest {
     protected AdminProductListPage adminProductListPage = new AdminProductListPage();
     protected AdminProductsDetailsPage adminProductsDetailsPage = new AdminProductsDetailsPage();
     protected AdminAddProductPage addProductPage = new AdminAddProductPage();
-    protected AdminOrderListPage adminOrderList = new AdminOrderListPage();
+    protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
 
