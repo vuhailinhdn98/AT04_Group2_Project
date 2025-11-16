@@ -1,8 +1,13 @@
 package pages;
 
+import models.Order;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.Driver;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminOrderListPage extends AdminNavigationMenu {
     private final By orderRowsLocator = By.xpath("//*[@id='view_order']//tbody//tr");
@@ -13,10 +18,11 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private final By customerEmailLocator = By.xpath(".//td[2]");
     private final By totalAmountLocator = By.xpath(".//td[3]");
     private final By orderStatusLocator = By.xpath(".//td[4]");
+    private final By createdDateLocator = By.xpath(".//td[5]");
     private final By completeOrderBtnLocator = By.className("active_order");
 
-    public void sortOrdersByPendingStatus() {
-        while (!find(sortByOrderStatusLocator).getAttribute("class").contains("asc")) {
+    public void sortOrdersByPendingStatus(String ascOrDesc) {
+        while (!find(sortByOrderStatusLocator).getAttribute("class").contains("ascOrDesc")) {
             find(sortByOrderStatusLocator).click();
         }
     }
@@ -29,22 +35,18 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     private WebElement getMostRecentOrderRow() {
         sortOrdersByMostRecent();
-        sortOrdersByPendingStatus();
+        sortOrdersByPendingStatus("asc");
         return getElements(orderRowsLocator).get(0);
     }
 
-    public long getMostRecentOrderId() {
-        String orderIdText = getMostRecentOrderRow().findElement(By.xpath(".//td[1]")).getText().trim();
-        return Long.parseLong(orderIdText);
-    }
-
-    public String getMostRecentOrderCustomerEmail() {
-        return getMostRecentOrderRow().findElement(customerEmailLocator).getText().trim();
-    }
-
-    public long getMostRecentOrderTotalAmount() {
-        String totalText = getMostRecentOrderRow().findElement(totalAmountLocator).getText().trim();
-        return parsePrice(totalText);
+    public Order getMostRecentOrderInfo() {
+        WebElement row = getMostRecentOrderRow();
+        String orderId = row.findElement(orderIdLocator).getText().trim();
+        String customerEmail = row.findElement(customerEmailLocator).getText().trim();
+        long totalAmount = parsePrice(row.findElement(totalAmountLocator).getText().trim());
+        String orderStatus = row.findElement(orderStatusLocator).getText().trim();
+        LocalDate createdDate = LocalDate.parse(row.findElement(createdDateLocator).getText().trim());
+        return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDate);
     }
 
     public void openMostRecentOrderDetails() {
@@ -53,9 +55,33 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     public void completeMostRecentOrder() {
         sortOrdersByMostRecent();
-        sortOrdersByPendingStatus();
+        sortOrdersByPendingStatus("asc");
         getElements(completeOrderBtnLocator).get(0).click();
         Driver.getDriver().switchTo().alert().accept();
         Driver.getDriver().switchTo().alert().accept();
+    }
+
+    public List<Order> getLatestPaidOrderList() {
+        sortOrdersByMostRecent();
+        sortOrdersByPendingStatus("desc");
+        return getElements(orderRowsLocator)
+                .stream()
+                .map(el -> {
+                    String orderId = el.findElement(orderIdLocator).getText().trim();
+                    String customerEmail = el.findElement(customerEmailLocator).getText().trim();
+                    long totalAmount = parsePrice(el.findElement(totalAmountLocator).getText().trim());
+                    String orderStatus = el.findElement(orderStatusLocator).getText().trim();
+                    LocalDate createdDate = LocalDate.parse(el.findElement(createdDateLocator).getText().trim());
+                    return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDate);
+                }).collect(Collectors.toList());
+    }
+
+    public Order findOrderById(List<Order> orderList, String orderId) {
+        for (Order order : orderList) {
+            if (order.getOrderId().equals(orderId)) {
+                return order;
+            }
+        }
+        return null;
     }
 }

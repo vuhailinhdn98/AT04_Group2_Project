@@ -6,10 +6,10 @@ import java.util.Objects;
 public class Order {
     private String orderId, email;
     private long totalAmount;
-    private boolean isPaid;
+    private String isPaid;
     private LocalDate orderDate;
 
-    public Order(String orderId, String email, long totalAmount, boolean isPaid, LocalDate orderDate) {
+    public Order(String orderId, String email, long totalAmount, String isPaid, LocalDate orderDate) {
         this.orderId = orderId;
         this.email = email;
         this.totalAmount = totalAmount;
@@ -29,7 +29,7 @@ public class Order {
         return totalAmount;
     }
 
-    public boolean isPaid() {
+    public String isPaid() {
         return isPaid;
     }
 

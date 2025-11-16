@@ -1,4 +1,5 @@
 // java
+import models.Order;
 import org.testng.annotations.Test;
 
 public class TC_07 extends BaseTest {
@@ -47,8 +48,10 @@ public class TC_07 extends BaseTest {
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminOrderListPage();
 
-        softAssert.assertEquals(adminOrderListPage.getMostRecentOrderCustomerEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
-        softAssert.assertEquals(adminOrderListPage.getMostRecentOrderTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
+        Order newlyCreatedOrder = adminOrderListPage.getMostRecentOrderInfo();
+
+        softAssert.assertEquals(newlyCreatedOrder.getEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
+        softAssert.assertEquals(newlyCreatedOrder.getTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
 
         softAssert.assertAll();
     }

@@ -52,6 +52,7 @@ public class CartModal extends HomePage {
         WebElement qty = getProductRows().get(index).findElement(qtyDropdownLocator);
         return Integer.parseInt(new Select(qty).getFirstSelectedOption().getText().trim());
     }
+
     public void selectQuantityByRowIndex(int rowIndex, int quantity) {
         List<WebElement> rows = getProductRows();
         WebElement productRow = rows.get(rowIndex);
@@ -61,6 +62,7 @@ public class CartModal extends HomePage {
 
         log.info("Selected quantity {} for product at row {}", quantity, rowIndex);
     }
+
     public void selectQuantityForFirstProduct(int quantity) {
         log.info("Selecting quantity {} for first product", quantity);
         waitForProductsInCart();
