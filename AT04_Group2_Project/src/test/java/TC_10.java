@@ -11,9 +11,7 @@ public class TC_10 extends BaseTest {
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
-        addProductPage.addProduct(addedProduct);
-
-
+        addProductPage.addProduct(productDataTest);
         homePage.openHomePage();
         homePage.openFirstFeaturedProductDetails();
         productDetailsPage.clickAddToCart();

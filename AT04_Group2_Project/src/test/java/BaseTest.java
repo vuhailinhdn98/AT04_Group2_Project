@@ -23,7 +23,7 @@ public class BaseTest {
     protected CheckoutModal checkoutModal = new CheckoutModal();
     protected UserPage userPage = new UserPage();
     protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
-    protected ProductDataTest addedProduct = new ProductDataTest();
+    protected ProductDataTest productDataTest = new ProductDataTest();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected AdminDashboardPage adminDashboardPage = new AdminDashboardPage();
@@ -34,9 +34,10 @@ public class BaseTest {
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
     Product featuredProduct = homePage.getFirstFeaturedProduct();
+    Product productDetails = productDetailsPage.getProductDetails();
     String Keyword = featuredProduct.getName();
-    String productName = addedProduct.getName();
-    int originalQuality = addedProduct.getQuality();
+    String productName = productDataTest.getName();
+    int originalQuality = productDataTest.getQuality();
     @BeforeMethod
     public void setUp(Method method) {
         MDC.put("test", method.getName());              // pattern [%X{test}]
