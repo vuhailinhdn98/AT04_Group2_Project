@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class AdminOrderListPage extends AdminNavigationMenu {
     private final By orderRowsLocator = By.xpath("//*[@id='view_order']//tbody//tr");
     private final By viewOrderDetailsBtnLocator = By.xpath(".//td/a");
+    private final By orderTableHeaderLocator = By.xpath("//*[@id='view_order']//thead//tr");
     private final By sortByOrderStatusLocator = By.xpath("//*[@id='view_order']//thead//tr/th[4]");
     private final By sortByCreatedDateBtnLocator = By.xpath("//*[@id='view_order']//thead//tr/th[5]");
     private final By orderIdLocator = By.xpath(".//td[1]");
@@ -23,12 +24,14 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     public void sortOrdersByPendingStatus(String ascOrDesc) {
         while (!find(sortByOrderStatusLocator).getAttribute("class").contains(ascOrDesc)) {
+            find(orderTableHeaderLocator);
             find(sortByOrderStatusLocator).click();
         }
     }
 
     public void sortOrdersByMostRecent() {
         while (!find(sortByCreatedDateBtnLocator).getAttribute("class").contains("desc")) {
+            find(orderTableHeaderLocator);
             find(sortByCreatedDateBtnLocator).click();
         }
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="E-Commerce" parallel="methods" thread-count="10">
+    <test name="Linh Tests">
+        <classes>
+            <class name="TC_05"></class>
+            <class name="TC_06"></class>
+            <class name="TC_07"></class>
+            <class name="TC_08"></class>
+        </classes>
+    </test>
+</suite>
