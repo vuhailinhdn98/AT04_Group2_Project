@@ -12,8 +12,7 @@ public class TC_10 extends BaseTest {
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
         addProductPage.addProduct(addedProduct);
-        String productName = addedProduct.getName();
-        int originalQuality = addedProduct.getQuality();
+
 
         homePage.openHomePage();
         homePage.openFirstFeaturedProductDetails();

@@ -7,10 +7,9 @@ public class TC_03 extends BaseTest {
             description = "Verify that product information on Home Page matches with Product Details Page"
     )
     public void tc_03() {
-        Product productHome = homePage.getFirstFeaturedProduct();
         homePage.openFirstFeaturedProductDetails();
         Product productDetails = productDetailsPage.getProductDetails();
-        softAssert.assertEquals(productHome, productDetails, "Product info mismatch between Home and Details page");
+        softAssert.assertEquals(featuredProduct, productDetails, "Product info mismatch between Home and Details page");
         softAssert.assertAll();
     }
 }

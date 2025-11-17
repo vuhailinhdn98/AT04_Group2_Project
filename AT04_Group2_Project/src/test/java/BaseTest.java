@@ -1,3 +1,4 @@
+import models.Product;
 import models.ProductDataTest;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -32,7 +33,10 @@ public class BaseTest {
     protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
-
+    Product featuredProduct = homePage.getFirstFeaturedProduct();
+    String Keyword = featuredProduct.getName();
+    String productName = addedProduct.getName();
+    int originalQuality = addedProduct.getQuality();
     @BeforeMethod
     public void setUp(Method method) {
         MDC.put("test", method.getName());              // pattern [%X{test}]
