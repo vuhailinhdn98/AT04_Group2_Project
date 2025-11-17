@@ -16,16 +16,6 @@ public class ProductDataTest{
     private String imagePath;
     private String specification;
 
-    public ProductDataTest(String name, long price, int quality, String sale, String manufacturerValue, String imagePath, String specification) {
-        this.name = name;
-        this.price = price;
-        this.quality = quality;
-        this.sale = sale;
-        this.manufacturerValue = manufacturerValue;
-        this.imagePath = imagePath;
-        this.specification = specification;
-    }
-
     public ProductDataTest() {
         Faker faker = new Faker();
         this.name = faker.commerce().productName();
@@ -35,6 +25,7 @@ public class ProductDataTest{
         this.quality = faker.number().numberBetween(1, 10);
 
         int saleInt = faker.number().numberBetween(0, 100);
+
         this.sale = String.valueOf(saleInt);
 
         List<String> validManufacturers = Arrays.asList("1", "2", "4", "6", "7", "8", "11", "12");
@@ -55,16 +46,4 @@ public class ProductDataTest{
     public String getImagePath() { return imagePath; }
     public String getSpecification() { return specification; }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", quality=" + quality +
-                ", sale='" + sale + '\'' +
-                ", manufacturerValue='" + manufacturerValue + '\'' +
-                ", imagePath='" + imagePath + '\'' +
-                ", specification='" + specification + '\'' +
-                '}';
-    }
 }

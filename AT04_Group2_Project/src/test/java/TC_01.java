@@ -10,17 +10,11 @@ public class TC_01 extends BaseTest {
 
         homePage.openLoginModal();
         loginModal.login("tranthang212@gmail.com","123123",false);
-
         homePage.goToAdminControlPanel();
-
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
-
         addProductPage.addProduct(productDataTest);
-
         homePage.openHomePage();
-        Product featuredProduct = homePage.getFirstFeaturedProduct();
-
         softAssert.assertEquals(
                 featuredProduct.getName().trim().toLowerCase(), productDataTest.getName().trim().toLowerCase(),
                 "Name product does not match created product."
