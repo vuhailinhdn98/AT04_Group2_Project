@@ -15,6 +15,7 @@ public class TC_02 extends BaseTest {
 
         Assert.assertTrue(homePage.hasProductWithKeyword(Keyword),
                 "No products contain keyword: " + Keyword);
+        softAssert.assertAll();
     }
 }
 

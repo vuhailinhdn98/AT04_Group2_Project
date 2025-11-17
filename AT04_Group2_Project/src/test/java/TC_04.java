@@ -11,6 +11,6 @@ public class TC_04 extends BaseTest {
 
         Assert.assertTrue(mobileProductListPage.isPriceSortedAscending(),
                 "Products should be sorted by price ascending");
-
+        softAssert.assertAll();
     }
 }

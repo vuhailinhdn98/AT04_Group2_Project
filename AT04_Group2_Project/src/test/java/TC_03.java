@@ -13,6 +13,5 @@ public class TC_03 extends BaseTest {
         softAssert.assertEquals(productHome, productDetails, "Product info mismatch between Home and Details page");
         softAssert.assertAll();
     }
-
 }
 
