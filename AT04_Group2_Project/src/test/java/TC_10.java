@@ -1,5 +1,3 @@
-import models.Product;
-import models.ProductDataTest;
 import org.testng.annotations.Test;
 
 public class TC_10 extends BaseTest {
@@ -12,7 +10,7 @@ public class TC_10 extends BaseTest {
 
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();
-        adminProductListPage.assetAdminAddProductPage();
+        adminProductListPage.accessAdminAddProductPage();
         addProductPage.addProduct(addedProduct);
         String productName = addedProduct.getName();
         int originalQuality = addedProduct.getQuality();

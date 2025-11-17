@@ -25,7 +25,7 @@ public class AdminProductListPage extends AdminNavigationMenu {
     }
 
     // Actions - Navigation
-    public void assetAdminAddProductPage() {
+    public void accessAdminAddProductPage() {
         click(addProductButtonLocator);
     }
 
