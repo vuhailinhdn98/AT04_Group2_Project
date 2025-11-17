@@ -33,10 +33,6 @@ public class BaseTest {
     protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
     protected SoftAssert softAssert = new SoftAssert();
-    Product featuredProduct = homePage.getFirstFeaturedProduct();
-    Product productDetails = productDetailsPage.getProductDetails();
-    String Keyword = featuredProduct.getName();
-    String productName = productDataTest.getName();
     int originalQuality = productDataTest.getQuality();
     @BeforeMethod
     public void setUp(Method method) {

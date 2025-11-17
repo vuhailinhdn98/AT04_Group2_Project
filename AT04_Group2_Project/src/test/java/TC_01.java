@@ -7,6 +7,7 @@ public class TC_01 extends BaseTest {
             description = "Verify admin can add a new product and it appears in the featured products on homepage"
     )
     public void tc_01() {
+        Product featuredProduct = homePage.getFirstFeaturedProduct();
 
         homePage.openLoginModal();
         loginModal.login("tranthang212@gmail.com","123123",false);
