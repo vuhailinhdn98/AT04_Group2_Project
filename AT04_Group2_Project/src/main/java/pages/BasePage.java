@@ -105,4 +105,8 @@ public class BasePage {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd '|' hh:mm a", Locale.ENGLISH);
         return LocalDateTime.parse(dateTime.trim(), format);
     }
+
+    protected void waitAlertToBePresent() {
+        Driver.getWebDriverWait().until(ExpectedConditions.alertIsPresent());
+    }
 }

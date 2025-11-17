@@ -16,6 +16,7 @@ public class TC_09 extends BaseTest {
 
         addProductPage.addProductWithQtyZero(productDataTest);
 
+        log.info("1. Go to Home page");
         homePage.openHomePage();
         Product outOfStockProduct = homePage.getFirstFeaturedProduct();
 
@@ -24,7 +25,7 @@ public class TC_09 extends BaseTest {
                 "Name product does not match created product."
         );
         softAssert.assertEquals(outOfStockProduct.getPrice(),productDataTest.getPrice(), "Price product does not match created product.");
-
+        log.info("2. Go to the details page of the out-of-stock product");
         softAssert.assertAll();
 
 

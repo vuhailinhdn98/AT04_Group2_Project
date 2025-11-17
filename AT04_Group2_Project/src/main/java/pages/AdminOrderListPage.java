@@ -56,6 +56,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     public void completeMostRecentOrder() {
         getMostRecentOrderRow().findElement(completeOrderBtnLocator).click();
         Driver.getDriver().switchTo().alert().accept();
+        waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
     }
 
