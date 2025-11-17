@@ -58,6 +58,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
+        waitToBeVisible(orderRowsLocator);
     }
 
     public List<Order> getLatestPaidOrderList() {
