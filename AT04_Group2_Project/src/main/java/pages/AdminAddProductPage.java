@@ -66,5 +66,16 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         enterSpecification(product.getSpecification());
         click(saveButtonLocator);
     }
+
+    public void addProductWithQtyZero(ProductDataTest productDataTest) {
+        enterProductName(productDataTest.getName());
+        enterPrice(productDataTest.getPrice());
+        enterQuality(0);
+        enterSale(productDataTest.getSale());
+        selectManufacturerByValue(productDataTest.getManufacturerValue());
+        uploadImage(productDataTest.getImagePath());
+        enterSpecification(productDataTest.getSpecification());
+        click(saveButtonLocator);
+    }
 }
 
