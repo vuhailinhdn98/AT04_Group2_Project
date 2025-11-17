@@ -1,3 +1,4 @@
+import models.Product;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -7,8 +8,8 @@ public class TC_02 extends BaseTest {
             description = "Verify the newly added product is searchable by partial name"
     )
     public void tc_02() {
-        String Keyword = "Test Product";//lấy 1 sản phẩm từ trang chủ để search
-
+        Product featuredProduct = homePage.getFirstFeaturedProduct();
+        String Keyword = featuredProduct.getName();
         homePage.openSearchModal();
         homePage.searchProduct(Keyword);
 

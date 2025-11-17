@@ -64,17 +64,8 @@ public class TC_10 extends BaseTest {
 //        softAssert.assertTrue(isAddToCartEnabled,
 //                "Product should display 'Còn hàng' and Add to Cart button should be enabled after order cancellation");
 //
-//        // ==================== FINAL ASSERTION ====================
 //        softAssert.assertAll();
 //
-//        log.info("╔════════════════════════════════════════════════════════╗");
-//        log.info("║  ✓✓✓ TEST PASSED: Order Cancellation Restores Stock  ║");
-//        log.info("║  Product: '{}'", String.format("%-37s", productName) + "║");
-//        log.info("║  Original Stock: {} → After Order: 0 → Restored: {}  ║",
-//                String.format("%3d", originalQuality),
-//                String.format("%3d", restoredQuality));
-//        log.info("╚════════════════════════════════════════════════════════╝");
-//    }
 //}
     }
 }
