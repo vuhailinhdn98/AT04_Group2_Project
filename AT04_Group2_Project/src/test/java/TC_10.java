@@ -6,7 +6,7 @@ public class TC_10 extends BaseTest {
     public void tc_10() {
 
         homePage.openLoginModal();
-        loginModal.login("tranthang212@gmail.com", "123123", false);
+        loginModal.login("tranthang212@gmail.com", "123123");
 
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();

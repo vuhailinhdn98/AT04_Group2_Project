@@ -1,8 +1,7 @@
 package pages;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import utils.Driver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 public class LoginModal extends HomePage {
 
@@ -30,7 +29,7 @@ public class LoginModal extends HomePage {
         click(loginButtonLocator);
     }
 
-    public void login(String emailOrPhone, String password , boolean rememberAccount) {
+    public void login(String emailOrPhone, String password) {
         waitToBeVisible(loginModalContainerLocator);
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);

@@ -2,10 +2,9 @@ package models;
 
 import com.github.javafaker.Faker;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.nio.file.Paths;
 
 public class ProductDataTest{
     private String name;
@@ -28,7 +27,7 @@ public class ProductDataTest{
 
         this.sale = String.valueOf(saleInt);
 
-        List<String> validManufacturers = Arrays.asList("1", "2", "4", "6", "7", "8", "11", "12");
+        List<String> validManufacturers = Arrays.asList("1", "2", "4", "6", "7", "8", "11", "12");// truyền tên
         this.manufacturerValue = validManufacturers.get(
                 faker.number().numberBetween(0, validManufacturers.size())
         );

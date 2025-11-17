@@ -12,7 +12,7 @@ public class TC_08 extends BaseTest {
         log.info("2. Log in and add any in-stock product to cart");
         homePage.openLoginModal();
 
-        loginModal.login("tranthang212@gmail.com", "123123", false);
+        loginModal.login("tranthang212@gmail.com", "123123");
 
         List<Product> addedProducts = homePage.addInStockProductsToCart(1);
 
@@ -31,7 +31,7 @@ public class TC_08 extends BaseTest {
         softAssert.assertEquals(orderConfirmationModal.getOrderSuccessMessage(),"Đặt hàng thành công", "Order success message should appear");
 
         orderConfirmationModal.closeOrderConfirmationModal();
-
+        // open customer acc
         homePage.goToAdminControlPanel();
 
         adminDashboardPage.accessAdminOrderListPage();
@@ -55,7 +55,7 @@ public class TC_08 extends BaseTest {
         List<Order> latestPaidOrderList = adminOrderListPage.getLatestPaidOrderList();
         Order afterCompletedOrder = adminOrderListPage.findOrderById(latestPaidOrderList, beforeCompletedOrder.getOrderId());
 
-        softAssert.assertEquals(afterCompletedOrder.isPaid(),"Đã thanh toán", "Most recent order should be marked as completed");
+        softAssert.assertEquals(afterCompletedOrder.getOrderStatus(),"Đã thanh toán", "Most recent order should be marked as completed");
 
         log.info("5. Go to Admin Panel > Products and check the product stock decreased to 1");
         adminOrderListPage.accessAdminProductListPage();

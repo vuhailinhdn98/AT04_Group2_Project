@@ -6,14 +6,14 @@ import java.util.Objects;
 public class Order {
     private String orderId, email;
     private long totalAmount;
-    private String isPaid;
+    private String orderStatus;
     private LocalDateTime orderDateTime;
 
-    public Order(String orderId, String email, long totalAmount, String isPaid, LocalDateTime orderDateTime) {
+    public Order(String orderId, String email, long totalAmount, String orderStatus, LocalDateTime orderDateTime) {
         this.orderId = orderId;
         this.email = email;
         this.totalAmount = totalAmount;
-        this.isPaid = isPaid;
+        this.orderStatus = orderStatus;
         this.orderDateTime = orderDateTime;
     }
 
@@ -29,8 +29,8 @@ public class Order {
         return totalAmount;
     }
 
-    public String isPaid() {
-        return isPaid;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
     public LocalDateTime getOrderDateTime() {
@@ -43,7 +43,7 @@ public class Order {
                 "orderId='" + orderId + '\'' +
                 ", email='" + email + '\'' +
                 ", totalAmount=" + totalAmount +
-                ", isPaid=" + isPaid +
+                ", isPaid=" + orderStatus +
                 ", orderDate=" + orderDateTime +
                 '}';
     }
@@ -52,11 +52,11 @@ public class Order {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return totalAmount == order.totalAmount && isPaid == order.isPaid && Objects.equals(orderId, order.orderId) && Objects.equals(email, order.email) && Objects.equals(orderDateTime, order.orderDateTime);
+        return totalAmount == order.totalAmount && orderStatus == order.orderStatus && Objects.equals(orderId, order.orderId) && Objects.equals(email, order.email) && Objects.equals(orderDateTime, order.orderDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, email, totalAmount, isPaid, orderDateTime);
+        return Objects.hash(orderId, email, totalAmount, orderStatus, orderDateTime);
     }
 }

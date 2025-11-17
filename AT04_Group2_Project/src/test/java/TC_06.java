@@ -11,7 +11,7 @@ public class TC_06 extends BaseTest {
         homePage.openLoginModal();
 
         log.info("2. Log in with a customer account");
-        loginModal.login("tranthang212@gmail.com", "123123", false);
+        loginModal.login("tranthang212@gmail.com", "123123");
 
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(),"", "Account name should be shown on header");

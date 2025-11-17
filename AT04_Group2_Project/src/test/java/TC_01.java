@@ -10,7 +10,7 @@ public class TC_01 extends BaseTest {
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
         homePage.openLoginModal();
-        loginModal.login("tranthang212@gmail.com","123123",false);
+        loginModal.login("tranthang212@gmail.com","123123");
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();

@@ -9,7 +9,7 @@ public class TC_09 extends BaseTest {
         log.info("Pre-condition: Log in to Admin Panel and add a new product with quantity = 0");
         homePage.openLoginModal();
 
-        loginModal.login("tranthang212@gmail.com","123123",false);
+        loginModal.login("tranthang212@gmail.com","123123");
 
         homePage.goToAdminControlPanel();
 
@@ -17,7 +17,7 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        addProductPage.addProductWithQtyZero(productDataTest);
+        addProductPage.addProductWithQtyZero(productDataTest); //set 0
 
         log.info("1. Go to Home page");
         homePage.openHomePage();

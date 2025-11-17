@@ -18,13 +18,13 @@ public class TC_07 extends BaseTest {
         cartModal.clickOrderNowBtn();
 
         softAssert.assertEquals(cartModal.getNotLoginWarningMsg(),"Vui lòng đăng nhập mới có thể đặt hàng Click vào đây để đăng nhập", "Warning message should appear in cart modal for not logged-in user");
-
+//đổi tên hàm
         log.info("4. Click the login link inside cart modal");
         cartModal.clickLoginTextLink();
         softAssert.assertTrue(loginModal.isLoginModalVisible(), "Login modal should be visible after clicking login link in cart modal");
 
         log.info("5. Login via login modal");
-        loginModal.login("tranthang212@gmail.com", "123123", false);
+        loginModal.login("tranthang212@gmail.com", "123123");
 
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(), "", "Account name should be shown on header");
