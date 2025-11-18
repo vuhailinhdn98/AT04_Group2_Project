@@ -17,8 +17,9 @@ public class TC_07 extends BaseTest {
         log.info("3. Click 'Đặt hàng ngay'");
         cartModal.clickOrderNowBtn();
 
-        softAssert.assertEquals(cartModal.getNotLoginWarningMsg(),"Vui lòng đăng nhập mới có thể đặt hàng Click vào đây để đăng nhập", "Warning message should appear in cart modal for not logged-in user");
-//đổi tên hàm
+        softAssert.assertEquals(cartModal.getLoginLinkText(),"Vui lòng đăng nhập mới có thể đặt hàng Click vào đây để đăng nhập", "Login link should appear in cart modal after clicking order now if not logged in");
+        //change method name
+
         log.info("4. Click the login link inside cart modal");
         cartModal.clickLoginTextLink();
         softAssert.assertTrue(loginModal.isLoginModalVisible(), "Login modal should be visible after clicking login link in cart modal");

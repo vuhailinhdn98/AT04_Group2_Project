@@ -106,7 +106,7 @@ public class HeaderSection extends BasePage {
     }
 
     public void openHomePage() {
-        String homeUrl = "http://14.176.232.213/mobilevn/index.php";
+        String homeUrl = "http://14.176.232.213/mobilevn/";
         Driver.getDriver().get(homeUrl);
     }
 

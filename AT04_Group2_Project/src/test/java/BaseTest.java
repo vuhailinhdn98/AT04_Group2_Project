@@ -1,4 +1,3 @@
-import models.Product;
 import models.ProductDataTest;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,12 +9,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 import pages.*;
-
+import testdata.TestAccount;
 import utils.Driver;
 
 import java.lang.reflect.Method;
 
-public class BaseTest {
+public class BaseTest extends TestAccount {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     protected HomePage homePage = new HomePage();
@@ -26,14 +25,18 @@ public class BaseTest {
     protected ProductDataTest productDataTest = new ProductDataTest();
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
+    protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
+
     protected AdminDashboardPage adminDashboardPage = new AdminDashboardPage();
     protected AdminProductListPage adminProductListPage = new AdminProductListPage();
     protected AdminProductsDetailsPage adminProductsDetailsPage = new AdminProductsDetailsPage();
     protected AdminAddProductPage addProductPage = new AdminAddProductPage();
     protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
-    protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
+
+    protected TestAccount testAccount = new TestAccount();
+
     protected SoftAssert softAssert = new SoftAssert();
-    int originalQuality = productDataTest.getQuality();
+
     @BeforeMethod
     public void setUp(Method method) {
         MDC.put("test", method.getName());              // pattern [%X{test}]

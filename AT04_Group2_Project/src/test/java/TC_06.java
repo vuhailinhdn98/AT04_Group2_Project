@@ -9,13 +9,17 @@ public class TC_06 extends BaseTest {
     )
     public void tc_06() {
         homePage.openLoginModal();
-
         log.info("2. Log in with a customer account");
         loginModal.login("tranthang212@gmail.com", "123123");
 
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(),"", "Account name should be shown on header");
 
+        log.info("Get saved contact/address info from user profile");
+        homePage.openUserInfo();
+        List<String> expectedUserInfo = userPage.getUserInfo();
+
+        homePage.openHomePage();
         log.info("3. Add any in-stock product to cart");
         homePage.addInStockProductsToCart(1);
 
@@ -32,8 +36,7 @@ public class TC_06 extends BaseTest {
         List<String> actualUserInfo = checkoutModal.getUserInfo();
 
         checkoutModal.closeCheckoutModal();
-        homePage.openUserInfo();
-        List<String> expectedUserInfo = userPage.getUserInfo();
+
 
         softAssert.assertEquals(actualUserInfo, expectedUserInfo, "Contact/Address info in checkout modal does not match the saved profile.");
         softAssert.assertAll();

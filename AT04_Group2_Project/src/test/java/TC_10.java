@@ -4,6 +4,7 @@ public class TC_10 extends BaseTest {
 
     @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
     public void tc_10() {
+        int originalQuality = productDataTest.getQuality();
 
         homePage.openLoginModal();
         loginModal.login("tranthang212@gmail.com", "123123");

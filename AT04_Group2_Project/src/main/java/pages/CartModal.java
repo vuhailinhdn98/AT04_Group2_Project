@@ -15,7 +15,7 @@ public class CartModal extends HomePage {
     private final By cartTotalLocator = By.className("toal_money");
     private final By orderNowBtnLocator = By.id("order_product");
 
-    private final By notLoginWarningMsgLocator = By.className("alert-dismissable");
+    private final By loginLinkLocator = By.className("alert-dismissable");
     private final By loginTextLinkLocator = By.cssSelector("#error_cart [data-target='#login']");
 
     public int getProductRowCount() {
@@ -73,8 +73,8 @@ public class CartModal extends HomePage {
         click(orderNowBtnLocator);
     }
 
-    public String getNotLoginWarningMsg() {
-        return getText(notLoginWarningMsgLocator).substring(1).trim();
+    public String getLoginLinkText() {
+        return getText(loginLinkLocator).substring(1).trim();
     }
 
     public void clickLoginTextLink() {
