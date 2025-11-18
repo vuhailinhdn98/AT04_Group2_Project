@@ -45,4 +45,8 @@ public class ProductDataTest{
     public String getImagePath() { return imagePath; }
     public String getSpecification() { return specification; }
 
+    public ProductDataTest setQuality(int quality) {
+        this.quality = quality;
+        return null;
+    }
 }

@@ -17,7 +17,7 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        addProductPage.addProductWithQtyZero(productDataTest); //set 0
+        addProductPage.addProduct(productDataTest.setQuality(0)); //set 0
 
         log.info("1. Go to Home page");
         homePage.openHomePage();

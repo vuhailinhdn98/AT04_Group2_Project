@@ -141,24 +141,9 @@ public class HeaderSection extends BasePage {
     }
 
     private void closeModal(By modalLocator) {
-        find(modalLocator);
-        int w = find(modalLocator).getSize().getWidth();
-        int h = find(modalLocator).getSize().getHeight();
-        int hw = w / 2;
-        int hh = h / 2;
-        int m  = 20;
-
-        int[][] offsets = new int[][]{
-                {-(hw + m), -(hh + m)},
-                { (hw + m), -(hh + m)},
-                {-(hw + m),  (hh + m)},
-                { (hw + m),  (hh + m)}
-        };
-
-        for (int[] off : offsets) {
-            clickAt(modalLocator, off[0], off[1]);
-            if (isInvisible(modalLocator)) return;
-        }
+        waitToBeVisible(modalLocator);
+        clickAt(modalLocator, 0, (find(modalLocator).getSize().getHeight() / 2) + 10);
+        waitToBeInvisible(modalLocator);
     }
 
     public void closeCheckoutModal() {
