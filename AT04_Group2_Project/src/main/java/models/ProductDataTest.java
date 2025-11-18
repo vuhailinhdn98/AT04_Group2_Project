@@ -19,7 +19,7 @@ public class ProductDataTest{
         Faker faker = new Faker();
         this.name = faker.commerce().productName();
 
-        this.price = (long) faker.number().numberBetween(1, 5_000_000);
+        this.price = faker.number().numberBetween(1, 5_000) * 1000L;
 
         this.quality = faker.number().numberBetween(1, 10);
 
