@@ -21,6 +21,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private final By orderStatusLocator = By.xpath(".//td[4]");
     private final By createdDateTimeLocator = By.xpath(".//td[5]");
     private final By completeOrderBtnLocator = By.className("active_order");
+    private final By cancelOrderButtonLocator = By.className("delete_order");
 
     public void sortOrdersByPendingStatus(String ascOrDesc) {
         while (!find(sortByOrderStatusLocator).getAttribute("class").contains(ascOrDesc)) {
@@ -58,6 +59,13 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     public void completeMostRecentOrder() {
         getMostRecentOrderRow().findElement(completeOrderBtnLocator).click();
+        Driver.getDriver().switchTo().alert().accept();
+        waitAlertToBePresent();
+        Driver.getDriver().switchTo().alert().accept();
+        waitToBeVisible(orderRowsLocator);
+    }
+    public void cancelMostRecentOrder() {
+        getMostRecentOrderRow().findElement(cancelOrderButtonLocator).click();
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();

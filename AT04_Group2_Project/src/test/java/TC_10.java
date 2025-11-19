@@ -4,8 +4,6 @@ public class TC_10 extends BaseTest {
 
     @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
     public void tc_10() {
-        int originalQuality = productDataTest.getQuality();
-
         homePage.openLoginModal();
         loginModal.login("tranthang212@gmail.com", "123123");
 
@@ -13,6 +11,8 @@ public class TC_10 extends BaseTest {
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
         addProductPage.addProduct(productDataTest);
+        int originalQuality = productDataTest.getQuality();
+        String originalName = productDataTest.getName();
         homePage.openHomePage();
         homePage.openFirstFeaturedProductDetails();
         productDetailsPage.clickAddToCart();
@@ -25,43 +25,13 @@ public class TC_10 extends BaseTest {
         homePage.openHomePage();
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminOrderListPage();
-        //     adminOrderList.cancelOrderByCode(orderCode);
-//        log.info("✓ Order {} cancelled successfully", orderCode);
-//
-//        // ==================== STEP 9: VERIFY STOCK RESTORED ====================
-//        log.info("=== Step 9: Admin verifies stock restored ===");
-//
-//        adminDashboardPage.accessAdminProductListPage();
-//
-//        int restoredQuality = adminProductList.getProductQualityByName(productName);
-//        log.info("Product quality after order cancellation: {} (expected: {})",
-//                restoredQuality, originalQuality);
-//
-//        softAssert.assertEquals(restoredQuality, originalQuality,
-//                String.format("Product quality should be restored from 0 back to original value: %d",
-//                        originalQuality));
-//
-//        log.info("✓ Stock restored successfully: {} → 0 → {}",
-//                originalQuality, restoredQuality);
-//
-//        // Logout admin
-//        homePage.logout();
-//
-//        // ==================== STEP 10: USER VERIFIES PRODUCT AVAILABLE ====================
-//        log.info("=== Step 10: User verifies product is available for purchase again ===");
-//
-//        homePage.openHomePage();
-//        homePage.openProductDetailsByName(productName);
-//
-//        boolean isAddToCartEnabled = productDetailsPage.isAddToCartEnabled();
-//        log.info("Add to Cart button status: {}",
-//                isAddToCartEnabled ? "ENABLED (Còn hàng) ✓" : "DISABLED (Hết hàng) ✗");
-//
-//        softAssert.assertTrue(isAddToCartEnabled,
-//                "Product should display 'Còn hàng' and Add to Cart button should be enabled after order cancellation");
-//
-//        softAssert.assertAll();
-//
-//}
+        adminOrderListPage.cancelMostRecentOrder();
+        adminDashboardPage.accessAdminProductListPage();
+        adminProductListPage.openProductDetailsByName(originalName);
+        int stockAfter = adminProductsDetailsPage.getStock();
+        softAssert.assertEquals(stockAfter, originalQuality,
+                String.format("Product quality remain original quality value: %d when admin cancel order",
+                        originalQuality));
+        softAssert.assertAll();
     }
 }

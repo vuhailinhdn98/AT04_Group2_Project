@@ -1,6 +1,6 @@
 package pages;
 
-import models.ProductDataTest;
+import testdata.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
@@ -14,8 +14,6 @@ public class AdminAddProductPage extends AdminNavigationMenu {
     private final By saleInputLocator = By.name("sale");
     private final By manufacturersDropdownLocator = By.name("manufactures");
     private final By imageInputLocator = By.name("image");
-    private final By specificationLocator = By.cssSelector("iframe.cke_wysiwyg_frame[title*='specification']");
-
     private final By saveButtonLocator = By.xpath("//button[@type='submit' and contains(@class, 'btn-success')]");
 
 
