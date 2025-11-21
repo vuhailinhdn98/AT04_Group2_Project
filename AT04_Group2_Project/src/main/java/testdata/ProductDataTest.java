@@ -32,7 +32,7 @@ public class ProductDataTest{
                 faker.number().numberBetween(0, validManufacturers.size())
         );
         this.imagePath = Paths.get("src", "test", "resources", "chipktest.png").toAbsolutePath().toString();
-
+//bổ sung thêm ảnh và lấy ngẫu nhiên
         this.specification = faker.lorem().sentence(100);
     }
 
@@ -47,6 +47,11 @@ public class ProductDataTest{
 
     public ProductDataTest setQuality(int quality) {
         this.quality = quality;
-        return null;
+        return this;
+    }
+    public ProductDataTest setQualityRandom() {
+        Faker faker = new Faker();
+        this.quality = faker.number().numberBetween(1, 10);
+        return this;
     }
 }

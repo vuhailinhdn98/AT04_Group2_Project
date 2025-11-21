@@ -8,22 +8,37 @@ public class TC_10 extends BaseTest {
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
         homePage.goToAdminControlPanel();
+
         adminDashboardPage.accessAdminProductListPage();
+
         adminProductListPage.accessAdminAddProductPage();
+
         addProductPage.addProduct(productDataTest);
+
         int originalQuality = productDataTest.getQuality();
+
         String originalName = productDataTest.getName();
+
         homePage.openHomePage();
+
         homePage.openFirstFeaturedProductDetails();
+
         productDetailsPage.clickAddToCart();
+
         cartModal.selectQuantityForFirstProduct(originalQuality);
+
         cartModal.clickOrderNowBtn();
+
         checkoutModal.waitCheckoutModalVisible();
-        checkoutModal.enterPassword("123123");
+
+        checkoutModal.enterPassword(ADMIN_PASSWORD);
+
         checkoutModal.clickCheckoutButton();
 
         homePage.openHomePage();
+
         homePage.goToAdminControlPanel();
+
         adminDashboardPage.accessAdminOrderListPage();
         adminOrderListPage.cancelMostRecentOrder();
         adminDashboardPage.accessAdminProductListPage();

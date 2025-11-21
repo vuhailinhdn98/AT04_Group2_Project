@@ -8,6 +8,7 @@ public class TC_11 extends BaseTest {
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
         homePage.goToAdminControlPanel();
+
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
         productDataTest.setQuality(0);
@@ -15,9 +16,9 @@ public class TC_11 extends BaseTest {
         String productName = productDataTest.getName();
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.openProductDetailsByName(productName);
-        productDataTest.setQuality(10);
+        productDataTest.setQualityRandom();
         adminProductsDetailsPage.updateProduct(productDataTest);
-
+//bổ sung alllure report
         homePage.openHomePage();
         homePage.openFirstFeaturedProductDetails();
 
