@@ -5,7 +5,7 @@ public class TC_11 extends BaseTest {
     @Test(description = "TC11: Verify Admin restocks the product and storefront becomes buyable")
     public void tc_11() {
         homePage.openLoginModal();
-        loginModal.login("tranthang212@gmail.com", "123123");
+        loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();

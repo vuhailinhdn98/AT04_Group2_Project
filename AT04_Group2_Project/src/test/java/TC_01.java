@@ -7,7 +7,7 @@ public class TC_01 extends BaseTest {
     public void tc_01() {
         log.info("2. Login as admin");
         homePage.openLoginModal();
-        loginModal.login("tranthang212@gmail.com", "123123");
+        loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
         log.info("3. Navigate to Admin Product page");
         homePage.goToAdminControlPanel();
@@ -21,7 +21,7 @@ public class TC_01 extends BaseTest {
         homePage.openHomePage();
 
         log.info("6. Get first featured product from homepage");
-        Product featuredProduct = homePage.getFirstFeaturedProduct();  // ← DI CHUYỂN XUỐNG ĐÂY
+        Product featuredProduct = homePage.getFirstFeaturedProduct();
 
         log.info("Featured product: Name='{}', Price={}",
                 featuredProduct.getName(), featuredProduct.getPrice());

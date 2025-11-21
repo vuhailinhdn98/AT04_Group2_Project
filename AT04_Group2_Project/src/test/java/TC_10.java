@@ -5,7 +5,7 @@ public class TC_10 extends BaseTest {
     @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
     public void tc_10() {
         homePage.openLoginModal();
-        loginModal.login("tranthang212@gmail.com", "123123");
+        loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
         homePage.goToAdminControlPanel();
         adminDashboardPage.accessAdminProductListPage();
