@@ -1,6 +1,7 @@
 // java
 import models.Order;
 import org.testng.annotations.Test;
+import testdata.TestAccount;
 
 public class TC_07 extends BaseTest {
     @Test(
@@ -18,40 +19,50 @@ public class TC_07 extends BaseTest {
         cartModal.clickOrderNowBtn();
 
         softAssert.assertEquals(cartModal.getLoginLinkText(),"Vui lòng đăng nhập mới có thể đặt hàng Click vào đây để đăng nhập", "Login link should appear in cart modal after clicking order now if not logged in");
-        //change method name
 
         log.info("4. Click the login link inside cart modal");
         cartModal.clickLoginTextLink();
+
         softAssert.assertTrue(loginModal.isLoginModalVisible(), "Login modal should be visible after clicking login link in cart modal");
 
         log.info("5. Login via login modal");
-        loginModal.login("tranthang212@gmail.com", "123123");
+        loginModal.login(TestAccount.CUSTOMER_EMAIL,TestAccount.CUSTOMER_PASSWORD);
 
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(), "", "Account name should be shown on header");
 
         log.info("6. Reopen cart and click 'Đặt hàng ngay'");
         homePage.openCartModal();
+
         cartModal.clickOrderNowBtn();
 
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(), "Checkout modal should be visible after clicking order now");
 
         long expectedTotal = checkoutModal.getOrderTotalAmount();
 
-        log.info("7. Fill contact/address if not available, enter password and place order");
-        checkoutModal.enterPassword("123123");
+        log.info("7. Enter password and place order");
+        checkoutModal.enterPassword(TestAccount.CUSTOMER_PASSWORD);
+
         checkoutModal.clickCheckoutButton();
 
         softAssert.assertEquals(orderConfirmationModal.getOrderSuccessMessage(),"Đặt hàng thành công", "Order success message should appear");
 
         log.info("8. Go to Admin Panel > Orders, verify the newly created order appears");
         orderConfirmationModal.closeOrderConfirmationModal();
+
+        homePage.logout();
+
+        homePage.openLoginModal();
+
+        loginModal.login(TestAccount.ADMIN_EMAIL,TestAccount.ADMIN_PASSWORD);
+
         homePage.goToAdminControlPanel();
+        
         adminDashboardPage.accessAdminOrderListPage();
 
         Order newlyCreatedOrder = adminOrderListPage.getMostRecentOrderInfo();
 
-        softAssert.assertEquals(newlyCreatedOrder.getEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
+        softAssert.assertEquals(newlyCreatedOrder.getEmail(), TestAccount.CUSTOMER_EMAIL, "Most recent order customer email should match");
         softAssert.assertEquals(newlyCreatedOrder.getTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
 
         softAssert.assertAll();

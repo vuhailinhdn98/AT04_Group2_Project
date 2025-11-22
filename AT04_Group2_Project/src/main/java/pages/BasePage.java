@@ -109,4 +109,12 @@ public class BasePage {
     protected void waitAlertToBePresent() {
         Driver.getWebDriverWait().until(ExpectedConditions.alertIsPresent());
     }
+
+    protected void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }

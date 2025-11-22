@@ -3,6 +3,7 @@ package pages;
 import models.Order;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.time.LocalDateTime;
@@ -12,12 +13,8 @@ import java.util.List;
 public class AdminOrderListPage extends AdminNavigationMenu {
 
     // Table + rows
-    private final By orderRowsLocator           = By.xpath("//*[@id='view_order']//tbody//tr");
     private final By orderTableHeaderLocator    = By.xpath("//*[@id='view_order']//thead//tr");
-
-    // Header sort buttons
-    private final By sortByOrderStatusLocator   = By.xpath("//*[@id='view_order']//thead//tr/th[4]");
-    private final By sortByCreatedDateBtnLocator= By.xpath("//*[@id='view_order']//thead//tr/th[5]");
+    private final By orderRowsLocator           = By.xpath("//*[@id='view_order']//tbody//tr");
 
     // Row-level actions
     private final By viewOrderDetailsBtnLocator = By.xpath(".//td/a");
@@ -42,20 +39,36 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private By orderStatusLocator()     { return By.xpath(".//td[" + getColumnIndexByName("Active")      + "]"); }
     private By createdDateTimeLocator() { return By.xpath(".//td[" + getColumnIndexByName("Create_date") + "]"); }
 
+    // Header sort buttons
+    private final By sortByOrderStatusLocator   = By.xpath("//*[@id='view_order']//thead//tr/th[4]");
+    private final By sortByCreatedDateBtnLocator= By.xpath("//*[@id='view_order']//thead//tr/th[5]");
+
     /* ---------- Sorting helpers ---------- */
 
-    public void sortOrdersByPendingStatus(String ascOrDesc) {
-        while (!find(sortByOrderStatusLocator).getAttribute("class").contains(ascOrDesc)) {
-            find(sortByOrderStatusLocator).click();
+public void sortOrdersByPendingStatus(String ascOrDesc) {
+    for (int i = 0; i < 3; i++) {
+        WebElement btn = find(sortByOrderStatusLocator);
+        String currentClass = btn.getAttribute("class");
+        if (currentClass.contains(ascOrDesc)) {
+            return;
         }
+        btn.click();
+        waitToBeVisible(orderRowsLocator);
+        sleep(500);
     }
+}
 
     public void sortOrdersByMostRecent() {
-        while (!find(sortByCreatedDateBtnLocator).getAttribute("class").contains("desc")) {
-            find(sortByCreatedDateBtnLocator).click();
+        for (int i = 0; i < 3; i++) {
+            WebElement btn = find(sortByCreatedDateBtnLocator);
+            if (btn.getAttribute("class").contains("desc")) {
+                return;
+            }
+            btn.click();
+            waitToBeVisible(orderRowsLocator);
+            sleep(500);
         }
     }
-
     /* ---------- Row helpers ---------- */
 
     private WebElement getMostRecentOrderRow() {
@@ -82,12 +95,35 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     /* ---------- Actions on most recent row ---------- */
 
-    public void completeMostRecentOrder() {
-        getMostRecentOrderRow().findElement(completeOrderBtnLocator).click();
+    public void completeMostRecentOrder(String orderId) {
+        WebElement mostRecentRow = getMostRecentOrderRow();
+        mostRecentRow.findElement(completeOrderBtnLocator).click();
+
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
         waitToBeVisible(orderRowsLocator);
+
+        sortOrdersByMostRecent();
+        sortOrdersByPendingStatus("desc");
+
+        List<WebElement> rows = getElements(orderRowsLocator);
+        WebElement targetStatusCell = null;
+        for (WebElement row : rows) {
+            String currentId = row.findElement(orderIdLocator()).getText().trim();
+            if (currentId.equals(orderId)) {
+                targetStatusCell = row.findElement(orderStatusLocator());
+                break;
+            }
+        }
+
+        if (targetStatusCell == null) {
+            throw new IllegalStateException("Order with ID " + orderId + " not found after completing payment");
+        }
+
+        Driver.getWebDriverWait().until(
+                ExpectedConditions.textToBePresentInElement(targetStatusCell, "Đã thanh toán")
+        );
     }
 
     public void cancelMostRecentOrder() {
@@ -101,9 +137,6 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     /* ---------- Queries ---------- */
 
     public List<Order> getLatestPaidOrderList() {
-        sortOrdersByMostRecent();
-        sortOrdersByPendingStatus("desc");
-
         List<Order> latestPaidOrderList = new ArrayList<>();
         for (WebElement row : getElements(orderRowsLocator)) {
             String status = row.findElement(orderStatusLocator()).getText().trim();

@@ -101,6 +101,7 @@ public class CheckoutModal extends HeaderSection {
     }
 
     public void proceedToCheckoutForLoggedInUser(String password) {
+        waitToBeVisible(passwordInputLocator);
         enterPassword(password);
         clickCheckoutButton();
     }

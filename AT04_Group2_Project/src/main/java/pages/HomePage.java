@@ -85,4 +85,26 @@ public class HomePage extends HeaderSection{
         }
         return added;
     }
+
+    public boolean isAddToCartButtonEnabled(Product outOfStockProduct) {
+        for (WebElement card : getElements(productCardLocator)) {
+            Product product = getProduct(card);
+            if (product.getName().equals(outOfStockProduct.getName())) {
+                return card.findElement(addToCartBtnLocator).isEnabled();
+            }
+        }
+        return true;
+    }
+
+    public void openProductDetailsByName(String name) {
+        for (WebElement card : getElements(productCardLocator)) {
+            Product product = getProduct(card);
+            if (product.getName().equals(name)) {
+                WebElement nameLink = card.findElement(productNameLocator);
+                scrollIntoView(nameLink);
+                nameLink.click();
+                break;
+            }
+        }
+    }
 }

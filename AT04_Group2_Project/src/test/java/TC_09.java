@@ -1,15 +1,15 @@
 import models.Product;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testdata.TestAccount;
 
 public class TC_09 extends BaseTest {
-    @Test(
-            description = "Verify Out-of-stock label is displayed and add to cart is disabled when stock = 0"
-    )
-    public void tc_09() {
+    @BeforeMethod
+    public void tc_09_precondition() {
         log.info("Pre-condition: Log in to Admin Panel and add a new product with quantity = 0");
         homePage.openLoginModal();
 
-        loginModal.login("tranthang212@gmail.com","123123");
+        loginModal.login(TestAccount.ADMIN_EMAIL, TestAccount.ADMIN_PASSWORD);
 
         homePage.goToAdminControlPanel();
 
@@ -17,9 +17,13 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        addProductPage.addProduct(productDataTest.setQuality(0)); //set 0
+        addProductPage.addProduct(productDataTest.setQuality(0));
+    }
 
-        log.info("1. Go to Home page");
+    @Test(
+            description = "Verify Out-of-stock label is displayed and add to cart is disabled when stock = 0"
+    )
+    public void tc_09() {
         homePage.openHomePage();
 
         Product outOfStockProduct = homePage.getFirstFeaturedProduct();
@@ -32,14 +36,13 @@ public class TC_09 extends BaseTest {
 
         log.info("2. Verify disabled add to cart button for Out-of-stock product on homepage");
 
-//        softAssert.assertFalse(homePage.isAddToCartButtonEnabled(outOfStockProduct), "Add to cart button should be disabled for product with qty = 0");
+        softAssert.assertFalse(homePage.isAddToCartButtonEnabled(outOfStockProduct), "Add to cart button should be disabled for product with qty = 0");
 
         log.info("3. Go to the details page of the out-of-stock product");
-//        homePage.openProductDetailsByName(productDataTest.getName());
-        homePage.openFirstFeaturedProductDetails();
+        homePage.openProductDetailsByName(outOfStockProduct.getName());
 
-//        softAssert.assertEquals(productDetailsPage.getStockStatus(), "Hết hàng", "Out-of-stock label is not displayed for product with qty = 0");
-//        softAssert.assertFalse(productDetailsPage.isAddToCartEnabled(), "Add to cart button should be disabled for product with qty = 0");
+        softAssert.assertEquals(productDetailsPage.getStockStatus(), "hết hàng", "Out-of-stock label is not displayed for product with qty = 0");
+        softAssert.assertFalse(productDetailsPage.isAddToCartEnabled(), "Add to cart button should be disabled for product with qty = 0");
 
         softAssert.assertAll();
     }

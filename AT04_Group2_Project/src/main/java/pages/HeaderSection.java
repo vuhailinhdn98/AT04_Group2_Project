@@ -165,4 +165,9 @@ public class HeaderSection extends BasePage {
     public void closeOrderConfirmationModal() {
         closeModal(orderConfirmationModalContentLocator);
     }
+
+    public void logout() {
+        find(accountDropdownLoggedInLocator).click();
+        find(logoutBtnLocator).click();
+    }
 }

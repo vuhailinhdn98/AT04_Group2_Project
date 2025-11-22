@@ -1,4 +1,5 @@
 import org.testng.annotations.Test;
+import testdata.TestAccount;
 
 import java.util.List;
 
@@ -8,19 +9,22 @@ public class TC_06 extends BaseTest {
             description = "Verify checkout auto-fills saved contact/address for a logged-in user"
     )
     public void tc_06() {
-        homePage.openLoginModal();
         log.info("2. Log in with a customer account");
-        loginModal.login("tranthang212@gmail.com", "123123");
+        homePage.openLoginModal();
+
+        loginModal.login(TestAccount.CUSTOMER_EMAIL,TestAccount.CUSTOMER_PASSWORD);
 
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(),"", "Account name should be shown on header");
 
         log.info("Get saved contact/address info from user profile");
         homePage.openUserInfo();
+
         List<String> expectedUserInfo = userPage.getUserInfo();
 
-        homePage.openHomePage();
         log.info("3. Add any in-stock product to cart");
+        homePage.openHomePage();
+
         homePage.addInStockProductsToCart(1);
 
         softAssert.assertTrue(cartModal.isCartModalVisible(),"Cart modal is not shown");
@@ -34,9 +38,10 @@ public class TC_06 extends BaseTest {
 
         log.info("5. Compare all contact/address fields to the saved profile");
         List<String> actualUserInfo = checkoutModal.getUserInfo();
+        log.info("Actual user info: {}", actualUserInfo.toString());
+        log.info("Expected user info: {}", expectedUserInfo.toString());
 
         checkoutModal.closeCheckoutModal();
-
 
         softAssert.assertEquals(actualUserInfo, expectedUserInfo, "Contact/Address info in checkout modal does not match the saved profile.");
         softAssert.assertAll();

@@ -1,6 +1,7 @@
 import models.Order;
 import models.Product;
 import org.testng.annotations.Test;
+import testdata.TestAccount;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class TC_08 extends BaseTest {
         log.info("2. Log in and add any in-stock product to cart");
         homePage.openLoginModal();
 
-        loginModal.login("tranthang212@gmail.com", "123123");
+        loginModal.login(TestAccount.CUSTOMER_EMAIL,TestAccount.CUSTOMER_PASSWORD);
 
         List<Product> addedProducts = homePage.addInStockProductsToCart(1);
 
@@ -26,22 +27,30 @@ public class TC_08 extends BaseTest {
         log.info("3. Create an order");
         cartModal.clickOrderNowBtn();
 
-        checkoutModal.proceedToCheckoutForLoggedInUser("123123");
+        checkoutModal.proceedToCheckoutForLoggedInUser(TestAccount.CUSTOMER_PASSWORD);
 
         softAssert.assertEquals(orderConfirmationModal.getOrderSuccessMessage(),"Đặt hàng thành công", "Order success message should appear");
 
         orderConfirmationModal.closeOrderConfirmationModal();
-        // open customer acc
+
+        log.info("4. Go to Admin Panel > Orders, verify the newly created order appears");
+
+        homePage.logout();
+
+        homePage.openLoginModal();
+
+        loginModal.login(TestAccount.ADMIN_EMAIL,TestAccount.ADMIN_PASSWORD);
+
         homePage.goToAdminControlPanel();
 
         adminDashboardPage.accessAdminOrderListPage();
 
         Order beforeCompletedOrder = adminOrderListPage.getMostRecentOrderInfo();
 
-        softAssert.assertEquals(beforeCompletedOrder.getEmail(), "tranthang212@gmail.com", "Most recent order customer email should match");
+        softAssert.assertEquals(beforeCompletedOrder.getEmail(), TestAccount.CUSTOMER_EMAIL, "Most recent order customer email should match");
         softAssert.assertEquals(beforeCompletedOrder.getTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
 
-        log.info("4. Go to Admin Panel > Orders, capture stock of 1st product BEFORE complete and complete the newly created order");
+        log.info("Capture stock of 1st product BEFORE complete and complete the newly created order");
         adminOrderListPage.accessAdminProductListPage();
 
         adminProductListPage.openProductDetailsByName(firstAddedProduct);
@@ -50,7 +59,7 @@ public class TC_08 extends BaseTest {
 
         adminProductsDetailsPage.accessAdminOrderListPage();
 
-        adminOrderListPage.completeMostRecentOrder();
+        adminOrderListPage.completeMostRecentOrder(beforeCompletedOrder.getOrderId());
 
         List<Order> latestPaidOrderList = adminOrderListPage.getLatestPaidOrderList();
         Order afterCompletedOrder = adminOrderListPage.findOrderById(latestPaidOrderList, beforeCompletedOrder.getOrderId());

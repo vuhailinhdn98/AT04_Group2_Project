@@ -49,7 +49,7 @@ public class BaseTest extends TestAccount {
         Driver.setDriver(new ChromeDriver(options));
         Driver.getDriver().manage().window().maximize();
 
-        log.info("Go to Home page");
+        log.info("1. Go to Home page");
         Driver.getDriver().get("http://14.176.232.213/mobilevn/");
     }
 

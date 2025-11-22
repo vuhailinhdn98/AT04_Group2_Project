@@ -24,6 +24,7 @@ public class ProductDetailsPage extends BasePage {
     public boolean isAddToCartEnabled() {
         return find(addToCartBtnLocator).isEnabled();
     }
+
     public String getStockStatus() {
         WebDriverWait wait = Driver.getWebDriverWait();
         WebElement stockElement = wait.until(ExpectedConditions.visibilityOfElementLocated(stockStatusLocator));
