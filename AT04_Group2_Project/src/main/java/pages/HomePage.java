@@ -49,6 +49,7 @@ public class HomePage extends HeaderSection{
         scrollIntoView(firstProduct);
         return getProduct(firstProduct);
     }
+
     public void openFirstFeaturedProductDetails() {
         List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
         WebElement featuredSection = sections.get(1);
@@ -57,6 +58,7 @@ public class HomePage extends HeaderSection{
         scrollIntoView(nameLink);
         nameLink.click();
     }
+
     private Product getProduct(WebElement card) {
         String name = card.findElement(productNameLocator).getText().trim();
         String priceText = card.findElement(productPriceLocator).getText();

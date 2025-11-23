@@ -21,27 +21,50 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private final By completeOrderBtnLocator    = By.className("active_order");
     private final By cancelOrderButtonLocator   = By.className("delete_order");
 
-    /* ---------- Dynamic column locators ---------- */
-
-    private int getColumnIndexByName(String columnName) {
-        List<WebElement> headers = find(orderTableHeaderLocator).findElements(By.tagName("th"));
-        for (int i = 0; i < headers.size(); i++) {
-            if (columnName.equals(headers.get(i).getText().trim())) {
-                return i + 1;
-            }
-        }
-        throw new IllegalArgumentException("Column name not found: " + columnName);
-    }
-
-    private By orderIdLocator()         { return By.xpath(".//td[" + getColumnIndexByName("ID")          + "]"); }
-    private By customerEmailLocator()   { return By.xpath(".//td[" + getColumnIndexByName("Email")       + "]"); }
-    private By totalAmountLocator()     { return By.xpath(".//td[" + getColumnIndexByName("Total")       + "]"); }
-    private By orderStatusLocator()     { return By.xpath(".//td[" + getColumnIndexByName("Active")      + "]"); }
-    private By createdDateTimeLocator() { return By.xpath(".//td[" + getColumnIndexByName("Create_date") + "]"); }
-
     // Header sort buttons
     private final By sortByOrderStatusLocator   = By.xpath("//*[@id='view_order']//thead//tr/th[4]");
     private final By sortByCreatedDateBtnLocator= By.xpath("//*[@id='view_order']//thead//tr/th[5]");
+
+    /* ---------- Dynamic column locators ---------- */
+
+    private List<WebElement> getHeaderCells() {
+        return find(orderTableHeaderLocator).findElements(By.tagName("th"));
+    }
+
+    private List<String> columnTextList() {
+        List<String> headers = new ArrayList<>();
+        for (WebElement th : getHeaderCells()) {
+            headers.add(th.getText().trim());
+        }
+        return headers;
+    }
+
+    private int getColumnIdxByName(String columnName) {
+        List<String> texts = columnTextList();
+        int idx = texts.indexOf(columnName);
+        if (idx == -1) {
+            throw new IllegalArgumentException("Column name not found: " + columnName);
+        }
+        return idx + 1; // 1-based for xpath
+    }
+
+    private By tableDataLocator(int columnIdx, int rowIdx) {
+        return By.xpath(String.format("//*[@id='view_order']//tbody//tr[%d]//td[%d]", rowIdx, columnIdx));
+    }
+
+    public String getCellText(int rowIdx, String columnName) {
+        int columnIdx = getColumnIdxByName(columnName);
+        return getText(tableDataLocator(columnIdx, rowIdx));
+    }
+
+    private WebElement getHeaderCellByText(String columnName) {
+        for (WebElement th : getHeaderCells()) {
+            if (columnName.equals(th.getText().trim())) {
+                return th;
+            }
+        }
+        throw new IllegalArgumentException("Header not found: " + columnName);
+    }
 
     /* ---------- Sorting helpers ---------- */
 
@@ -69,6 +92,7 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
             sleep(500);
         }
     }
+
     /* ---------- Row helpers ---------- */
 
     private WebElement getMostRecentOrderRow() {
@@ -84,12 +108,16 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
     /* ---------- Read row data ---------- */
 
     public Order getMostRecentOrderInfo() {
-        WebElement row = getMostRecentOrderRow();
-        String orderId        = row.findElement(orderIdLocator()).getText().trim();
-        String customerEmail  = row.findElement(customerEmailLocator()).getText().trim();
-        long   totalAmount    = parsePrice(row.findElement(totalAmountLocator()).getText().trim());
-        String orderStatus    = row.findElement(orderStatusLocator()).getText().trim();
-        LocalDateTime createdDateTime = parseOrderDateTime(row.findElement(createdDateTimeLocator()).getText().trim());
+        sortOrdersByMostRecent();
+        sortOrdersByPendingStatus("asc");
+
+        int rowIdx = 1;
+
+        String orderId        = getCellText(rowIdx, "ID");
+        String customerEmail  = getCellText(rowIdx, "Email");
+        long   totalAmount    = parsePrice(getCellText(rowIdx, "Total"));
+        String orderStatus    = getCellText(rowIdx, "Active");
+        LocalDateTime createdDateTime = parseOrderDateTime(getCellText(rowIdx, "Create_date"));
         return new Order(orderId, customerEmail, totalAmount, orderStatus, createdDateTime);
     }
 
@@ -109,10 +137,18 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
 
         List<WebElement> rows = getElements(orderRowsLocator);
         WebElement targetStatusCell = null;
-        for (WebElement row : rows) {
-            String currentId = row.findElement(orderIdLocator()).getText().trim();
+
+        for (int i = 0; i < rows.size(); i++) {
+            int rowIdx = i + 1;
+            String currentId = getCellText(rowIdx, "ID");
             if (currentId.equals(orderId)) {
-                targetStatusCell = row.findElement(orderStatusLocator());
+                // Lấy cell status bằng tên cột "Active"
+                String xpath = String.format("//*[@id='view_order']//tbody//tr[%d]//td[%d]",
+                        rowIdx,
+                        // tái sử dụng header locator để lấy index cột "Active"
+                        columnTextList().indexOf("Active") + 1
+                );
+                targetStatusCell = find(By.xpath(xpath));
                 break;
             }
         }
@@ -138,16 +174,25 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
 
     public List<Order> getLatestPaidOrderList() {
         List<Order> latestPaidOrderList = new ArrayList<>();
-        for (WebElement row : getElements(orderRowsLocator)) {
-            String status = row.findElement(orderStatusLocator()).getText().trim();
+        List<WebElement> rows = getElements(orderRowsLocator);
+
+        for (int i = 0; i < rows.size(); i++) {
+            int rowIdx = i + 1;
+
+            String status = getCellText(rowIdx, "Active");
             if (!status.contains("Đã thanh toán")) {
                 break;
             }
-            String orderId = row.findElement(orderIdLocator()).getText().trim();
-            String customerEmail = row.findElement(customerEmailLocator()).getText().trim();
-            long totalAmount = parsePrice(row.findElement(totalAmountLocator()).getText().trim());
-            LocalDateTime createdDateTime = parseOrderDateTime(row.findElement(createdDateTimeLocator()).getText().trim());
-            latestPaidOrderList.add(new Order(orderId, customerEmail, totalAmount, status, createdDateTime));
+
+            String orderId       = getCellText(rowIdx, "ID");
+            String customerEmail = getCellText(rowIdx, "Email");
+            long   totalAmount   = parsePrice(getCellText(rowIdx, "Total"));
+            LocalDateTime createdDateTime =
+                    parseOrderDateTime(getCellText(rowIdx, "Create_date"));
+
+            latestPaidOrderList.add(
+                    new Order(orderId, customerEmail, totalAmount, status, createdDateTime)
+            );
         }
         return latestPaidOrderList;
     }

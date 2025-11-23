@@ -7,6 +7,7 @@
             <class name="TC_06"></class>
             <class name="TC_07"></class>
             <class name="TC_08"></class>
+            <class name="TC_09"></class>
         </classes>
     </test>
 </suite>

@@ -42,6 +42,5 @@ public class TC_01 extends BaseTest {
         );
 
         softAssert.assertAll();
-        log.info("TC_01 PASSED");
     }
 }
