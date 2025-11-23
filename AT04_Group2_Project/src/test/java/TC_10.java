@@ -40,10 +40,15 @@ public class TC_10 extends BaseTest {
         homePage.goToAdminControlPanel();
 
         adminDashboardPage.accessAdminOrderListPage();
+
         adminOrderListPage.cancelMostRecentOrder();
+
         adminDashboardPage.accessAdminProductListPage();
+
         adminProductListPage.openProductDetailsByName(originalName);
+
         int stockAfter = adminProductsDetailsPage.getStock();
+
         softAssert.assertEquals(stockAfter, originalQuality,
                 String.format("Product quality remain original quality value: %d when admin cancel order",
                         originalQuality));

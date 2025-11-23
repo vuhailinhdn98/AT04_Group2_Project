@@ -24,6 +24,4 @@ public class AdminProductListPage extends AdminNavigationMenu {
         enterSearchText(addedProductName);
         getElements(editProductButtonLocator).get(0).click();
     }
-
-
 }

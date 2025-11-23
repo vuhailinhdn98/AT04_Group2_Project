@@ -10,16 +10,24 @@ public class TC_11 extends BaseTest {
         homePage.goToAdminControlPanel();
 
         adminDashboardPage.accessAdminProductListPage();
+
         adminProductListPage.accessAdminAddProductPage();
+
         productDataTest.setQuality(0);
+
         addProductPage.addProduct(productDataTest);
+
         String productName = productDataTest.getName();
+
         adminDashboardPage.accessAdminProductListPage();
+
         adminProductListPage.openProductDetailsByName(productName);
-        productDataTest.setQualityRandom();
-        adminProductsDetailsPage.updateProduct(productDataTest);
+
+        adminProductsDetailsPage.updateProduct(productDataTest.setQualityRandom());
+
 //bổ sung alllure report
         homePage.openHomePage();
+
         homePage.openFirstFeaturedProductDetails();
 
         String stockStatusAfter = productDetailsPage.getStockStatus();

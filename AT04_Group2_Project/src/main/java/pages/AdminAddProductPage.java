@@ -38,7 +38,7 @@ public class AdminAddProductPage extends AdminNavigationMenu {
     }
 
     public AdminAddProductPage selectManufacturerByValue(String manufacturer) {
-        new Select(find(manufacturersDropdownLocator)).selectByValue(manufacturer);
+        new Select(find(manufacturersDropdownLocator)).selectByVisibleText(manufacturer);
         return this;
     }
 
