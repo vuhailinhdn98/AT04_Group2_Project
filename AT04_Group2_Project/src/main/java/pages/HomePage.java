@@ -42,21 +42,23 @@ public class HomePage extends HeaderSection{
         throw new IllegalStateException("No in-stock product on Homepage");
     }
 
+    private WebElement featuredFirstProduct() {
+        return Driver.getWebDriverWait().until(d -> {
+            var sections = d.findElements(sectionLocator);
+            if (sections.size() <= 1) return null;
+            var thumbs = sections.get(1).findElements(By.cssSelector(".thumbnail"));
+            return thumbs.isEmpty() ? null : thumbs.get(0);
+        });
+    }
     public Product getFirstFeaturedProduct() {
-        List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
-        WebElement featuredSection = sections.get(1);
-        WebElement firstProduct = featuredSection.findElements(By.cssSelector(".thumbnail")).get(0);
+        WebElement firstProduct = featuredFirstProduct();
         scrollIntoView(firstProduct);
         return getProduct(firstProduct);
     }
-
     public void openFirstFeaturedProductDetails() {
-        List<WebElement> sections = Driver.getDriver().findElements(sectionLocator);
-        WebElement featuredSection = sections.get(1);
-        WebElement firstProduct = featuredSection.findElements(By.cssSelector(".thumbnail")).get(0);
-        WebElement nameLink = firstProduct.findElement(productNameLocator);
-        scrollIntoView(nameLink);
-        nameLink.click();
+        WebElement p = featuredFirstProduct();
+        scrollIntoView(p);
+        p.findElement(productNameLocator).click();
     }
 
     private Product getProduct(WebElement card) {

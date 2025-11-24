@@ -5,36 +5,30 @@ public class TC_01 extends BaseTest {
 
     @Test(description = "Verify admin can add a new product and it appears in the featured products on homepage")
     public void tc_01() {
-        log.info("2. Login as admin");
+        log.info("1.  Go to Admin page");
         homePage.openLoginModal();
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
-
-        log.info("3. Navigate to Admin Product page");
         homePage.goToAdminControlPanel();
+
+        log.info("2. Click on Products menu, then click Add Products");
+
         adminDashboardPage.accessAdminProductListPage();
         adminProductListPage.accessAdminAddProductPage();
 
-        log.info("4. Add new product: {}", productDataTest);
+        log.info("3. Fill in product information and click SAVE button");
         addProductPage.addProduct(productDataTest);
 
-        log.info("5. Go back to homepage");
+        log.info("4. Go to storefront");
         homePage.openHomePage();
 
-        log.info("6. Get first featured product from homepage");
+        log.info("5. Verify product displays in product list");
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
-        log.info("Featured product: Name='{}', Price={}",
-                featuredProduct.getName(), featuredProduct.getPrice());
-        log.info("Created product: Name='{}', Price={}",
-                productDataTest.getName(), productDataTest.getPrice());
-
-        log.info("7. Verify featured product matches created product");
         softAssert.assertEquals(
                 featuredProduct.getName().trim().toLowerCase(),
                 productDataTest.getName().trim().toLowerCase(),
                 "Name product does not match created product."
         );
-
         softAssert.assertEquals(
                 featuredProduct.getPrice(),
                 productDataTest.getPrice(),
