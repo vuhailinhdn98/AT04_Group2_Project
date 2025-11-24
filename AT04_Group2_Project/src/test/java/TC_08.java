@@ -59,7 +59,7 @@ public class TC_08 extends BaseTest {
 
         adminProductsDetailsPage.accessAdminOrderListPage();
 
-        adminOrderListPage.completeMostRecentOrder(beforeCompletedOrder.getOrderId());
+        adminOrderListPage.completeOrder(beforeCompletedOrder.getOrderId());
 
         List<Order> latestPaidOrderList = adminOrderListPage.getLatestPaidOrderList();
         Order afterCompletedOrder = adminOrderListPage.findOrderById(latestPaidOrderList, beforeCompletedOrder.getOrderId());
@@ -73,8 +73,6 @@ public class TC_08 extends BaseTest {
 
         int stockAfter = adminProductsDetailsPage.getStock();
 
-        log.info("Stock of product '{}' before completing the order: {}", firstAddedProduct, stockBefore);
-        log.info("Stock of product '{}' after completing the order: {}", firstAddedProduct, stockAfter);
         softAssert.assertEquals(stockAfter, stockBefore - 1, "Product stock should decrease by 1 after completing the order");
 
         softAssert.assertAll();

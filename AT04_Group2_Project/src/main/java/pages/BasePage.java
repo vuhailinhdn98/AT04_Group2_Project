@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.Driver;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 
 public class BasePage {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -99,11 +96,6 @@ public class BasePage {
     protected int parseInt(String text) {
         String digits = text.replaceAll("\\D+", "");
         return digits.isEmpty() ? 0 : Integer.parseInt(digits);
-    }
-
-    protected LocalDateTime parseOrderDateTime(String dateTime) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd '|' hh:mm a", Locale.ENGLISH);
-        return LocalDateTime.parse(dateTime.trim(), format);
     }
 
     protected void waitAlertToBePresent() {

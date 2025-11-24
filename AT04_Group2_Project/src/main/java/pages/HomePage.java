@@ -17,6 +17,9 @@ public class HomePage extends HeaderSection{
     private final By addToCartBtnLocator = By.cssSelector(".cart_class");
     private final By sectionLocator = By.xpath("//div[contains(@class,'container')]//div[contains(@class,'row')][.//div[@class='thumbnail']]");
 
+    private By addToCartBtnLocator(String productName) {
+        return By.xpath(String.format("//div[@class='products-content-label'][a/p[text()='%s']]//button", productName));
+    }
     //Methods
     public List<Product> getAllProducts() {
         return getElements(productCardLocator)
@@ -91,13 +94,15 @@ public class HomePage extends HeaderSection{
     }
 
     public boolean isAddToCartButtonEnabled(Product outOfStockProduct) {
-        for (WebElement card : getElements(productCardLocator)) {
-            Product product = getProduct(card);
-            if (product.getName().equals(outOfStockProduct.getName())) {
-                return card.findElement(addToCartBtnLocator).isEnabled();
-            }
+        WebElement addToCartButton = find(addToCartBtnLocator(outOfStockProduct.getName()));
+        boolean isEnabled = isEnabled(addToCartButton);
+        if (isEnabled) {
+            throw new IllegalStateException(
+                    "Add to cart button should be disabled for product with qty = 0, but it is enabled for product: "
+                            + outOfStockProduct.getName()
+            );
         }
-        return true;
+        return isEnabled;
     }
 
     public void openProductDetailsByName(String name) {

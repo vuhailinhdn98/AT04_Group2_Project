@@ -7,8 +7,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AdminOrderListPage extends AdminNavigationMenu {
 
@@ -68,18 +70,18 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     /* ---------- Sorting helpers ---------- */
 
-public void sortOrdersByPendingStatus(String ascOrDesc) {
-    for (int i = 0; i < 3; i++) {
-        WebElement btn = find(sortByOrderStatusLocator);
-        String currentClass = btn.getAttribute("class");
-        if (currentClass.contains(ascOrDesc)) {
-            return;
+    public void sortOrdersByPendingStatus(String ascOrDesc) {
+        for (int i = 0; i < 3; i++) {
+            WebElement btn = find(sortByOrderStatusLocator);
+            String currentClass = btn.getAttribute("class");
+            if (currentClass.contains(ascOrDesc)) {
+                return;
+            }
+            btn.click();
+            waitToBeVisible(orderRowsLocator);
+            sleep(500);
         }
-        btn.click();
-        waitToBeVisible(orderRowsLocator);
-        sleep(500);
     }
-}
 
     public void sortOrdersByMostRecent() {
         for (int i = 0; i < 3; i++) {
@@ -123,7 +125,7 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
 
     /* ---------- Actions on most recent row ---------- */
 
-    public void completeMostRecentOrder(String orderId) {
+    public void completeOrder(String orderId) {
         WebElement mostRecentRow = getMostRecentOrderRow();
         mostRecentRow.findElement(completeOrderBtnLocator).click();
 
@@ -204,5 +206,10 @@ public void sortOrdersByPendingStatus(String ascOrDesc) {
             }
         }
         return null;
+    }
+
+    public LocalDateTime parseOrderDateTime(String dateTime) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd '|' hh:mm a", Locale.ENGLISH);
+        return LocalDateTime.parse(dateTime.trim(), format);
     }
 }

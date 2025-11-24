@@ -29,7 +29,7 @@ public class TC_09 extends BaseTest {
         Product outOfStockProduct = homePage.getFirstFeaturedProduct();
 
         softAssert.assertEquals(
-                outOfStockProduct.getName().trim().toLowerCase(), productDataTest.getName().trim().toLowerCase(),
+                outOfStockProduct.getName().trim(), productDataTest.getName().trim(),
                 "Name product does not match created product."
         );
         softAssert.assertEquals(outOfStockProduct.getPrice(),productDataTest.getPrice(), "Price product does not match created product.");

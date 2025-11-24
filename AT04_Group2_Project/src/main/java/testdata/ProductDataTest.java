@@ -17,7 +17,7 @@ public class ProductDataTest{
             "Asus",
             "Apple",
             "Xiaomi"
-    );
+    );// getoptions()
     private static final List<String> IMAGE_FILES = Arrays.asList(
             "imagetest1.png",
             "imagetest2.png",
@@ -57,6 +57,7 @@ public class ProductDataTest{
         String imageFile = IMAGE_FILES.get(
                 FAKER.number().numberBetween(0, IMAGE_FILES.size() - 1)
         );
+        //FAKER.options().nextElement(IMAGE_FILES);
         return Paths.get("src", "test", "resources", imageFile).toAbsolutePath().toString();
     }
     // Getter
