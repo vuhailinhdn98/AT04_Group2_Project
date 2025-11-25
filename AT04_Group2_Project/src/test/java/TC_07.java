@@ -60,7 +60,7 @@ public class TC_07 extends BaseTest {
         
         adminDashboardPage.accessAdminOrderListPage();
 
-        Order newlyCreatedOrder = adminOrderListPage.getMostRecentOrderInfo();
+        Order newlyCreatedOrder = adminOrderListPage.getLatestPendingOrderInfo();
 
         softAssert.assertEquals(newlyCreatedOrder.getEmail(), TestAccount.CUSTOMER_EMAIL, "Most recent order customer email should match");
         softAssert.assertEquals(newlyCreatedOrder.getTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");

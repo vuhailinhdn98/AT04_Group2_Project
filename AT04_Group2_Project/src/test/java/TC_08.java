@@ -45,7 +45,7 @@ public class TC_08 extends BaseTest {
 
         adminDashboardPage.accessAdminOrderListPage();
 
-        Order beforeCompletedOrder = adminOrderListPage.getMostRecentOrderInfo();
+        Order beforeCompletedOrder = adminOrderListPage.getLatestPendingOrderInfo();
 
         softAssert.assertEquals(beforeCompletedOrder.getEmail(), TestAccount.CUSTOMER_EMAIL, "Most recent order customer email should match");
         softAssert.assertEquals(beforeCompletedOrder.getTotalAmount(), expectedTotal, "Most recent order total in admin should match the order total");
@@ -59,12 +59,19 @@ public class TC_08 extends BaseTest {
 
         adminProductsDetailsPage.accessAdminOrderListPage();
 
+        adminOrderListPage.sortByCreatedDateDesc();
+
+        adminOrderListPage.sortByStatusPending();
+
         adminOrderListPage.completeOrder(beforeCompletedOrder.getOrderId());
 
-        List<Order> latestPaidOrderList = adminOrderListPage.getLatestPaidOrderList();
-        Order afterCompletedOrder = adminOrderListPage.findOrderById(latestPaidOrderList, beforeCompletedOrder.getOrderId());
+        adminOrderListPage.sortByStatusPaid();
 
-        softAssert.assertEquals(afterCompletedOrder.getOrderStatus(),"Đã thanh toán", "Most recent order should be marked as completed");
+        adminOrderListPage.sortByCreatedDateDesc();
+
+        Order afterCompletedOrder = adminOrderListPage.getOrderById(beforeCompletedOrder.getOrderId());
+
+        softAssert.assertEquals(afterCompletedOrder.getOrderStatus(),"Đã thanh toán", "Completed order should be marked as 'Đã thanh toán'");
 
         log.info("5. Go to Admin Panel > Products and check the product stock decreased to 1");
         adminOrderListPage.accessAdminProductListPage();

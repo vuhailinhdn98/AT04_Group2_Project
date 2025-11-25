@@ -88,13 +88,16 @@ public class HeaderSection extends BasePage {
     }
 
     public void openAccountDropdown() {
+        waitToBeVisible(accountNameLocator);
         click(accountNameLocator);
+        waitToBeVisible(accountDropdownLoggedInLocator);
     }
     public void accessMobileProductPage() {
         click(phoneLink);
     }
     public void openUserInfo() {
         openAccountDropdown();
+        waitToBeVisible(userInfoBtnLocator);
         click(userInfoBtnLocator);
     }
 
