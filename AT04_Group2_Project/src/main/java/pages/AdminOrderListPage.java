@@ -23,10 +23,6 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     private final By completeOrderBtnLocator    = By.className("active_order");
     private final By cancelOrderButtonLocator   = By.className("delete_order");
 
-    // Header sort buttons
-    private final By sortByOrderStatusLocator   = By.xpath("//*[@id='view_order']//thead//tr/th[4]");
-    private final By sortByCreatedDateBtnLocator= By.xpath("//*[@id='view_order']//thead//tr/th[5]");
-
     /* ---------- Dynamic column locators ---------- */
 
     private List<WebElement> getHeaderCells() {
@@ -50,13 +46,19 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         return idx + 1; // 1-based for xpath
     }
 
-    private By tableDataLocator(int columnIdx, int rowIdx) {
-        return By.xpath(String.format("//*[@id='view_order']//tbody//tr[%d]//td[%d]", rowIdx, columnIdx));
+    private By sortByHeaderNameLocator(String columnName) {
+        return By.xpath(String.format("//*[@id='view_order']//thead//tr//th[%d]", getColumnIdxByName(columnName)));
+    }
+
+    private By tableDataLocator(String columnName, int rowIdx) {
+        int colIdx = getColumnIdxByName(columnName); // lấy index từ THEAD
+        return By.xpath(String.format(
+                "//*[@id='view_order']//tbody//tr[%d]//td[%d]", rowIdx, colIdx
+        ));
     }
 
     public String getCellText(int rowIdx, String columnName) {
-        int columnIdx = getColumnIdxByName(columnName);
-        return getText(tableDataLocator(columnIdx, rowIdx));
+        return getText(tableDataLocator(columnName, rowIdx));
     }
 
     private WebElement getHeaderCellByText(String columnName) {
@@ -70,36 +72,84 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     /* ---------- Sorting helpers ---------- */
 
-    public void sortOrdersByPendingStatus(String ascOrDesc) {
-        for (int i = 0; i < 3; i++) {
-            WebElement btn = find(sortByOrderStatusLocator);
-            String currentClass = btn.getAttribute("class");
-            if (currentClass.contains(ascOrDesc)) {
-                return;
-            }
-            btn.click();
-            waitToBeVisible(orderRowsLocator);
-            sleep(500);
+    public void sortByStatusPaid() {
+        WebElement headerRow = find(orderTableHeaderLocator);
+//        WebElement btn = find(sortByOrderStatusLocator);
+        WebElement btn = find(sortByHeaderNameLocator("Active"));
+        String cls = btn.getAttribute("class");
+        switch(cls) {
+            case "sorting":
+                btn.click();
+                btn.click();
+            case "sorting_asc":
+                btn.click();
+            default:
+                break;
         }
+        waitToBeVisible(orderRowsLocator);
+        sleep(500);
     }
 
-    public void sortOrdersByMostRecent() {
-        for (int i = 0; i < 3; i++) {
-            WebElement btn = find(sortByCreatedDateBtnLocator);
-            if (btn.getAttribute("class").contains("desc")) {
-                return;
-            }
-            btn.click();
-            waitToBeVisible(orderRowsLocator);
-            sleep(500);
+    public void sortByStatusPending() {
+        WebElement headerRow = find(orderTableHeaderLocator);
+//        WebElement btn = find(sortByOrderStatusLocator);
+        WebElement btn = find(sortByHeaderNameLocator("Active"));
+        String cls = btn.getAttribute("class");
+        switch(cls) {
+            case "sorting": case "sorting_desc":
+                btn.click();
+            default:
+                break;
         }
+        waitToBeVisible(orderRowsLocator);
+        sleep(500);
+    }
+
+//public void sortOrdersByPendingStatus(String ascOrDesc) {
+//    for (int i = 0; i < 3; i++) {
+//        WebElement btn = find(sortByOrderStatusLocator);
+//        String currentClass = btn.getAttribute("class");
+//        if (currentClass.contains(ascOrDesc)) {
+//            return;
+//        }
+//        btn.click();
+//        waitToBeVisible(orderRowsLocator);
+//        sleep(500);
+//    }
+//}
+
+    public void sortByCreatedDateDesc() {
+//        for (int i = 0; i < 3; i++) {
+//            WebElement btn = find(sortByCreatedDateBtnLocator);
+//            if (btn.getAttribute("class").contains("desc")) {
+//                return;
+//            }
+//            btn.click();
+//            waitToBeVisible(orderRowsLocator);
+//            sleep(500);
+        WebElement headerRow = find(orderTableHeaderLocator);
+        WebElement btn = find(sortByHeaderNameLocator("Create_date"));
+        String cls = btn.getAttribute("class");
+        switch(cls) {
+            case "sorting":
+                btn.click();
+                btn.click();
+            case "sorting_asc":
+                btn.click();
+            default:
+                break;
+        }
+        waitToBeVisible(orderRowsLocator);
+        sleep(500);
+
     }
 
     /* ---------- Row helpers ---------- */
 
     private WebElement getMostRecentOrderRow() {
-        sortOrdersByMostRecent();
-        sortOrdersByPendingStatus("asc");
+        sortByCreatedDateDesc();
+//        sortOrdersByPendingStatus("asc");
+        sortByStatusPending();
         return getElements(orderRowsLocator).get(0);
     }
 
@@ -110,8 +160,9 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     /* ---------- Read row data ---------- */
 
     public Order getMostRecentOrderInfo() {
-        sortOrdersByMostRecent();
-        sortOrdersByPendingStatus("asc");
+        sortByCreatedDateDesc();
+//        sortOrdersByPendingStatus("asc");
+        sortByStatusPending();
 
         int rowIdx = 1;
 
@@ -125,21 +176,20 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     /* ---------- Actions on most recent row ---------- */
 
-    public void completeOrder(String orderId) {
+    public void completeOrder(String orderId) {   //divide method to smaller
         WebElement mostRecentRow = getMostRecentOrderRow();
         mostRecentRow.findElement(completeOrderBtnLocator).click();
-
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
         waitToBeVisible(orderRowsLocator);
-
-        sortOrdersByMostRecent();
-        sortOrdersByPendingStatus("desc");
-
+//tr[td[text()='id need to find']] -> row -> td -> order
+// getOrderById(int orderId) use this method
+        sortByCreatedDateDesc();
+//        sortOrdersByPendingStatus("desc");
+//        sortByStatusPaid();
         List<WebElement> rows = getElements(orderRowsLocator);
         WebElement targetStatusCell = null;
-
         for (int i = 0; i < rows.size(); i++) {
             int rowIdx = i + 1;
             String currentId = getCellText(rowIdx, "ID");
@@ -164,7 +214,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         );
     }
 
-    public void cancelMostRecentOrder() {
+    public void cancelMostRecentOrder() {  //cancelOrder(int orderId)
         getMostRecentOrderRow().findElement(cancelOrderButtonLocator).click();
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
@@ -175,17 +225,18 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     /* ---------- Queries ---------- */
 
     public List<Order> getLatestPaidOrderList() {
+
         List<Order> latestPaidOrderList = new ArrayList<>();
         List<WebElement> rows = getElements(orderRowsLocator);
 
-        for (int i = 0; i < rows.size(); i++) {
-            int rowIdx = i + 1;
+        for (int rowIdx = 1; rowIdx <= rows.size(); rowIdx++) {
 
             String status = getCellText(rowIdx, "Active");
             if (!status.contains("Đã thanh toán")) {
                 break;
             }
 
+            // getOrderId(int rowIdx)
             String orderId       = getCellText(rowIdx, "ID");
             String customerEmail = getCellText(rowIdx, "Email");
             long   totalAmount   = parsePrice(getCellText(rowIdx, "Total"));
@@ -199,7 +250,7 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         return latestPaidOrderList;
     }
 
-    public Order findOrderById(List<Order> orderList, String orderId) {
+    public Order findOrderById(List<Order> orderList, String orderId) { //remove method and use getOrderId(int rowIdx)
         for (Order order : orderList) {
             if (order.getOrderId().equals(orderId)) {
                 return order;
