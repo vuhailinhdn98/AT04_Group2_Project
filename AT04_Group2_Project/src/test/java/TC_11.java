@@ -1,9 +1,9 @@
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class TC_11 extends BaseTest {
-
-    @Test(description = "TC11: Verify Admin restocks the product and storefront becomes buyable")
-    public void tc_11() {
+    @BeforeMethod
+    public void tc_11_precondition() {
         homePage.openLoginModal();
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
@@ -18,6 +18,10 @@ public class TC_11 extends BaseTest {
         productDataTest.setQuality(0);
 
         addProductPage.addProduct(productDataTest);
+    }
+
+    @Test(description = "TC11: Verify Admin restocks the product and storefront becomes buyable")
+    public void tc_11() {
 
         String productName = productDataTest.getName();
 
@@ -27,7 +31,6 @@ public class TC_11 extends BaseTest {
 
         adminProductsDetailsPage.updateProduct(productDataTest.setQualityRandom());
 
-//bổ sung alllure report
         homePage.openHomePage();
 
         homePage.openFirstFeaturedProductDetails();

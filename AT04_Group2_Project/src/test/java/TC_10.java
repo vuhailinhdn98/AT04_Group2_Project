@@ -1,9 +1,10 @@
+import models.Order;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class TC_10 extends BaseTest {
-
-    @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
-    public void tc_10() {
+    @BeforeMethod
+    public void tc_10_precondition() {
         homePage.openLoginModal();
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
@@ -16,16 +17,18 @@ public class TC_10 extends BaseTest {
         productDataTest = createProductData();
 
         addProductPage.addProduct(productDataTest);
-
-        int originalQuality = productDataTest.getQuality();
-
-        String originalName = productDataTest.getName();
-
+    }
+    @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
+    public void tc_10() {
         homePage.openHomePage();
 
         homePage.openFirstFeaturedProductDetails();
 
         productDetailsPage.clickAddToCart();
+
+        int originalQuality = productDataTest.getQuality();
+
+        String originalName = productDataTest.getName();
 
         cartModal.selectQuantityForFirstProduct(originalQuality);
 
@@ -43,7 +46,11 @@ public class TC_10 extends BaseTest {
 
         adminDashboardPage.accessAdminOrderListPage();
 
-        adminOrderListPage.cancelOrder("");
+        Order beforeCompletedOrder = adminOrderListPage.getLatestPendingOrderInfo();
+
+        adminOrderListPage.sortByStatusPending();
+
+        adminOrderListPage.cancelOrder(beforeCompletedOrder.getOrderId());
 
         adminDashboardPage.accessAdminProductListPage();
 
