@@ -1,3 +1,5 @@
+import io.qameta.allure.testng.AllureTestNg;
+import org.testng.annotations.Listeners;
 import testdata.ProductDataTest;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,7 +16,7 @@ import utils.Driver;
 
 import java.lang.reflect.Method;
 import java.util.Map;
-
+@Listeners({AllureTestNg.class})
 public class BaseTest extends TestAccount {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -39,7 +41,6 @@ public class BaseTest extends TestAccount {
     protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
 
     protected SoftAssert softAssert = new SoftAssert();
-
 
     @BeforeMethod
     public void setUp(Method method) {

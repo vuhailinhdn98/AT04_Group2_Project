@@ -18,16 +18,30 @@
 
     <build>
         <plugins>
-            <!-- Add the following options to your maven-surefire-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
+                    <!-- AspectJ agent (nếu bạn dùng weaving) -->
+                    <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+
+                    <!-- Chỉ include test theo pattern của bạn -->
+                    <includes>
+                        <include>**/TC_*.java</include>
+                    </includes>
+
+                    <!-- Force Allure output folder (an toàn để set) -->
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+
+                    <!-- tuỳ chọn: tăng forkCount/ reuseForks nếu cần performance -->
+                    <!-- <forkCount>1</forkCount> -->
+                    <!-- <reuseForks>true</reuseForks> -->
                 </configuration>
+
+                <!-- Nếu bạn cần AspectJ weaving cho test runtime -->
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
@@ -38,7 +52,6 @@
             </plugin>
         </plugins>
     </build>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
