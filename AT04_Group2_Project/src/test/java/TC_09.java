@@ -17,6 +17,8 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
+        productDataTest = createProductData();
+
         addProductPage.addProduct(productDataTest.setQuality(0));
     }
 

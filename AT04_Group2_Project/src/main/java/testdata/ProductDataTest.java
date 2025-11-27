@@ -5,19 +5,10 @@ import com.github.javafaker.Faker;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDataTest{
     private static final Faker FAKER = new Faker();
-    private static final List<String> VALID_MANUFACTURERS = Arrays.asList(
-            "Iphone",
-            "Samsung",
-            "Nokia",
-            "HTC",
-            "Sony",
-            "Asus",
-            "Apple",
-            "Xiaomi"
-    );// getoptions()
     private static final List<String> IMAGE_FILES = Arrays.asList(
             "imagetest1.png",
             "imagetest2.png",
@@ -33,12 +24,12 @@ public class ProductDataTest{
     private String imagePath;
     private String specification;
 
-    public ProductDataTest() {
+    public ProductDataTest(Map<String, String> manufacturers) {
         this.name = FAKER.commerce().productName();
         this.price = FAKER.number().numberBetween(1, 5_000) * 1000L;
         this.quality = randomQuality();
         this.sale = String.valueOf(FAKER.number().numberBetween(0, 100));
-        this.manufacturerValue = getRandomManufacturer();
+        this.manufacturerValue = getRandomManufacturer(manufacturers);
         this.imagePath = getRandomImagePath();
         this.specification = FAKER.lorem().sentence(100);
     }
@@ -47,10 +38,9 @@ public class ProductDataTest{
         return FAKER.number().numberBetween(1, 10);
     }
 
-    private static String getRandomManufacturer() {
-        return VALID_MANUFACTURERS.get(
-                FAKER.number().numberBetween(0, VALID_MANUFACTURERS.size() - 1)
-        );
+    private static String getRandomManufacturer(Map<String, String> manufacturers) {
+        List<String> values = new java.util.ArrayList<>(manufacturers.keySet());
+        return values.get(FAKER.number().numberBetween(0, values.size()));
     }
 
     private static String getRandomImagePath() {

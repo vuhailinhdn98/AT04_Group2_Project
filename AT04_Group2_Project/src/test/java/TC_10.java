@@ -13,6 +13,8 @@ public class TC_10 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
+        productDataTest = createProductData();
+
         addProductPage.addProduct(productDataTest);
 
         int originalQuality = productDataTest.getQuality();

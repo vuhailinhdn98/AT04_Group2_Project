@@ -1,10 +1,16 @@
 package pages;
 
+import org.openqa.selenium.WebElement;
 import testdata.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
 import utils.Driver;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AdminAddProductPage extends AdminNavigationMenu {
 
@@ -16,6 +22,24 @@ public class AdminAddProductPage extends AdminNavigationMenu {
     private final By imageInputLocator = By.name("image");
     private final By saveButtonLocator = By.xpath("//button[@type='submit' and contains(@class, 'btn-success')]");
 
+    public Map<String, String> getAllManufacturers() {
+        Map<String, String> manufacturers = new HashMap<>();
+        Select select = new Select(find(manufacturersDropdownLocator));
+        for (WebElement option : select.getOptions()) {
+            String value = option.getAttribute("value");
+            String text = option.getText().trim();
+            if (!value.isEmpty()) {
+                manufacturers.put(value, text);
+            }
+        }
+        return manufacturers;
+    }
+    public String getRandomManufacturerValue() {
+        Map<String, String> manufacturers = getAllManufacturers();
+        List<String> values = new ArrayList<>(manufacturers.keySet());
+        int randomIndex = (int) (Math.random() * values.size());
+        return values.get(randomIndex);
+    }
 
     public AdminAddProductPage enterProductName(String name) {
         type(nameInputLocator, name);
@@ -37,8 +61,8 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         return this;
     }
 
-    public AdminAddProductPage selectManufacturerByValue(String manufacturer) {
-        new Select(find(manufacturersDropdownLocator)).selectByVisibleText(manufacturer);
+    public AdminAddProductPage selectManufacturerByValue(String manufacturerValue) {
+        new Select(find(manufacturersDropdownLocator)).selectByValue(manufacturerValue);
         return this;
     }
 

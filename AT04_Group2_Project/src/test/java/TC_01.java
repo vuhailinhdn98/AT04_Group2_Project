@@ -16,6 +16,7 @@ public class TC_01 extends BaseTest {
         adminProductListPage.accessAdminAddProductPage();
 
         log.info("3. Fill in product information and click SAVE button");
+        productDataTest = createProductData();
         addProductPage.addProduct(productDataTest);
 
         log.info("4. Go to storefront");

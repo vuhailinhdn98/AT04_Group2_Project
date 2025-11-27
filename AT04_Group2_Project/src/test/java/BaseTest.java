@@ -13,6 +13,7 @@ import testdata.TestAccount;
 import utils.Driver;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class BaseTest extends TestAccount {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -22,7 +23,11 @@ public class BaseTest extends TestAccount {
     protected CheckoutModal checkoutModal = new CheckoutModal();
     protected UserPage userPage = new UserPage();
     protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
-    protected ProductDataTest productDataTest = new ProductDataTest();
+    protected ProductDataTest productDataTest;
+    protected ProductDataTest createProductData() {
+        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        return new ProductDataTest(manufacturers);
+    }
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
@@ -34,6 +39,7 @@ public class BaseTest extends TestAccount {
     protected AdminOrderListPage adminOrderListPage = new AdminOrderListPage();
 
     protected SoftAssert softAssert = new SoftAssert();
+
 
     @BeforeMethod
     public void setUp(Method method) {
