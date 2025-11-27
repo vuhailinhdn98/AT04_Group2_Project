@@ -45,7 +45,7 @@ public class ProductDataTest{
 
     private static String getRandomImagePath() {
         String imageFile = IMAGE_FILES.get(
-                FAKER.number().numberBetween(0, IMAGE_FILES.size() - 1)
+                FAKER.number().numberBetween(0, IMAGE_FILES.size())
         );
         //FAKER.options().nextElement(IMAGE_FILES);
         return Paths.get("src", "test", "resources", imageFile).toAbsolutePath().toString();
