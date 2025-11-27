@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
@@ -30,6 +31,7 @@ public class LoginModal extends HomePage {
     }
 
     public void login(String emailOrPhone, String password) {
+        Allure.step("Login with email or phone: " + emailOrPhone + " and password: " + password);
         waitToBeVisible(loginModalContainerLocator);
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);

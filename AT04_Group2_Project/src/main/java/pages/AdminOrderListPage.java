@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import models.Order;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -71,6 +72,8 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     // sort Active sao cho "Đã thanh toán" lên trước
     public void sortByStatusPaid() {
+        Allure.step("Sort order by status paid");
+        sortByCreatedDateDesc();
         waitToBeVisible(orderRowsLocator);
         WebElement btn = find(sortByHeaderNameLocator("Active"));
         String cls = btn.getAttribute("class");
@@ -89,11 +92,12 @@ public class AdminOrderListPage extends AdminNavigationMenu {
                 break;
         }
         waitToBeVisible(orderRowsLocator);
-        sleep(500);
     }
 
     // sort Active sao cho "Chưa thanh toán" lên trước
     public void sortByStatusPending() {
+        Allure.step("Sort order by status pending");
+        sortByCreatedDateDesc();
         WebElement btn = find(sortByHeaderNameLocator("Active"));
         String cls = btn.getAttribute("class");
         if (cls != null && cls.contains("sorting_asc")) {
@@ -108,7 +112,6 @@ public class AdminOrderListPage extends AdminNavigationMenu {
                 break;
         }
         waitToBeVisible(orderRowsLocator);
-        sleep(500);
     }
 
     public void sortByCreatedDateDesc() {
@@ -130,23 +133,14 @@ public class AdminOrderListPage extends AdminNavigationMenu {
                 break;
         }
         waitToBeVisible(orderRowsLocator);
-        sleep(500);
-    }
-
-    /* ---------- Row helpers ---------- */
-
-    private WebElement getLatestPendingOrderRow() {
-        sortByCreatedDateDesc();
-        sortByStatusPending();
-        return getElements(orderRowsLocator).get(0);
     }
 
     /* ---------- Read order row data ---------- */
 
     public Order getOrderById(String orderId) {
+        Allure.step("Get order by id: " + orderId);
         // đợi table hiển thị
         waitToBeVisible(orderRowsLocator);
-        sleep(500);
 
         // kiểm tra có row chứa ID này không
         if (getElements(rowByOrderIdLocator(orderId)).isEmpty()) {
@@ -174,6 +168,8 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     /* ---------- Actions ---------- */
 
     public void completeOrder(String orderId) {
+        Allure.step("Complete order: " + orderId);
+
         waitToBeVisible(orderRowsLocator);
         WebElement row = find(rowByOrderIdLocator(orderId));
         row.findElement(completeOrderBtnLocator).click();
@@ -182,15 +178,25 @@ public class AdminOrderListPage extends AdminNavigationMenu {
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
+
         waitToBeVisible(orderRowsLocator);
+        waitToBeInvisible(rowByOrderIdLocator(orderId));
     }
 
-    public void cancelMostRecentOrder() {  //cancelOrder(int orderId)
-        getLatestPendingOrderRow().findElement(cancelOrderButtonLocator).click();
+    public void cancelOrder(String orderId) {
+        Allure.step("Cancel order: " + orderId);
+
+        waitToBeVisible(orderRowsLocator);
+        WebElement row = find(rowByOrderIdLocator(orderId));
+        row.findElement(cancelOrderButtonLocator).click();
+
+        waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
         waitAlertToBePresent();
         Driver.getDriver().switchTo().alert().accept();
+
         waitToBeVisible(orderRowsLocator);
+        waitToBeInvisible(rowByOrderIdLocator(orderId));
     }
 
     /* ---------- Helper ---------- */

@@ -1,3 +1,4 @@
+import io.qameta.allure.Allure;
 import models.Order;
 import models.Product;
 import org.testng.annotations.Test;
@@ -11,6 +12,8 @@ public class TC_08 extends BaseTest {
     )
     public void tc_08() {
         log.info("2. Log in and add any in-stock product to cart");
+        Allure.step("2. Log in and add any in-stock product to cart");
+
         homePage.openLoginModal();
 
         loginModal.login(TestAccount.CUSTOMER_EMAIL,TestAccount.CUSTOMER_PASSWORD);
@@ -25,6 +28,7 @@ public class TC_08 extends BaseTest {
         long expectedTotal = cartModal.getCartTotalAmount();
 
         log.info("3. Create an order");
+        Allure.step("3. Create an order");
         cartModal.clickOrderNowBtn();
 
         checkoutModal.proceedToCheckoutForLoggedInUser(TestAccount.CUSTOMER_PASSWORD);
@@ -34,6 +38,7 @@ public class TC_08 extends BaseTest {
         orderConfirmationModal.closeOrderConfirmationModal();
 
         log.info("4. Go to Admin Panel > Orders, verify the newly created order appears");
+        Allure.step("4. Go to Admin Panel > Orders, verify the newly created order appears");
 
         homePage.logout();
 
@@ -59,21 +64,19 @@ public class TC_08 extends BaseTest {
 
         adminProductsDetailsPage.accessAdminOrderListPage();
 
-        adminOrderListPage.sortByCreatedDateDesc();
-
         adminOrderListPage.sortByStatusPending();
 
         adminOrderListPage.completeOrder(beforeCompletedOrder.getOrderId());
 
         adminOrderListPage.sortByStatusPaid();
 
-        adminOrderListPage.sortByCreatedDateDesc();
-
         Order afterCompletedOrder = adminOrderListPage.getOrderById(beforeCompletedOrder.getOrderId());
 
         softAssert.assertEquals(afterCompletedOrder.getOrderStatus(),"Đã thanh toán", "Completed order should be marked as 'Đã thanh toán'");
 
         log.info("5. Go to Admin Panel > Products and check the product stock decreased to 1");
+        Allure.step("5. Go to Admin Panel > Products and check the product stock decreased to 1");
+
         adminOrderListPage.accessAdminProductListPage();
 
         adminProductListPage.openProductDetailsByName(firstAddedProduct);

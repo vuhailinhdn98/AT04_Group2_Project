@@ -32,15 +32,6 @@ public class BasePage {
         return el.isEnabled() && el.getAttribute("disabled") == null;
     }
 
-    protected boolean isInvisible(By locator) {
-        try {
-            waitToBeInvisible(locator);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     protected List<WebElement> getElements(By locator) {
         return Driver.getDriver().findElements(locator);
     }

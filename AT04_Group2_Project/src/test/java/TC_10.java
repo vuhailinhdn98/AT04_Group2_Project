@@ -41,7 +41,7 @@ public class TC_10 extends BaseTest {
 
         adminDashboardPage.accessAdminOrderListPage();
 
-        adminOrderListPage.cancelMostRecentOrder();
+        adminOrderListPage.cancelOrder("");
 
         adminDashboardPage.accessAdminProductListPage();
 

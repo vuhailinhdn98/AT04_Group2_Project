@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import models.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -29,10 +30,12 @@ public class HomePage extends HeaderSection{
     }
 
     private boolean isAddToCartBtnEnabled(WebElement productCard) {
+        Allure.step("Check if add to cart button is enabled for product card");
         return isEnabled(productCard.findElement(addToCartBtnLocator));
     }
 
     public void openFirstInStockProductDetails() {
+        Allure.step("Open first in-stock product details");
         for (WebElement card : getElements(productCardLocator)) {
             if (!isAddToCartBtnEnabled(card)) {
                 continue;
@@ -68,10 +71,15 @@ public class HomePage extends HeaderSection{
         String name = card.findElement(productNameLocator).getText().trim();
         String priceText = card.findElement(productPriceLocator).getText();
         long price = parsePrice(priceText);
+
+        Allure.step("Get product from card: "+ name + " - " + price);
+
         return new Product(name, price);
     }
 
     public List<Product> addInStockProductsToCart(int numOfProducts) {
+        Allure.step("Add " + numOfProducts + " in-stock products to cart");
+
         List<Product> added = new ArrayList<>();
         if (numOfProducts <= 0) return added;
 
@@ -94,6 +102,7 @@ public class HomePage extends HeaderSection{
     }
 
     public boolean isAddToCartButtonEnabled(Product outOfStockProduct) {
+        Allure.step("Check if add to cart button is enabled for product: " + outOfStockProduct.getName() + " with qty = 0");
         WebElement addToCartButton = find(addToCartBtnLocator(outOfStockProduct.getName()));
         boolean isEnabled = isEnabled(addToCartButton);
         if (isEnabled) {
@@ -106,6 +115,7 @@ public class HomePage extends HeaderSection{
     }
 
     public void openProductDetailsByName(String name) {
+        Allure.step("Open product details by name: " + name);
         for (WebElement card : getElements(productCardLocator)) {
             Product product = getProduct(card);
             if (product.getName().equals(name)) {

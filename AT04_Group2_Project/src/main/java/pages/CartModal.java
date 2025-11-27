@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -70,6 +71,7 @@ public class CartModal extends HomePage {
     }
 
     public void clickOrderNowBtn() {
+        Allure.step("Click 'Thanh toán ngay' button");
         click(orderNowBtnLocator);
     }
 
@@ -78,11 +80,13 @@ public class CartModal extends HomePage {
     }
 
     public void clickLoginTextLink() {
+        Allure.step("Open login modal by clicking login link");
         click(loginTextLinkLocator);
     }
 
     public long getCartTotalAmount() {
         String totalText = getText(cartTotalLocator).substring(1).trim();
+        Allure.step("Get cart total amount: " + totalText);
         return parsePrice(totalText);
     }
 }
