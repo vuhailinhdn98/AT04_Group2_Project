@@ -24,16 +24,18 @@ public class AdminAddProductPage extends AdminNavigationMenu {
 
     public Map<String, String> getAllManufacturers() {
         Map<String, String> manufacturers = new HashMap<>();
-        Select select = new Select(find(manufacturersDropdownLocator));
+        WebElement manufacturersDropdown = find(manufacturersDropdownLocator);
+        Select select = new Select(manufacturersDropdown);
         for (WebElement option : select.getOptions()) {
             String value = option.getAttribute("value");
             String text = option.getText().trim();
-            if (!value.isEmpty()) {
+            if (!value.isEmpty() && value != null) {
                 manufacturers.put(value, text);
             }
         }
         return manufacturers;
     }
+
     public String getRandomManufacturerValue() {
         Map<String, String> manufacturers = getAllManufacturers();
         List<String> values = new ArrayList<>(manufacturers.keySet());

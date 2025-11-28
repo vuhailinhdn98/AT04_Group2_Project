@@ -23,7 +23,7 @@ public class TC_08 extends BaseTest {
         softAssert.assertTrue(cartModal.isCartModalVisible(), "Cart modal should open after adding product");
         softAssert.assertEquals(cartModal.getProductRowCount(), 1, "Should be 1 product row in cart");
         softAssert.assertEquals(cartModal.getItemQty(0), 1, "Default qty should be 1");
-        productDataTest = createProductData();
+
         String firstAddedProduct = addedProducts.get(0).getName();
         long expectedTotal = cartModal.getCartTotalAmount();
 

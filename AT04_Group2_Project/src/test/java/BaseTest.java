@@ -13,9 +13,9 @@ import org.testng.asserts.SoftAssert;
 import pages.*;
 import testdata.TestAccount;
 import utils.Driver;
-
 import java.lang.reflect.Method;
 import java.util.Map;
+
 @Listeners({AllureTestNg.class})
 public class BaseTest extends TestAccount {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -49,7 +49,7 @@ public class BaseTest extends TestAccount {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--guest");
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         Driver.setDriver(new ChromeDriver(options));
         Driver.getDriver().manage().window().maximize();
