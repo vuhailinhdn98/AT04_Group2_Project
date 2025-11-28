@@ -34,12 +34,6 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         }
         return manufacturers;
     }
-    public String getRandomManufacturerValue() {
-        Map<String, String> manufacturers = getAllManufacturers();
-        List<String> values = new ArrayList<>(manufacturers.keySet());
-        int randomIndex = (int) (Math.random() * values.size());
-        return values.get(randomIndex);
-    }
 
     public AdminAddProductPage enterProductName(String name) {
         type(nameInputLocator, name);
