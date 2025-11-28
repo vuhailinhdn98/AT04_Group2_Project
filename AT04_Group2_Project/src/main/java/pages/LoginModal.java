@@ -11,7 +11,6 @@ public class LoginModal extends HomePage {
     private final By emailOrPhoneSuccessValidationLocator = By.cssSelector("#e_p_e_lg .text-success");
     private final By passwordInputLocator = By.id("pass_lg");
     private final By passwordSuccessValidationLocator = By.cssSelector("#pass_e_lg .text-success");
-    private final By rememberAccountCheckboxLocator = By.id("tick_lg");
     private final By loginButtonLocator = By.id("submit_lg");
 
     public void enterEmailOrPhone(String emailOrPhone) {
@@ -35,7 +34,6 @@ public class LoginModal extends HomePage {
         waitToBeVisible(loginModalContainerLocator);
         enterEmailOrPhone(emailOrPhone);
         enterPassword(password);
-        //setCheckbox(rememberAccountCheckboxLocator, rememberAccount);
         clickLoginButton();
         waitUntilLoggedIn();
     }

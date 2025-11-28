@@ -1,15 +1,13 @@
 package pages;
 
-import org.openqa.selenium.WebElement;
-import testdata.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import testdata.ProductDataTest;
 import utils.Driver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AdminAddProductPage extends AdminNavigationMenu {
@@ -26,7 +24,8 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         Map<String, String> manufacturers = new HashMap<>();
         WebElement manufacturersDropdown = find(manufacturersDropdownLocator);
         Select select = new Select(manufacturersDropdown);
-        for (WebElement option : select.getOptions()) {
+        for (WebElement option : select.getOptions()) { //map(WebElement::getText).collect(Collectors.toList()).filter(s->!equal("Select")
+
             String value = option.getAttribute("value");
             String text = option.getText().trim();
             if (!value.isEmpty() && value != null) {
@@ -36,12 +35,6 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         return manufacturers;
     }
 
-    public String getRandomManufacturerValue() {
-        Map<String, String> manufacturers = getAllManufacturers();
-        List<String> values = new ArrayList<>(manufacturers.keySet());
-        int randomIndex = (int) (Math.random() * values.size());
-        return values.get(randomIndex);
-    }
 
     public AdminAddProductPage enterProductName(String name) {
         type(nameInputLocator, name);

@@ -1,6 +1,4 @@
 import io.qameta.allure.testng.AllureTestNg;
-import org.testng.annotations.Listeners;
-import testdata.ProductDataTest;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -9,12 +7,14 @@ import org.slf4j.MDC;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
 import pages.*;
+import testdata.ProductDataTest;
 import testdata.TestAccount;
 import utils.Driver;
+
 import java.lang.reflect.Method;
-import java.util.Map;
 
 @Listeners({AllureTestNg.class})
 public class BaseTest extends TestAccount {
@@ -26,10 +26,9 @@ public class BaseTest extends TestAccount {
     protected UserPage userPage = new UserPage();
     protected OrderConfirmationModal orderConfirmationModal = new OrderConfirmationModal();
     protected ProductDataTest productDataTest;
-    protected ProductDataTest createProductData() {
-        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
-        return new ProductDataTest(manufacturers);
-    }
+
+
+
     protected ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     protected CartModal cartModal = new CartModal();
     protected MobileProductListPage mobileProductListPage = new MobileProductListPage();
@@ -49,7 +48,7 @@ public class BaseTest extends TestAccount {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--guest");
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         Driver.setDriver(new ChromeDriver(options));
         Driver.getDriver().manage().window().maximize();

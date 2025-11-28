@@ -17,7 +17,7 @@ public class Driver {
     }
 
     public static WebDriverWait getWebDriverWait() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(30));
     }
 }
 

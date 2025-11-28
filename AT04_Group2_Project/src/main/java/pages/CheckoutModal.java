@@ -27,6 +27,7 @@ public class CheckoutModal extends HeaderSection {
 
 
     public void enterPassword(String password) {
+        waitToBeVisible(passwordInputLocator);
         type(passwordInputLocator, password);
         find(passwordInputLocator).sendKeys(Keys.TAB);
     }
