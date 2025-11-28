@@ -1,6 +1,7 @@
 package pages;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import models.Order;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -71,8 +72,8 @@ public class AdminOrderListPage extends AdminNavigationMenu {
     /* ---------- Sorting helpers ---------- */
 
     // sort Active sao cho "Đã thanh toán" lên trước
+    @Step("Sort order by status paid")
     public void sortByStatusPaid() {
-        Allure.step("Sort order by status paid");
         sortByCreatedDateDesc();
         waitToBeVisible(orderRowsLocator);
         WebElement btn = find(sortByHeaderNameLocator("Active"));
@@ -91,12 +92,11 @@ public class AdminOrderListPage extends AdminNavigationMenu {
             default:
                 break;
         }
-        waitToBeVisible(orderRowsLocator);
     }
 
     // sort Active sao cho "Chưa thanh toán" lên trước
+    @Step("Sort order by status pending")
     public void sortByStatusPending() {
-        Allure.step("Sort order by status pending");
         sortByCreatedDateDesc();
         WebElement btn = find(sortByHeaderNameLocator("Active"));
         String cls = btn.getAttribute("class");
@@ -111,7 +111,6 @@ public class AdminOrderListPage extends AdminNavigationMenu {
             default:
                 break;
         }
-        waitToBeVisible(orderRowsLocator);
     }
 
     public void sortByCreatedDateDesc() {
@@ -132,7 +131,6 @@ public class AdminOrderListPage extends AdminNavigationMenu {
             default:
                 break;
         }
-        waitToBeVisible(orderRowsLocator);
     }
 
     /* ---------- Read order row data ---------- */
@@ -167,42 +165,49 @@ public class AdminOrderListPage extends AdminNavigationMenu {
 
     /* ---------- Actions ---------- */
 
+    @Step("Complete order: {orderId}")
     public void completeOrder(String orderId) {
-        Allure.step("Complete order: " + orderId);
-
-        waitToBeVisible(orderRowsLocator);
-        WebElement row = find(rowByOrderIdLocator(orderId));
-        row.findElement(completeOrderBtnLocator).click();
-
-        waitAlertToBePresent();
-        Driver.getDriver().switchTo().alert().accept();
-        waitAlertToBePresent();
-        Driver.getDriver().switchTo().alert().accept();
-
-        waitToBeVisible(orderRowsLocator);
-        waitToBeInvisible(rowByOrderIdLocator(orderId));
+        actionOrder(orderId, OrderAction.COMPLETE);
     }
 
+    @Step("Cancel order: {orderId}")
     public void cancelOrder(String orderId) {
-        Allure.step("Cancel order: " + orderId);
-
-        waitToBeVisible(orderRowsLocator);
-        WebElement row = find(rowByOrderIdLocator(orderId));
-        row.findElement(cancelOrderButtonLocator).click();
-
-        waitAlertToBePresent();
-        Driver.getDriver().switchTo().alert().accept();
-        waitAlertToBePresent();
-        Driver.getDriver().switchTo().alert().accept();
-
-        waitToBeVisible(orderRowsLocator);
-        waitToBeInvisible(rowByOrderIdLocator(orderId));
+        actionOrder(orderId, OrderAction.CANCEL);
     }
 
     /* ---------- Helper ---------- */
 
-    public LocalDateTime parseOrderDateTime(String dateTime) {
+    protected LocalDateTime parseOrderDateTime(String dateTime) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd '|' hh:mm a", Locale.ENGLISH);
         return LocalDateTime.parse(dateTime.trim(), format);
     }
+
+    enum OrderAction {
+        COMPLETE,
+        CANCEL
+    }
+
+    private void actionOrder(String orderId, OrderAction action) {
+        waitToBeVisible(orderRowsLocator);
+        WebElement row = find(rowByOrderIdLocator(orderId));
+
+        switch (action) {
+            case COMPLETE:
+                row.findElement(completeOrderBtnLocator).click();
+                break;
+            case CANCEL:
+                row.findElement(cancelOrderButtonLocator).click();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid order action: " + action);
+        }
+
+        waitAlertToBePresent();
+        Driver.getDriver().switchTo().alert().accept();
+        waitAlertToBePresent();
+        Driver.getDriver().switchTo().alert().accept();
+
+        waitToBeInvisible(rowByOrderIdLocator(orderId));
+    }
+
 }

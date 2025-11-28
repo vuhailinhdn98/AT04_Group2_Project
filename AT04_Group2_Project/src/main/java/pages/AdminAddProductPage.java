@@ -1,15 +1,13 @@
 package pages;
 
-import org.openqa.selenium.WebElement;
-import testdata.ProductDataTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import testdata.ProductDataTest;
 import utils.Driver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AdminAddProductPage extends AdminNavigationMenu {
@@ -24,16 +22,18 @@ public class AdminAddProductPage extends AdminNavigationMenu {
 
     public Map<String, String> getAllManufacturers() {
         Map<String, String> manufacturers = new HashMap<>();
-        Select select = new Select(find(manufacturersDropdownLocator));
-        for (WebElement option : select.getOptions()) {
+        WebElement manufacturersDropdown = find(manufacturersDropdownLocator);
+        Select select = new Select(manufacturersDropdown);
+        for (WebElement option : select.getOptions()) { //map(WebElement::getText).collect(Collectors.toList()).filter(s->!equal("Select")
             String value = option.getAttribute("value");
             String text = option.getText().trim();
-            if (!value.isEmpty()) {
+            if (!value.isEmpty() && value != null) {
                 manufacturers.put(value, text);
             }
         }
         return manufacturers;
     }
+
 
     public AdminAddProductPage enterProductName(String name) {
         type(nameInputLocator, name);

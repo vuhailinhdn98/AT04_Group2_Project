@@ -1,9 +1,14 @@
+import io.qameta.allure.Allure;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testdata.ProductDataTest;
+
+import java.util.Map;
 
 public class TC_11 extends BaseTest {
     @BeforeMethod
     public void tc_11_precondition() {
+        Allure.step("Pre-condition: Log in to Admin Panel and add a new product with quantity = 0");
         homePage.openLoginModal();
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
@@ -13,14 +18,12 @@ public class TC_11 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        productDataTest = createProductData();
-
-        productDataTest.setQuality(0);
-
-        addProductPage.addProduct(productDataTest);
+        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        productDataTest = new ProductDataTest(manufacturers);
+        addProductPage.addProduct(productDataTest.setQuality(0));
     }
 
-    @Test(description = "TC11: Verify Admin restocks the product and storefront becomes buyable")
+    @Test(description = "Verify Admin restocks the product and storefront becomes buyable")
     public void tc_11() {
 
         String productName = productDataTest.getName();
