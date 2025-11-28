@@ -93,8 +93,10 @@ public class HeaderSection extends BasePage {
         waitToBeVisible(accountDropdownLoggedInLocator);
     }
     public void accessMobileProductPage() {
+        waitToBeVisible(phoneLink);
         click(phoneLink);
     }
+
     public void openUserInfo() {
         openAccountDropdown();
         waitToBeVisible(userInfoBtnLocator);
