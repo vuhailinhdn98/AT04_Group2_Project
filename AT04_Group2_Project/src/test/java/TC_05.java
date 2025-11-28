@@ -1,3 +1,4 @@
+import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 
 public class TC_05 extends BaseTest {
@@ -5,10 +6,10 @@ public class TC_05 extends BaseTest {
             description = "Verify user can add a product to cart from product details page"
     )
     public void tc_05() {
-        log.info("2. Go to the details page of an in-stock product");
+        Allure.step("Go to the details page of an in-stock product");
         homePage.openFirstInStockProductDetails();
 
-        log.info("3. Click 'Thêm vào giỏ hàng' button");
+        Allure.step("Click 'Thêm vào giỏ hàng' button");
         productDetailsPage.clickAddToCart();
 
         softAssert.assertTrue(cartModal.isCartModalVisible(),"Cart modal is not shown");

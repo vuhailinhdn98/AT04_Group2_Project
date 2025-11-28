@@ -25,7 +25,6 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         WebElement manufacturersDropdown = find(manufacturersDropdownLocator);
         Select select = new Select(manufacturersDropdown);
         for (WebElement option : select.getOptions()) { //map(WebElement::getText).collect(Collectors.toList()).filter(s->!equal("Select")
-
             String value = option.getAttribute("value");
             String text = option.getText().trim();
             if (!value.isEmpty() && value != null) {

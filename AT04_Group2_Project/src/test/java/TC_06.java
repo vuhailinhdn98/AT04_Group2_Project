@@ -1,3 +1,4 @@
+import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 import testdata.TestAccount;
 
@@ -9,7 +10,7 @@ public class TC_06 extends BaseTest {
             description = "Verify checkout auto-fills saved contact/address for a logged-in user"
     )
     public void tc_06() {
-        log.info("2. Log in with a customer account");
+        Allure.step("Log in with a customer account");
         homePage.openLoginModal();
 
         loginModal.login(TestAccount.CUSTOMER_EMAIL,TestAccount.CUSTOMER_PASSWORD);
@@ -17,12 +18,12 @@ public class TC_06 extends BaseTest {
         softAssert.assertTrue(homePage.isLoggedIn(), "Login should succeed");
         softAssert.assertNotEquals(homePage.getAccountNameIfPresent(),"", "Account name should be shown on header");
 
-        log.info("Get saved contact/address info from user profile");
+        Allure.step("Get saved contact/address info from user profile");
         homePage.openUserInfo();
 
         List<String> expectedUserInfo = userPage.getUserInfo();
 
-        log.info("3. Add any in-stock product to cart");
+        Allure.step("Add any in-stock product to cart");
         homePage.openHomePage();
 
         homePage.addInStockProductsToCart(1);
@@ -31,19 +32,18 @@ public class TC_06 extends BaseTest {
         softAssert.assertEquals(cartModal.getProductRowCount(),1,"Should be 1 product row.");
         softAssert.assertEquals(cartModal.getItemQty(0),1,"Default product qty should be 1.");
 
-        log.info("4. Click 'Đặt hàng ngay'");
+        Allure.step("Click 'Đặt hàng ngay'");
         cartModal.clickOrderNowBtn();
 
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(),"Checkout modal is not shown");
 
-        log.info("5. Compare all contact/address fields to the saved profile");
+        Allure.step("5. Compare all contact/address fields to the saved profile");
         List<String> actualUserInfo = checkoutModal.getUserInfo();
-        log.info("Actual user info: {}", actualUserInfo.toString());
-        log.info("Expected user info: {}", expectedUserInfo.toString());
 
         checkoutModal.closeCheckoutModal();
 
         softAssert.assertEquals(actualUserInfo, expectedUserInfo, "Contact/Address info in checkout modal does not match the saved profile.");
+
         softAssert.assertAll();
     }
 }

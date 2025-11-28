@@ -1,10 +1,15 @@
+import io.qameta.allure.Allure;
 import models.Order;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testdata.ProductDataTest;
+
+import java.util.Map;
 
 public class TC_10 extends BaseTest {
     @BeforeMethod
     public void tc_10_precondition() {
+        Allure.step("Pre-condition: Log in to Admin Panel and add a new product");
         homePage.openLoginModal();
         loginModal.login(ADMIN_EMAIL, ADMIN_PASSWORD);
 
@@ -14,11 +19,12 @@ public class TC_10 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        productDataTest = createProductData();
-
+        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        productDataTest = new ProductDataTest(manufacturers);
         addProductPage.addProduct(productDataTest);
     }
-    @Test(description = "TC10: Verify canceling the order restores stock and re-enables purchase on the store")
+
+    @Test(description = "Verify canceling the order restores stock and re-enables purchase on the store")
     public void tc_10() {
         homePage.openHomePage();
 

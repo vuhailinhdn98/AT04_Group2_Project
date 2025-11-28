@@ -1,12 +1,16 @@
+import io.qameta.allure.Allure;
 import models.Product;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testdata.ProductDataTest;
 import testdata.TestAccount;
+
+import java.util.Map;
 
 public class TC_09 extends BaseTest {
     @BeforeMethod
     public void tc_09_precondition() {
-        log.info("Pre-condition: Log in to Admin Panel and add a new product with quantity = 0");
+        Allure.step("Pre-condition: Log in to Admin Panel and add a new product with quantity = 0");
         homePage.openLoginModal();
 
         loginModal.login(TestAccount.ADMIN_EMAIL, TestAccount.ADMIN_PASSWORD);
@@ -17,8 +21,8 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        productDataTest = createProductData();
-
+        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        productDataTest = new ProductDataTest(manufacturers);
         addProductPage.addProduct(productDataTest.setQuality(0));
     }
 
@@ -36,11 +40,11 @@ public class TC_09 extends BaseTest {
         );
         softAssert.assertEquals(outOfStockProduct.getPrice(),productDataTest.getPrice(), "Price product does not match created product.");
 
-        log.info("2. Verify disabled add to cart button for Out-of-stock product on homepage");
+        Allure.step("Verify disabled add to cart button for Out-of-stock product on homepage");
 
         softAssert.assertFalse(homePage.isAddToCartButtonEnabled(outOfStockProduct), "Add to cart button should be disabled for product with qty = 0");
 
-        log.info("3. Go to the details page of the out-of-stock product");
+        Allure.step("Go to the details page of the out-of-stock product");
         homePage.openProductDetailsByName(outOfStockProduct.getName());
 
         softAssert.assertEquals(productDetailsPage.getStockStatus(), "hết hàng", "Out-of-stock label is not displayed for product with qty = 0");
