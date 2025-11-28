@@ -49,8 +49,9 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         return this;
     }
 
-    public AdminAddProductPage selectManufacturerByValue(String manufacturerValue) {
-        new Select(find(manufacturersDropdownLocator)).selectByValue(manufacturerValue);
+    public AdminAddProductPage selectManufacturerByText(String manufacturerText) {
+        new Select(find(manufacturersDropdownLocator))
+                .selectByVisibleText(manufacturerText.trim());
         return this;
     }
 
@@ -71,7 +72,7 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         enterPrice(product.getPrice());
         enterQuality(product.getQuality());
         enterSale(product.getSale());
-        selectManufacturerByValue(product.getManufacturer());
+        selectManufacturerByText(product.getManufacturer());
         uploadImage(product.getImagePath());
         enterSpecification(product.getSpecification());
         click(saveButtonLocator);
