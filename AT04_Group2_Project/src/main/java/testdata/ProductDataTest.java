@@ -20,16 +20,16 @@ public class ProductDataTest{
     private long price;
     private int quality;
     private String sale;
-    private String manufacturerValue;
+    private String manufacturer;
     private String imagePath;
     private String specification;
 
-    public ProductDataTest(Map<String, String> manufacturers) {
+    public ProductDataTest(List<String> manufacturers) {
         this.name = FAKER.commerce().productName();
-        this.price = FAKER.number().numberBetween(1, 5_000) * 1000L;
+        this.price = FAKER.number().numberBetween(1, 5_000_000);
         this.quality = randomQuality();
         this.sale = String.valueOf(FAKER.number().numberBetween(0, 100));
-        this.manufacturerValue = getRandomManufacturer(manufacturers);
+        this.manufacturer = getRandomManufacturer(manufacturers);
         this.imagePath = getRandomImagePath();
         this.specification = FAKER.lorem().sentence(100);
     }
@@ -38,24 +38,22 @@ public class ProductDataTest{
         return FAKER.number().numberBetween(1, 10);
     }
 
-    private static String getRandomManufacturer(Map<String, String> manufacturers) {
-        List<String> values = new java.util.ArrayList<>(manufacturers.keySet());
-        return values.get(FAKER.number().numberBetween(0, values.size()));
+    private static String getRandomManufacturer(List<String> manufacturers) {
+        return manufacturers.get(FAKER.number().numberBetween(0, manufacturers.size()));
     }
 
     private static String getRandomImagePath() {
-        String imageFile = IMAGE_FILES.get(
-                FAKER.number().numberBetween(0, IMAGE_FILES.size())
-        );
-        //FAKER.options().nextElement(IMAGE_FILES);
-        return Paths.get("src", "test", "resources", imageFile).toAbsolutePath().toString();
+        String imageFile = FAKER.options().nextElement(IMAGE_FILES);
+        return Paths.get("src", "test", "resources", "ImageDataTest", imageFile)
+                .toAbsolutePath()
+                .toString();
     }
     // Getter
     public String getName() { return name; }
     public long getPrice() { return price; }
     public int getQuality() { return quality; }
     public String getSale() { return sale; }
-    public String getManufacturerValue() { return manufacturerValue; }
+    public String getManufacturer() { return manufacturer; }
     public String getImagePath() { return imagePath; }
     public String getSpecification() { return specification; }
 

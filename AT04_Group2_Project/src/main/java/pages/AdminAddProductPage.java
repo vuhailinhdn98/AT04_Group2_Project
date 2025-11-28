@@ -2,13 +2,12 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import testdata.ProductDataTest;
 import utils.Driver;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminAddProductPage extends AdminNavigationMenu {
 
@@ -20,18 +19,13 @@ public class AdminAddProductPage extends AdminNavigationMenu {
     private final By imageInputLocator = By.name("image");
     private final By saveButtonLocator = By.xpath("//button[@type='submit' and contains(@class, 'btn-success')]");
 
-    public Map<String, String> getAllManufacturers() {
-        Map<String, String> manufacturers = new HashMap<>();
-        WebElement manufacturersDropdown = find(manufacturersDropdownLocator);
-        Select select = new Select(manufacturersDropdown);
-        for (WebElement option : select.getOptions()) { //map(WebElement::getText).collect(Collectors.toList()).filter(s->!equal("Select")
-            String value = option.getAttribute("value");
-            String text = option.getText().trim();
-            if (!value.isEmpty() && value != null) {
-                manufacturers.put(value, text);
-            }
-        }
-        return manufacturers;
+    public List<String> getAllManufacturers() {
+        return new Select(find(manufacturersDropdownLocator))
+                .getOptions()
+                .stream()
+                .map(o -> o.getText().trim())
+                .filter(t -> !"Select".equalsIgnoreCase(t))
+                .collect(Collectors.toList());
     }
 
 
@@ -77,7 +71,7 @@ public class AdminAddProductPage extends AdminNavigationMenu {
         enterPrice(product.getPrice());
         enterQuality(product.getQuality());
         enterSale(product.getSale());
-        selectManufacturerByValue(product.getManufacturerValue());
+        selectManufacturerByValue(product.getManufacturer());
         uploadImage(product.getImagePath());
         enterSpecification(product.getSpecification());
         click(saveButtonLocator);

@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import testdata.ProductDataTest;
 import testdata.TestAccount;
 
+import java.util.List;
 import java.util.Map;
 
 public class TC_09 extends BaseTest {
@@ -21,7 +22,7 @@ public class TC_09 extends BaseTest {
 
         adminProductListPage.accessAdminAddProductPage();
 
-        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        List<String> manufacturers = addProductPage.getAllManufacturers();
         productDataTest = new ProductDataTest(manufacturers);
         addProductPage.addProduct(productDataTest.setQuality(0));
     }

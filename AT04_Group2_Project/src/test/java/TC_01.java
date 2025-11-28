@@ -2,8 +2,7 @@ import io.qameta.allure.Allure;
 import models.Product;
 import org.testng.annotations.Test;
 import testdata.ProductDataTest;
-
-import java.util.Map;
+import java.util.List;
 
 public class TC_01 extends BaseTest {
 
@@ -21,7 +20,7 @@ public class TC_01 extends BaseTest {
 
         Allure.step("Fill in product information and click SAVE button");
 
-        Map<String, String> manufacturers = addProductPage.getAllManufacturers();
+        List<String> manufacturers = addProductPage.getAllManufacturers();
         productDataTest = new ProductDataTest(manufacturers);
         addProductPage.addProduct(productDataTest);
 
