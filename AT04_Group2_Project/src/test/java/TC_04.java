@@ -9,7 +9,7 @@ public class TC_04 extends BaseTest {
         Allure.step("Click \"Điện thoại\" button on menu bar");
         homePage.accessMobileProductPage();
 
-        Allure.step("Click \"Xem theo\" dropdown list & 4. Click \"giá từ thấp đến cao\"");
+        Allure.step("Click \"Xem theo\" dropdown list & Click \"giá từ thấp đến cao\"");
         mobileProductListPage.sortByPriceLowToHigh();
 
         Assert.assertTrue(mobileProductListPage.isPriceSortedAscending(),

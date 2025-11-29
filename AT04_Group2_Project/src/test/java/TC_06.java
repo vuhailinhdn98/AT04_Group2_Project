@@ -37,7 +37,7 @@ public class TC_06 extends BaseTest {
 
         softAssert.assertTrue(checkoutModal.isCheckoutModalVisible(),"Checkout modal is not shown");
 
-        Allure.step("5. Compare all contact/address fields to the saved profile");
+        Allure.step("Compare all contact/address fields to the saved profile");
         List<String> actualUserInfo = checkoutModal.getUserInfo();
 
         checkoutModal.closeCheckoutModal();

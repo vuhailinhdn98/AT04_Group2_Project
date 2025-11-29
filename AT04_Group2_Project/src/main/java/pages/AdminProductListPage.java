@@ -11,9 +11,8 @@ public class AdminProductListPage extends AdminNavigationMenu {
 
 
     // Actions - Search
-    public AdminProductListPage enterSearchText(String searchText) {
+    public void enterSearchText(String searchText) {
         type(searchTextboxLocator, searchText);
-        return this;
     }
 
     public void accessAdminAddProductPage() {

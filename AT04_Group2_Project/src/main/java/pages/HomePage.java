@@ -30,12 +30,10 @@ public class HomePage extends HeaderSection{
     }
 
     private boolean isAddToCartBtnEnabled(WebElement productCard) {
-        Allure.step("Check if add to cart button is enabled for product card");
         return isEnabled(productCard.findElement(addToCartBtnLocator));
     }
 
     public void openFirstInStockProductDetails() {
-        Allure.step("Open first in-stock product details");
         for (WebElement card : getElements(productCardLocator)) {
             if (!isAddToCartBtnEnabled(card)) {
                 continue;

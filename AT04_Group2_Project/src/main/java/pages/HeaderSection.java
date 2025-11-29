@@ -1,6 +1,8 @@
 package pages;
 
-import org.openqa.selenium.*;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
@@ -15,9 +17,11 @@ public class HeaderSection extends BasePage {
     private final By accountNameLocator = By.xpath("//div[contains(@class,'top-header')]//button[contains(@class,'dropdown-toggle')]//span[contains(@class,'header-login') and not(contains(@class,'caret'))][normalize-space()]");
     private final By logoutBtnLocator = By.xpath("//div[contains(@class,'login-top')]//a[contains(@class,'logout')]");
     private final By adminControlPanelLinkLocator = By.xpath("//a[@href='admin/admin.php' and contains(text(),'Admin Control Panel')]");
+
     private final By headerSearchBoxLocator = By.cssSelector("input[data-target='#search_modal'][type='search']");
-    private final By popupSearchInputLocator = By.cssSelector("input#search[name='search']");
-    private final By searchRowLocator = By.cssSelector("#search_show .row.search_main");
+    private final By searchInputLocator = By.cssSelector("input#search[name='search']");
+    private final By searchResultRowLocator = By.cssSelector("#search_show .row.search_main");
+
     private final By phoneLink = By.linkText("Điện thoại");
     private final By cartBtnLocator = By.cssSelector(".top-header .cart_modal");
 
@@ -25,6 +29,7 @@ public class HeaderSection extends BasePage {
     private final By rowPriceSpanLocator = By.cssSelector(".search_col .text-danger");
 
     //modal
+    private final By searchModalContainerLocator = By.cssSelector("#search_modal .modal-content");
     private final By cartModalContainerLocator = By.xpath("//div[contains(@class,'modal-content')][.//div[@id='view_cart']]");
     private final By checkoutModalContainerLocator = By.cssSelector("#order_modal .modal-content");
     private final By loginModalContentLocator = By.cssSelector("#login .modal-content");
@@ -43,6 +48,7 @@ public class HeaderSection extends BasePage {
         }
     }
 
+    @Step("Wait until logged in")
     public void waitUntilLoggedIn() {
         Driver.getWebDriverWait().until(ExpectedConditions.or(ExpectedConditions.visibilityOfElementLocated(accountNameLocator), ExpectedConditions.invisibilityOfElementLocated(loginButtonLocator)));
     }
@@ -55,6 +61,7 @@ public class HeaderSection extends BasePage {
         List<WebElement> accountName = getElements(accountNameLocator);
         return accountName.get(0).getAttribute("textContent").trim();
     }
+
 
     public boolean isCartModalVisible() {
         try {
@@ -116,24 +123,17 @@ public class HeaderSection extends BasePage {
     }
 
     public void openSearchModal() {
-        WebElement searchBox = Driver.getWebDriverWait().until(
-                ExpectedConditions.elementToBeClickable(headerSearchBoxLocator)
-        );
-        searchBox.click();
+        click(headerSearchBoxLocator);
+        waitToBeVisible(searchModalContainerLocator);
     }
 
     public void searchProduct(String keyword) {
-        WebElement input = Driver.getWebDriverWait().until(
-                ExpectedConditions.elementToBeClickable(popupSearchInputLocator)
-        );
-        input.sendKeys(keyword);
+        type(searchInputLocator, keyword);
+        waitToBeVisible(searchResultRowLocator);
     }
 
     public List<String> getSearchResultByProductNames() {
-        Driver.getWebDriverWait().until(
-                ExpectedConditions.presenceOfElementLocated(rowNameLinkLocator)
-        );
-
+        find(rowNameLinkLocator);
         return Driver.getDriver().findElements(rowNameLinkLocator).stream()
                 .map(el -> el.getText().trim())
                 .collect(Collectors.toList());
@@ -173,6 +173,7 @@ public class HeaderSection extends BasePage {
 
     public void logout() {
         find(accountDropdownLoggedInLocator).click();
+        waitToBeVisible(logoutBtnLocator);
         find(logoutBtnLocator).click();
     }
 }

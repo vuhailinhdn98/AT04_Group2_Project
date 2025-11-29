@@ -31,6 +31,7 @@ public class CartModal extends HomePage {
         }
         return products;
     }
+
     public void waitForProductsInCart() {
         Driver.getWebDriverWait().until(driver -> {
             int count = getProductRowCount();
@@ -38,15 +39,6 @@ public class CartModal extends HomePage {
             return count > 0;
         });
         log.info("Cart has {} product(s)", getProductRowCount());
-    }
-
-    public List<String> getAllProductsNameInCart() {
-        List<String> productNames = new ArrayList<>();
-        for (WebElement row : getProductRows()) {
-            String name = row.findElement(productNameLocator).getText().trim();
-            productNames.add(name);
-        }
-        return productNames;
     }
 
     public int getItemQty(int index) {
@@ -60,18 +52,14 @@ public class CartModal extends HomePage {
         WebElement qtyDropdown = productRow.findElement(qtyDropdownLocator);
         Select select = new Select(qtyDropdown);
         select.selectByValue(String.valueOf(quantity));
-
-        log.info("Selected quantity {} for product at row {}", quantity, rowIndex);
     }
 
     public void selectQuantityForFirstProduct(int quantity) {
-        log.info("Selecting quantity {} for first product", quantity);
         waitForProductsInCart();
         selectQuantityByRowIndex(0, quantity);
     }
 
     public void clickOrderNowBtn() {
-        Allure.step("Click 'Thanh toán ngay' button");
         click(orderNowBtnLocator);
     }
 
@@ -86,7 +74,6 @@ public class CartModal extends HomePage {
 
     public long getCartTotalAmount() {
         String totalText = getText(cartTotalLocator).substring(1).trim();
-        Allure.step("Get cart total amount: " + totalText);
         return parsePrice(totalText);
     }
 }

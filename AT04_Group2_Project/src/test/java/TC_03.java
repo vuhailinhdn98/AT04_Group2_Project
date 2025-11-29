@@ -10,7 +10,7 @@ public class TC_03 extends BaseTest {
     public void tc_03() {
         Product featuredProduct = homePage.getFirstFeaturedProduct();
 
-        Allure.step("Locate product in list & 3. Click on product name");
+        Allure.step("Locate product in list & Click on product name");
         homePage.openFirstFeaturedProductDetails();
         Product productDetails = productDetailsPage.getProductDetails();
 

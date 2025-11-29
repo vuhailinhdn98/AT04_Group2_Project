@@ -16,7 +16,7 @@ public class BasePage {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     protected WebElement find(By locator) {
-//        log.debug("FIND {}", locator);
+        log.debug("FIND {}", locator);
         return Driver.getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
@@ -38,7 +38,7 @@ public class BasePage {
 
 
     protected void click(By locator) {
-//        log.info("CLICK {}", locator);
+        log.info("CLICK {}", locator);
         WebElement el = Driver.getWebDriverWait().until(ExpectedConditions.elementToBeClickable(locator));
         scrollIntoView(el);
         try {
@@ -49,8 +49,8 @@ public class BasePage {
     }
 
     protected void type(By locator, String text) {
-//        String safe = locator.toString().contains("pass") ? "******" : text;
-//        log.info("TYPE {} -> {}", locator, safe);
+        String safe = locator.toString().contains("pass") ? "******" : text;
+        log.info("TYPE {} -> {}", locator, safe);
         WebElement el = find(locator);
         el.clear();
         el.sendKeys(text);
@@ -67,13 +67,6 @@ public class BasePage {
     protected long parsePrice(String text) {
         String digits = text.replaceAll("\\D+", "");
         return digits.isEmpty() ? 0L : Long.parseLong(digits);
-    }
-
-    protected void setCheckbox(By locator, boolean shouldBeChecked) {
-        WebElement checkBox = find(locator);
-        if (checkBox.isSelected() != shouldBeChecked) {
-            checkBox.click();
-        }
     }
 
     protected void clickAt(By locator, int offsetX, int offsetY) {

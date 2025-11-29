@@ -9,7 +9,7 @@ public class AdminProductsDetailsPage extends AdminNavigationMenu {
 
     public int getStock() {
         String stockText = find(stockLocator).getAttribute("value").trim();
-        return Integer.parseInt(stockText);
+        return parseInt(stockText);
     }
 
     public AdminProductsDetailsPage updateStock(int stock) {
@@ -20,7 +20,6 @@ public class AdminProductsDetailsPage extends AdminNavigationMenu {
     public void updateProduct(ProductDataTest product) {
         updateStock(product.getQuality());
         click(saveButtonLocator);
-
     }
 }
 

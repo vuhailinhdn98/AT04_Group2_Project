@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,7 @@ public class CheckoutModal extends HeaderSection {
     // Product list section (left side)
     private final By productLabelsLocator = By.cssSelector("#list_order label");
     private final By productPricesLocator = By.cssSelector("#list_order .text-danger");
+
     //Total Price
     private final By totalPriceElementLocator = By.xpath("//span[contains(@class, 'text-danger') and contains(text(), 'đ')]");
 
@@ -20,16 +22,17 @@ public class CheckoutModal extends HeaderSection {
     private final By phoneInputLocator = By.id("phone_od");
     private final By addressInputLocator = By.id("address_od");
     private final By passwordInputLocator = By.id("password_od");
+    private final By passwordSuccessValidationLocator = By.cssSelector("#password_e_od .text-success");
 
     // Buttons
     private final By backBtnLocator = By.id("cancel_order");
     private final By checkoutBtnLocator = By.id("order_success");
 
-
     public void enterPassword(String password) {
-        waitToBeVisible(passwordInputLocator);
+        waitCheckoutModalVisible();
         type(passwordInputLocator, password);
         find(passwordInputLocator).sendKeys(Keys.TAB);
+        waitToBeVisible(passwordSuccessValidationLocator);
     }
 
     // Actions - Navigation
@@ -102,7 +105,6 @@ public class CheckoutModal extends HeaderSection {
     }
 
     public void proceedToCheckoutForLoggedInUser(String password) {
-        waitToBeVisible(passwordInputLocator);
         enterPassword(password);
         clickCheckoutButton();
     }

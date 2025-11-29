@@ -49,7 +49,6 @@ public class BaseTest extends TestAccount {
         options.addArguments("--headless=new");
         options.addArguments("--window-size=1920,1080");
         Driver.setDriver(new ChromeDriver(options));
-        Driver.getDriver().manage().window().maximize();
 
         Allure.step("Go to Home page");
         Driver.getDriver().get("http://14.176.232.213/mobilevn/");
